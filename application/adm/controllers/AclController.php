@@ -720,7 +720,7 @@ class AclController extends Zend_Controller_Action {
 
         $this->_helper->json((object) array(
                     'success' => Aitsu_Adm_User :: getInstance() != null,
-                    'time' => date('Y-m-d H:i:s')
+                    'time' => date('H:i:s')
         ));
     }
 

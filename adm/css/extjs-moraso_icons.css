@@ -1,0 +1,69 @@
+.x-btn-icon .x-btn-text.tb-add, .x-btn-icon .x-btn-text.delete, .x-btn-icon .x-btn-text.tb-refresh,
+.x-btn-icon .x-btn-text.tb-templates, .x-btn-icon .x-btn-text.page-published, .x-btn-icon .x-btn-text.tm-todo,
+.x-btn-icon .x-btn-text.page-offline, .x-btn-icon .x-btn-text.page-online {
+    background-image: url(../images/icons/moraso/toolbar.png) !important;  
+}
+
+.x-btn-icon .x-btn-text.tb-add {
+    background-position: 0 0;
+}
+
+.x-btn-icon.x-btn-over .x-btn-text.tb-add {
+    background-position: 0 -16px;
+}
+
+.x-btn-icon .x-btn-text.delete { 
+    background-position: -16px 0;
+}
+
+.x-btn-icon.x-btn-over .x-btn-text.delete {
+    background-position: -16px -16px;
+}
+
+.x-btn-icon .x-btn-text.tb-refresh {
+    background-position: -32px 0;
+}
+
+.x-btn-icon.x-btn-over .x-btn-text.tb-refresh {
+    background-position: -32px -16px;
+}
+
+.x-btn-icon .x-btn-text.tb-templates {
+    background-position: -48px 0;
+}
+
+.x-btn-icon.x-btn-over .x-btn-text.tb-templates {
+    background-position: -48px -16px;
+}
+
+.x-btn-icon .x-btn-text.page-published {
+    background-position: -64px 0;
+}
+
+.x-btn-icon.x-btn-over .x-btn-text.page-published {
+    background-position: -64px -16px;
+}
+
+.x-btn-icon .x-btn-text.tm-todo {
+    background-position: -80px 0;
+}
+
+.x-btn-icon.x-btn-over .x-btn-text.tm-todo {
+    background-position: -80px -16px;
+}
+
+.x-btn-icon .x-btn-text.page-offline {
+    background-position: -96px 0;
+}
+
+.x-btn-icon.x-btn-over .x-btn-text.page-offline {
+    background-position: -96px -16px;
+}
+
+.x-btn-icon .x-btn-text.page-online {
+    background-position: -112px 0;
+}
+
+.x-btn-icon.x-btn-over .x-btn-text.page-online {
+    background-position: -112px -16px;
+}

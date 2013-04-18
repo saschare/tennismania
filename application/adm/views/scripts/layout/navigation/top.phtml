@@ -6,9 +6,10 @@
 			<?php if (!empty($pos->icon)) : ?>
 			iconCls: '<?php echo $pos->icon; ?>',
 			<?php endif; ?>
-			margins: '0 10 0 10',
+			margins: '0 15 0 5',
 			<?php if (count($pos->pages) > 0) : ?>
 				menu: {
+                                        shadow: false,
 					items: [
 					<?php foreach ($pos->pages as $subPage) : ?>
 						<?php if (!isset($subPage->ac) || $user->isAllowed($subPage->ac)) : ?>
@@ -19,6 +20,7 @@
 								<?php endif; ?>
 								<?php if (count($subPage->pages) > 0) : ?>
 									menu: {
+                                                                                shadow: false,
 										items: [
 											<?php foreach ($subPage->pages as $subSubPage) : ?>
 											<?php if (!isset($subSubPage->ac) || $user->isAllowed($subSubPage->ac)) : ?>

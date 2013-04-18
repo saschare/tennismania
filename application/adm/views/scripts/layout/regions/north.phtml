@@ -2,7 +2,7 @@
 	region: 'north',
 	split: true,
 	margins: '0 0 0 0',
-	height: 50,
+	height: 40,
 	layout: 'border',
 	items: [{
 		region: 'center',
@@ -11,7 +11,7 @@
 		items:
 			new Ext.Toolbar({
 				layout: 'hbox',
-				style: 'padding-top:15px; padding-left:10px;',
+				style: 'padding-top: 5px;',
 				height: '100%',
 				items: [
 					<?php echo $this->partial('layout/navigation/top.phtml'); ?>
@@ -31,7 +31,7 @@
 			margins: '0 0 0 0',
 			border: false,
 			width: 200,
-			html: '<div class="x-toolbar" style="height:50px; padding:10px 10px 0 0; text-align:right;"><img src="<?php echo $this->baseUrl('/images/wbm_aitsu_ec7537_146x30.png'); ?>"</div>'
+			html: '<div class="x-toolbar" style="padding: 8px 10px; text-align:right;"><img src="<?php echo $this->baseUrl('/images/logo_moraso.png'); ?>"</div>'
 		}
 	]
 }

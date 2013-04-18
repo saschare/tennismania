@@ -9,7 +9,16 @@
 		    	var s = Math.floor(remainingSessionPeriod - h * 60 * 60 - m * 60);
 		    	m = m < 10 ? '0' + m : m;
 		    	s = s < 10 ? '0' + s : s;
-		    	Ext.getCmp('session-clock').update('<?php echo Aitsu_Translate :: translate('Remaining session time'); ?>: ' + h + ' h ' + m + ' m ' + s + ' s');
+                        
+                        if ((h == 0 && m == 0) || h >= 1) {
+                            Ext.getCmp('basic-statusbar').setStatus('<?php echo Aitsu_Translate :: translate('Remaining session time'); ?>: ' + h + ' Std. ' + m + ' Minuten ');
+                        } else if (h == 0 && m >= 6) {
+                            Ext.getCmp('basic-statusbar').setStatus('<?php echo Aitsu_Translate :: translate('Remaining session time'); ?>: ' + m + ' Minuten ');
+                        } else if (h == 0 && (m >= 1 && m <= 5)) {
+                            Ext.getCmp('basic-statusbar').setStatus('<?php echo Aitsu_Translate :: translate('Remaining session time'); ?>: ' + m + ' Minuten ' + s + ' Sekunden ');
+                        } else {
+                            Ext.getCmp('basic-statusbar').setStatus('<?php echo Aitsu_Translate :: translate('Remaining session time'); ?>: ' + s + ' Sekunden ');
+                        }
 				if (remainingSessionPeriod <= 0) {
 					window.location.href = '<?php echo $this->url(array('controller' => 'acl', 'action' => 'logout'), 'default'); ?>';
 				}    	
@@ -28,9 +37,7 @@
 				   url: '<?php echo $this->url(array('controller' => 'acl', 'action' => 'refreshsession'), 'default'); ?>',
 				   success: function(response, opts) {
 				      var res = Ext.decode(response.responseText);
-				      if (res.success) {
-				      	Ext.getCmp('basic-statusbar').setStatus('<?php echo Aitsu_Translate :: translate('Session refreshed at'); ?> ' + res.time);
-				      } else {
+				      if (!res.success) {
 				      	window.location.href = '<?php echo $this->url(array('controller' => 'acl', 'action' => 'logout'), 'default'); ?>';
 				      }
 				   },

@@ -1,23 +1,23 @@
 {
-	region: 'south',
-	split: true,
-	height: 0,
-	margins: '0 0 0 0',
-	bbar: new Ext.ux.StatusBar({
-		id: 'basic-statusbar',
-		defaultText: '',
-		text: '',
-		iconCls: 'x-status-valid',
-		items: [
-			{
-				xtype: 'tbtext',
-				id: 'session-clock',
-				text: ''
-			},
-			'-',
-			'moraso <?php echo Moraso_Status::version(); ?> (powered by aitsu <?php echo Aitsu_Application_Status :: version(); ?>)',
-			'-',
-			'&copy; 2013 - <a href="http://www.webtischlerei.de" target="_blank">webtischlerei</a>'
-		]
-	})                
+    region: 'south',
+    split: true,
+    height: 0,
+    margins: '0 0 0 0',
+    bbar: new Ext.ux.StatusBar({
+        id: 'basic-statusbar',
+        defaultText: '',
+        text: '',
+        iconCls: 'x-status-valid',
+        items: [{
+            xtype: 'tbtext',
+            id: 'session-clock',
+            text: ''
+        },
+        '<a href="http://www.moraso-cms.de" target="_blank">moraso CMS</a> <?php echo Moraso_Status::version(); ?>',
+        '-',
+        'powered by <a href="http://www.aitsu.org" target="_blank">aitsu CMSF</a> <?php echo Aitsu_Application_Status::version(); ?>',
+        '-',
+        '&copy; 2013 <a href="http://www.webtischlerei.de" target="_blank">webtischlerei</a>'
+	]
+    })                
 }
