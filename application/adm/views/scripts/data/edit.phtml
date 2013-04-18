@@ -83,33 +83,38 @@ publishBtn.hide();
 <?php endif; ?>
 
 Ext.getCmp('page-edit-tab').add({
-    title: '<?php echo Aitsu_Translate :: translate('Meta data'); ?>',
+    title: '<?php echo Aitsu_Translate :: translate('ToDo List'); ?>',
     layout: 'border',
     items: [{
         region: 'center',
         id: 'page-edit-overview-center',
         split: true,
         layout: 'fit'
-    }, {
-        region: 'east',
-        split: true,
-        width: 350,
-        layout: 'fit',
-        items: new Ext.Panel({
-            layout: 'accordion',
-            border: false,
-            id: 'page-plugin-accordion',
-            layoutConfig: {
-                titleCollapse: true,
-                hideCollapseTool: true,
-                animate: true
-            },
-            tbar: {
-                items: [
-                    onlineBtn,
-                    publishBtn
-                ]
-            }
-        })
     }]
 });
+
+var eastPanel = new Ext.Panel({
+    layout: 'accordion',
+    border: false,
+    id: 'page-plugin-accordion',
+    layoutConfig: {
+        titleCollapse: true,
+        hideCollapseTool: true,
+        animate: true
+    },
+    tbar: {
+        items: [
+            onlineBtn,
+            publishBtn
+        ]
+    }
+});
+
+
+var east = Ext.getCmp('viewport-east');
+east.removeAll();
+east.setVisible(true);
+east.setAutoScroll(true);
+east.setWidth(350);
+east.add(eastPanel);
+east.expand(false);

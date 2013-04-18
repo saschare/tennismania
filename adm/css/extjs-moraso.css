@@ -82,7 +82,8 @@
 .x-panel-header {
     background-image: none;
     background-color: orange;
-    border: 1px solid #DDD;
+    border: none;
+    border-bottom: 1px solid #DDD;
     color: #FFF;
     font-size: 14px;
     line-height: 24px;
@@ -94,4 +95,70 @@
     border-color: #DDD;
 }
 
-logo_moraso.png
+.x-tool-toggle {
+    display: none;
+}
+
+.x-tab-panel-header, .x-tab-panel-footer {
+    background-color: orange;
+    border: none;
+}
+
+.x-tab-panel-header {
+    padding-bottom: 0;
+    border-bottom: 1px solid #DDD;
+}
+
+.x-tab-panel-footer {
+    padding-top: 0;
+    border-top: 1px solid #DDD;
+}
+
+ul.x-tab-strip {
+    border: none;
+    background: none;
+}
+
+ul.x-tab-strip-top li {
+    margin: 4px 0 0 5px;
+}
+
+ul.x-tab-strip-bottom li {
+    margin: 0 0 0 5px;
+}
+
+.x-tab-strip .x-tab-right,
+.x-tab-strip .x-tab-left,
+.x-tab-strip .x-tab-strip-inner {
+    background: none;
+    background-color: #FFF;
+}
+
+.x-tab-strip .x-tab-right span.x-tab-strip-text {
+    margin: 0;
+    padding: 2px 0;
+}
+
+.x-tab-strip .x-tab-strip .x-tab-right span.x-tab-strip-text,
+.x-tab-strip .x-tab-strip-active .x-tab-right span.x-tab-strip-text,
+.x-tab-strip .x-tab-strip-over .x-tab-right span.x-tab-strip-text {
+    padding: 2px 0;
+}
+
+.x-tab-strip-bottom .x-tab-strip .x-tab-left,
+.x-tab-strip-bottom .x-tab-strip-active .x-tab-left,
+.x-tab-strip-bottom .x-tab-strip-over .x-tab-left {
+    background: none;
+    background-color: #FFF;
+}
+
+.x-tab-strip-bottom .x-tab-strip .x-tab-right,
+.x-tab-strip-bottom .x-tab-strip-active .x-tab-right,
+.x-tab-strip-bottom .x-tab-strip-over .x-tab-right {
+    background: none;
+    margin: 0;
+}
+
+.x-tab-strip-bottom .x-tab-left {
+    margin: 0;
+}
