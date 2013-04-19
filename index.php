@@ -25,7 +25,7 @@ $serializedRequest = serialize($request);
 define('REQUEST_HASH', crc32($serializedRequest));
 unset($request);
 
-$content = Aitsu_Bootstrap :: run()->getOutput();
+$content = Moraso_Bootstrap :: run()->getOutput();
 
 $etag = crc32($content);
 
