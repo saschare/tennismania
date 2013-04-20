@@ -49,7 +49,7 @@ class Moraso_Bootstrap {
             foreach ($files as $file) {
 
                 $match = array();
-                if (preg_match('/\\w{32}\\.([0-9]*).([0-9a-z]*)\\.html/', $file, $match)) {
+                if (preg_match('/\\w{40}\\.([0-9]*).([0-9a-z]*)\\.html/', $file, $match)) {
                     header("Pragma: public");
                     header("ETag: {$match[2]}");
 
@@ -68,8 +68,6 @@ class Moraso_Bootstrap {
 
     protected function _RegisterAutoloader() {
 
-        require_once (LIBRARY_PATH . '/Zend/Loader/Autoloader.php');
-        
         $autoloader = Zend_Loader_Autoloader::getInstance();
         $libPath = realpath(LIBRARY_PATH);
         $libs = scandir($libPath);
