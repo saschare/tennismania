@@ -53,7 +53,7 @@ class Moraso_Bootstrap {
                     header("Pragma: public");
                     header("ETag: {$match[2]}");
 
-                    if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] ==  $match[2]) {
+                    if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] == $match[2]) {
                         header("HTTP/1.1 304 Not Modified");
                         header("Connection: Close");
                     } elseif ($match[1] > time()) {
@@ -68,6 +68,8 @@ class Moraso_Bootstrap {
 
     protected function _RegisterAutoloader() {
 
+        require_once (LIBRARY_PATH . '/Zend/Loader/Autoloader.php');
+        
         $autoloader = Zend_Loader_Autoloader::getInstance();
         $libPath = realpath(LIBRARY_PATH);
         $libs = scandir($libPath);
@@ -528,20 +530,23 @@ class Moraso_Bootstrap {
             return Aitsu_Transformation_StructuredTo::xml($this->pageContent);
         }
 
+        $etag = sha1($this->pageContent);
+        
         $expire = Aitsu_Registry::getExpireTime();
 
         if (empty($expire) || Aitsu_Application_Status::isEdit()) {
-            header("Cache-Control: no-cache, must-revalidate");
-            header("Pragma: no-cache");
-            header("Expires: Mon, 16 Mar 1987 15:30:21 GMT");
+            $cacheControl = 'no-cache, must-revalidat';
+            $pragma = 'no-cache';
+            $expires = 'Mon, 16 Mar 1987 15:30:21';
         } else {
-            header("Cache-Control: max-age=" . $expire);
-            header("Pragma: public");
-            header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $expire) . ' GMT');
+            $cacheControl = 'max-age=' . $expire;
+            $pragma = 'public';
+            $expires = gmdate('D, d M Y H:i:s', time() + $expire);
         }
 
-        $etag = crc32($this->pageContent);
-
+        header("Cache-Control: " . $cacheControl);
+        header("Pragma: " . $pragma);
+        header("Expires: " . $expires . " GMT");
         header("ETag: {$etag}");
 
         if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $etag === $_SERVER['HTTP_IF_NONE_MATCH']) {
