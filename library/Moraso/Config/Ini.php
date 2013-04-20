@@ -10,9 +10,15 @@ class Moraso_Config_Ini {
         
     }
 
-    public static function getInstance($ini) {
+    public static function getInstance($ini = null, $env = null) {
 
-        $env = Moraso_Util::getEnv();
+        if (empty($ini)) {
+            $ini = Aitsu_Mapping::getIni();
+        }
+
+        if (empty($env)) {
+            $env = Moraso_Util::getEnv();
+        }
 
         $config = new Zend_Config_Ini('application/configs/config.ini', $env, array(
             'allowModifications' => true

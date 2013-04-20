@@ -6,10 +6,12 @@
  */
 class Moraso_Config_Db {
 
-    public static function setConfigFromDatabase($config_file, $return = false) {
+    public static function setConfigFromDatabase($config_file, $return = false, $env = null) {
 
-        $env = Moraso_Util::getEnv();
-        
+        if (empty($env)) {
+            $env = Moraso_Util::getEnv();
+        }
+
         $database_config = Aitsu_Db::fetchAll('' .
                         'select ' .
                         '   env, ' .
@@ -49,11 +51,11 @@ class Moraso_Config_Db {
         );
 
         foreach ($database_config as $row) {
-            
+
             if ($row['value'] == 'true' || $row['value'] == 'false') {
                 $row['value'] = filter_var($row['value'], FILTER_VALIDATE_BOOLEAN);
             }
-            
+
             $rowConfig[$row['env']] = Aitsu_Util::parseSimpleIni($row['identifier'] . ' = ' . $row['value']);
 
             $database_array = array_merge_recursive((array) $database_array, (array) $rowConfig);
@@ -68,7 +70,7 @@ class Moraso_Config_Db {
         if ($return) {
             return $config;
         }
-        
+
         Aitsu_Registry :: get()->config->merge($config);
     }
 

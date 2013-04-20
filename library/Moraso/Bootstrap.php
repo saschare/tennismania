@@ -4,6 +4,10 @@
  * @author Christian Kehres <c.kehres@webtischlerei.de>
  * @copyright (c) 2013, webtischlerei <http://www.webtischlerei.de>
  */
+set_include_path(realpath(dirname(__FILE__) . '/..') . PATH_SEPARATOR . get_include_path());
+set_include_path(realpath(dirname(__FILE__) . '/../..') . PATH_SEPARATOR . get_include_path());
+require_once 'Zend/Loader/Autoloader' . '.php';
+
 class Moraso_Bootstrap {
 
     protected $configured = false;
@@ -100,10 +104,7 @@ class Moraso_Bootstrap {
         }
 
         if (isset($_GET['edit']) || isset($_GET['preview'])) {
-
-            Aitsu_Registry::get()->config = Moraso_Config_Ini::getInstance('config');
-
-            $config = Moraso_Db::fetchOne('' .
+            $ini = Moraso_Db::fetchOne('' .
                             'select ' .
                             '	client.config ' .
                             'from ' .
@@ -116,17 +117,18 @@ class Moraso_Bootstrap {
                             '   artlang.idartlang = :idartlang', array(
                         ':idartlang' => $_GET['id']
             ));
-            if (empty($config)) {
-                $config = 'default';
+            
+            if (empty($ini)) {
+                $ini = 'default';
             }
 
-            Aitsu_Registry::get()->config = Moraso_Config_Ini::getInstance('clients/' . $config);
+            Moraso_Config::initConfig($ini);
 
             if (isset($_GET['profile']) && $_GET['profile']) {
 
                 $url = Moraso_Db::fetchOne('' .
                                 'select ' .
-                                '	concat(catlang.url, \'/\', artlang.urlname, \'.html\') as url ' .
+                                '   concat(catlang.url, \'/\', artlang.urlname, \'.html\') as url ' .
                                 'from ' .
                                 '   _art_lang as artlang ' .
                                 'left join ' .
@@ -138,19 +140,15 @@ class Moraso_Bootstrap {
                             ':idartlang' => $_GET['id']
                 ));
 
-                header('Location: ' . Aitsu_Registry::get()->config->sys->webpath . $url . '?profile=1');
+                header('Location: ' . Moraso_Config::get('sys.webpath') . $url . '?profile=1');
                 exit;
             }
 
             return;
         }
 
-        $ini = Aitsu_Mapping::getIni();
-
-        Aitsu_Registry::get()->config = Moraso_Config_Ini::getInstance('clients/' . $ini);
-
-        Moraso_Config_Db::setConfigFromDatabase($ini);
-
+        Moraso_Config::initConfig();
+        
         $this->configured = true;
     }
 
@@ -529,7 +527,7 @@ class Moraso_Bootstrap {
         }
 
         $etag = sha1($this->pageContent);
-        
+
         $expire = Aitsu_Registry::getExpireTime();
 
         if (empty($expire) || Aitsu_Application_Status::isEdit()) {
