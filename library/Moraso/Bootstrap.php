@@ -104,6 +104,8 @@ class Moraso_Bootstrap {
         }
 
         if (isset($_GET['edit']) || isset($_GET['preview'])) {
+            Aitsu_Registry::get()->config = Moraso_Config_Ini::getInstance('backend');
+            
             $ini = Moraso_Db::fetchOne('' .
                             'select ' .
                             '	client.config ' .
