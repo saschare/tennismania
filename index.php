@@ -19,19 +19,5 @@ $serializedRequest = serialize($request);
 define('REQUEST_HASH', crc32($serializedRequest));
 unset($request);
 
-$moraso = Moraso_Bootstrap::run();
-
-$content = $moraso->getOutput();
-
-$etag = crc32($content);
-
-header("ETag: {$etag}");
-
-if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $etag === $_SERVER['HTTP_IF_NONE_MATCH']) {
-    header("HTTP/1.1 304 Not Modified");
-    header("Connection: Close");
-    exit(0);
-}
-
-echo $content;
+echo Moraso_Bootstrap::run()->getOutput();
 exit(0);

@@ -37,9 +37,6 @@ class Moraso_Bootstrap {
     protected function _ReturnCache() {
 
         if (isset($_GET['edit']) && $_GET['edit'] == 1) {
-            /*
-             * Skip, as we are in edit mode.
-             */
             return;
         }
 
@@ -89,7 +86,7 @@ class Moraso_Bootstrap {
         set_error_handler(array(
             'Aitsu_Core_Logger',
             'errorHandler'
-                ), E_ALL /* ^ E_NOTICE */
+                ), E_ALL
         );
     }
 
@@ -125,15 +122,21 @@ class Moraso_Bootstrap {
             Aitsu_Registry::get()->config = Moraso_Config_Ini::getInstance('clients/' . $config);
 
             if (isset($_GET['profile']) && $_GET['profile']) {
+
                 $url = Moraso_Db::fetchOne('' .
                                 'select ' .
                                 '	concat(catlang.url, \'/\', artlang.urlname, \'.html\') as url ' .
-                                'from _art_lang as artlang ' .
-                                'left join _cat_art as catart on artlang.idart = catart.idart ' .
-                                'left join _cat_lang as catlang on catart.idcat = catlang.idcat and catlang.idlang = artlang.idlang ' .
-                                'where artlang.idartlang = :idartlang', array(
+                                'from ' .
+                                '   _art_lang as artlang ' .
+                                'left join ' .
+                                '   _cat_art as catart on artlang.idart = catart.idart ' .
+                                'left join ' .
+                                '   _cat_lang as catlang on catart.idcat = catlang.idcat and catlang.idlang = artlang.idlang ' .
+                                'where ' .
+                                '   artlang.idartlang = :idartlang', array(
                             ':idartlang' => $_GET['id']
                 ));
+
                 header('Location: ' . Aitsu_Registry::get()->config->sys->webpath . $url . '?profile=1');
                 exit;
             }
@@ -237,11 +240,15 @@ class Moraso_Bootstrap {
 
         $auth = Aitsu_Util_Request::header('aitsuauth');
 
-        if (!$auth)
+        if (!$auth) {
             return;
+        }
 
-        if (!preg_match('/([^\\s]*)\\s([^\\:]*)\\:(.*)/', $auth, $match))
+        $match = array();
+
+        if (!preg_match('/([^\\s]*)\\s([^\\:]*)\\:(.*)/', $auth, $match)) {
             return;
+        }
 
         $auth = array(
             'type' => $match[1],
@@ -375,9 +382,6 @@ class Moraso_Bootstrap {
         }
 
         if (isset(Aitsu_Registry::get()->env->ispublic) && Aitsu_Registry::get()->env->ispublic == 1) {
-            /*
-             * No permission check necessary. Return.
-             */
             return;
         }
 
@@ -393,10 +397,6 @@ class Moraso_Bootstrap {
             return;
         }
 
-        /*
-         * The user seems not to be allowed to access the page. We therefore
-         * give him the possiblity to log in.
-         */
         Aitsu_Registry::get()->env->idart = Moraso_Config::get('sys.loginpage');
         Aitsu_Bootstrap_EvalRequest::setIdartlang(Moraso_Config::get('sys.loginpage'));
     }
@@ -437,17 +437,7 @@ class Moraso_Bootstrap {
 
     protected function _CacheIntoTheFileSystem() {
 
-        if (!Aitsu_Registry::get()->config->cache->page->enable) {
-            /*
-             * Cache is disabled.
-             */
-            return;
-        }
-
-        if (Aitsu_Adm_User::getInstance() != null) {
-            /*
-             * Cache is disabled.
-             */
+        if (!Aitsu_Registry::get()->config->cache->page->enable || Aitsu_Adm_User::getInstance() != null) {
             return;
         }
 
@@ -542,11 +532,21 @@ class Moraso_Bootstrap {
         if (empty($expire) || Aitsu_Application_Status::isEdit()) {
             header("Cache-Control: no-cache, must-revalidate");
             header("Pragma: no-cache");
-            header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+            header("Expires: Mon, 16 Mar 1987 15:30:21 GMT");
         } else {
             header("Cache-Control: max-age=" . $expire);
             header("Pragma: public");
             header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $expire) . ' GMT');
+        }
+
+        $etag = crc32($this->pageContent);
+
+        header("ETag: {$etag}");
+
+        if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $etag === $_SERVER['HTTP_IF_NONE_MATCH']) {
+            header("HTTP/1.1 304 Not Modified");
+            header("Connection: Close");
+            exit(0);
         }
 
         return $this->pageContent;
