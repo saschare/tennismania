@@ -17,5 +17,5 @@ require_once (LIBRARY_PATH . '/Aitsu/Bootstrap.php');
 
 define('REQUEST_HASH', sha1(serialize(array_merge($_REQUEST, array($_SERVER['HTTP_HOST'])))));
 
-echo Aitsu_Bootstrap::run()->getOutput();
+echo Moraso_Bootstrap::run()->getOutput();
 exit(0);
