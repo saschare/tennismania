@@ -105,7 +105,7 @@ class Moraso_Bootstrap {
 
         if (isset($_GET['edit']) || isset($_GET['preview'])) {
             Aitsu_Registry::get()->config = Moraso_Config_Ini::getInstance('backend');
-            
+
             $ini = Moraso_Db::fetchOne('' .
                             'select ' .
                             '	client.config ' .
@@ -119,7 +119,7 @@ class Moraso_Bootstrap {
                             '   artlang.idartlang = :idartlang', array(
                         ':idartlang' => $_GET['id']
             ));
-            
+
             if (empty($ini)) {
                 $ini = 'default';
             }
@@ -150,7 +150,7 @@ class Moraso_Bootstrap {
         }
 
         Moraso_Config::initConfig();
-        
+
         $this->configured = true;
     }
 
@@ -349,10 +349,14 @@ class Moraso_Bootstrap {
                             '	artlang.idartlang, ' .
                             '	lang.idclient, ' .
                             '	catlang.public ' .
-                            'from _art_lang as artlang ' .
-                            'left join _cat_art as catart on artlang.idart = catart.idart ' .
-                            'left join _lang as lang on artlang.idlang = lang.idlang ' .
-                            'left join _cat_lang as catlang on catlang.idcat = catart.idcat and catlang.idlang = artlang.idlang ' .
+                            'from ' .
+                            '   _art_lang as artlang ' .
+                            'left join ' .
+                            '   _cat_art as catart on artlang.idart = catart.idart ' .
+                            'left join ' .
+                            '   _lang as lang on artlang.idlang = lang.idlang ' .
+                            'left join ' .
+                            '   _cat_lang as catlang on catlang.idcat = catart.idcat and catlang.idlang = artlang.idlang ' .
                             'where ' .
                             '	artlang.idartlang = :idartlang', array(
                         ':idartlang' => $_GET['id']
