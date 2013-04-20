@@ -14,10 +14,7 @@ define('CACHE_PATH', APPLICATION_PATH . '/data/pagecache');
 
 require_once (LIBRARY_PATH . '/Moraso/Bootstrap.php');
 
-$request = array_merge($_REQUEST, array($_SERVER['HTTP_HOST']));
-$serializedRequest = serialize($request);
-define('REQUEST_HASH', crc32($serializedRequest));
-unset($request);
+define('REQUEST_HASH', sha1(serialize(array_merge($_REQUEST, array($_SERVER['HTTP_HOST'])))));
 
 echo Moraso_Bootstrap::run()->getOutput();
 exit(0);

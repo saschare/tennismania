@@ -13,8 +13,7 @@
 
 class Aitsu_Cache_Page {
 
-	protected $lifetime;
-	protected $db, $requestHash;
+	protected $lifetime, $db, $requestHash;
 
 	protected function __construct($requestHash) {
 
@@ -49,7 +48,7 @@ class Aitsu_Cache_Page {
 		}
 
 		$timeStamp = time() + $this->lifetime;
-		$etag = hash('md4', $content);
+		$etag = sha1($content);
 
 		if ($handle = fopen(CACHE_PATH . '/' . $this->requestHash . '.' . $timeStamp . '.' . $etag . '.html', "a")) {
 			fwrite($handle, $content);

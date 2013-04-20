@@ -19,9 +19,11 @@ class Moraso_Bootstrap {
                 & $_COOKIE,
                 & $_REQUEST
             );
+
             while (list ($key, $val) = each($process)) {
                 foreach ($val as $k => $v) {
                     unset($process[$key][$k]);
+
                     if (is_array($v)) {
                         $process[$key][stripslashes($k)] = $v;
                         $process[] = & $process[$key][stripslashes($k)];
@@ -30,36 +32,35 @@ class Moraso_Bootstrap {
                     }
                 }
             }
+
             unset($process);
         }
     }
 
     protected function _ReturnCache() {
 
-        if (isset($_GET['edit']) && $_GET['edit'] == 1) {
-            return;
-        }
-
-        if (isset($_GET['clearcache']) || isset($_GET['profile'])) {
+        if ((isset($_GET['edit']) && $_GET['edit'] == 1) || (isset($_GET['clearcache']) || isset($_GET['profile']))) {
             return;
         }
 
         $files = glob(CACHE_PATH . '/' . REQUEST_HASH . '.*.html');
+
         if ($files !== false) {
             foreach ($files as $file) {
+
+                $match = array();
                 if (preg_match('/\\w{32}\\.([0-9]*).([0-9a-z]*)\\.html/', $file, $match)) {
-                    if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $match[2] == $_SERVER['HTTP_IF_NONE_MATCH']) {
-                        header("Pragma: public");
-                        header("ETag: {$match[2]}");
+                    header("Pragma: public");
+                    header("ETag: {$match[2]}");
+
+                    if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] ==  $match[2]) {
                         header("HTTP/1.1 304 Not Modified");
                         header("Connection: Close");
-                        exit(0);
                     } elseif ($match[1] > time()) {
-                        header("Pragma: public");
-                        header("ETag: {$match[2]}");
                         readfile($file);
-                        exit(0);
                     }
+
+                    exit(0);
                 }
             }
         }
@@ -68,7 +69,7 @@ class Moraso_Bootstrap {
     protected function _RegisterAutoloader() {
 
         $autoloader = Zend_Loader_Autoloader::getInstance();
-        $libPath = realpath(APPLICATION_PATH . '/../library');
+        $libPath = realpath(LIBRARY_PATH);
         $libs = scandir($libPath);
         foreach ($libs as $lib) {
             if (!in_array($lib, array(
