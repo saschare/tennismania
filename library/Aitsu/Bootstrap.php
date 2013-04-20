@@ -210,7 +210,7 @@ class Aitsu_Bootstrap {
 			return;
 		}
 
-		Aitsu_Cache_Page :: getInstance()->clearCache();
+		Aitsu_Ee_Cache_Page :: getInstance()->clearCache();
 
 		if ($_GET['clearcache'] == 'all') {
 			Aitsu_Util_Dir :: rm(APPLICATION_PATH . '/data/cachetransparent/data');
@@ -415,7 +415,7 @@ class Aitsu_Bootstrap {
 
 	protected function _RenderOutput() {
 
-		$this->pageContent = '<script type="application/x-moraso" src="Template:Root">' .
+		$this->pageContent = '<script type="application/x-aitsu" src="Template:Root">' .
 				'suppressWrapping = true' .
 				'</script>';
 	}
@@ -457,7 +457,7 @@ class Aitsu_Bootstrap {
 			return;
 		}
 
-		Aitsu_Cache_Page :: getInstance()->saveFs($this->pageContent);
+		Aitsu_Ee_Cache_Page :: getInstance()->saveFs($this->pageContent);
 	}
 
 	protected function _TriggerIndexing() {
