@@ -477,6 +477,11 @@ class Moraso_Bootstrap {
             throw new Exception('The bootstrap may only run once for each request.');
         }
 
+        define('APPLICATION_PATH', ROOT_PATH . '/application');
+        define('LIBRARY_PATH', ROOT_PATH . '/library');
+        define('CACHE_PATH', APPLICATION_PATH . '/data/pagecache');
+        define('REQUEST_HASH', sha1(serialize(array_merge($_REQUEST, array($_SERVER['HTTP_HOST'])))));
+        
         $instance = new self();
 
         if (getenv('AITSU_DEBUG') == 'on') {
