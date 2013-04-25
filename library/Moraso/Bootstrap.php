@@ -549,7 +549,7 @@ class Moraso_Bootstrap {
             echo $instance->pageContent;
         }
 
-        exit(0);
+        return;
     }
 
 }
