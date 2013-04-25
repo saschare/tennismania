@@ -484,10 +484,6 @@ class Moraso_Bootstrap {
         
         $instance = new self();
 
-        if (getenv('AITSU_DEBUG') == 'on') {
-            $instance->debug = true;
-        }
-
         try {
             $counter = 0;
             foreach (get_class_methods($instance) as $phase) {
@@ -507,12 +503,7 @@ class Moraso_Bootstrap {
                         ));
                     }
                 }
-                if ($instance->debug && isset($_GET['step']) && $counter >= (int) $_GET['step']) {
-                    echo '<p>Execution stopped after executing <strong>' . $phase . '</strong>.</p>';
-                    echo '<p>Next step: <a href="' . $_SERVER['PHP_SELF'] . '?step=' . ($counter + 1) . '"><strong>Execute</strong></a>.</p>';
-                    echo '<pre>' . var_export($instance, true) . '</pre>';
-                    exit();
-                }
+
                 $counter++;
             }
         } catch (Aitsu_Security_Exception $e) {
@@ -528,16 +519,9 @@ class Moraso_Bootstrap {
             exit();
         }
 
-        return $instance;
-    }
-
-    public function getOutput() {
-
         if (Aitsu_Application_Status::isStructured()) {
-            return Aitsu_Transformation_StructuredTo::xml($this->pageContent);
+            return Aitsu_Transformation_StructuredTo::xml($instance->pageContent);
         }
-
-        $etag = sha1($this->pageContent);
 
         $expire = Aitsu_Registry::getExpireTime();
 
@@ -551,18 +535,21 @@ class Moraso_Bootstrap {
             $expires = gmdate('D, d M Y H:i:s', time() + $expire);
         }
 
+        $etag = sha1($instance->pageContent);
+        
         header("Cache-Control: " . $cacheControl);
         header("Pragma: " . $pragma);
         header("Expires: " . $expires . " GMT");
-        header("ETag: {$etag}");
+        header("ETag: " . $etag);
 
         if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $etag === $_SERVER['HTTP_IF_NONE_MATCH']) {
             header("HTTP/1.1 304 Not Modified");
             header("Connection: Close");
-            exit(0);
+        } else {
+            echo $instance->pageContent;
         }
 
-        return $this->pageContent;
+        exit(0);
     }
 
 }

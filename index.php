@@ -9,6 +9,4 @@ define('ROOT_PATH', dirname(__FILE__));
 
 require_once (ROOT_PATH . '/library/Moraso/Bootstrap.php');
 
-echo Moraso_Bootstrap::run()->getOutput();
-
-exit(0);
+Moraso_Bootstrap::run();
