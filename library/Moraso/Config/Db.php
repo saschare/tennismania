@@ -72,6 +72,8 @@ class Moraso_Config_Db {
         }
 
         Aitsu_Registry :: get()->config->merge($config);
+
+        Aitsu_Profiler::renew();
     }
 
 }

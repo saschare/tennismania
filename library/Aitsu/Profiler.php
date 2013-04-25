@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * aitsu profiler.
  * 
@@ -9,128 +8,133 @@
  * 
  * {@id $Id: Profiler.php 17827 2010-07-29 13:11:30Z akm $}
  */
-
 class Aitsu_Profiler {
 
-	protected $profilerStart;
-	protected $active = false;
-	protected $profiles = array ();
-	protected $currentProfilings = array ();
+    protected $profilerStart;
+    protected $active = false;
+    protected $profiles = array();
+    protected $currentProfilings = array();
 
-	protected function __construct() {
+    protected function __construct() {
 
-		if (!isset ($_GET['profile'])) {
-			return;
-		}
+        if (!isset($_GET['profile'])) {
+            return;
+        }
 
-		$this->profilerStart = microtime(true);
+        $this->profilerStart = microtime(true);
 
-		if (isset (Aitsu_Registry :: get()->config->admin->allow->profiling) && Aitsu_Registry :: get()->config->admin->allow->profiling) {
-			/*
-			 * Disable caching on page level.
-			 */
-			Aitsu_Cache_Page :: lifetime(-1);
+        if (isset(Aitsu_Registry :: get()->config->admin->allow->profiling) && Aitsu_Registry :: get()->config->admin->allow->profiling) {
+            /*
+             * Disable caching on page level.
+             */
+            Aitsu_Cache_Page :: lifetime(-1);
 
-			/*
-			 * Activate profiling.
-			 */
-			$this->active = true;
-		}
-	}
+            /*
+             * Activate profiling.
+             */
+            $this->active = true;
+        }
+    }
 
-	protected static function _getInstance() {
+    protected static function _getInstance($renew = false) {
 
-		static $instance;
+        static $instance;
 
-		if (!isset ($instance)) {
-			$instance = new self();
-		}
+        if (!isset($instance) || $renew) {
+            $instance = new self();
+        }
 
-		return $instance;
-	}
+        return $instance;
+    }
 
-	public static function profile($token, $data = null, $type = 'module') {
+    public static function renew() {
+        
+        self::_getInstance(true);
+    }
 
-		$time = microtime(true);
+    public static function profile($token, $data = null, $type = 'module') {
 
-		$instance = self :: _getInstance();
+        $time = microtime(true);
 
-		if (!$instance->active) {
-			return;
-		}
+        $instance = self :: _getInstance();
 
-		if (!isset ($instance->currentProfilings[$type][$token])) {
-			$instance->currentProfilings[$type][$token] = array (
-				'start' => $time,
-				'end' => null,
-				'data' => $data,
-				'token' => $token
-			);
-			return;
-		}
+        if (!$instance->active) {
+            return;
+        }
 
-		$pf = $instance->currentProfilings[$type][$token];
+        if (!isset($instance->currentProfilings[$type][$token])) {
+            $instance->currentProfilings[$type][$token] = array(
+                'start' => $time,
+                'end' => null,
+                'data' => $data,
+                'token' => $token
+            );
+            return;
+        }
 
-		$pf['end'] = $time;
-		$pf['period'] = ($pf['end'] - $pf['start']) * 1000;
+        $pf = $instance->currentProfilings[$type][$token];
 
-		if ($data != null) {
-			$pf['data'] = $data;
-		}
+        $pf['end'] = $time;
+        $pf['period'] = ($pf['end'] - $pf['start']) * 1000;
 
-		$instance->profiles[$type][] = (object) $pf;
+        if ($data != null) {
+            $pf['data'] = $data;
+        }
 
-		unset ($instance->currentProfilings[$type][$token]);
-	}
+        $instance->profiles[$type][] = (object) $pf;
 
-	public static function get() {
+        unset($instance->currentProfilings[$type][$token]);
+    }
 
-		$end = microtime(true);
+    public static function get() {
 
-		$instance = self :: _getInstance();
+        $end = microtime(true);
 
-		if (!$instance->active) {
-			return false;
-		}
+        $instance = self :: _getInstance();
 
-		if (defined('REQUEST_START')) {
-			$overHead = (object) array (
-				'start' => REQUEST_START,
-				'end' => $instance->profilerStart,
-				'period' => ($instance->profilerStart - REQUEST_START) * 1000,
-				'token' => 'AutoloadAndConfig'
-			);
-			array_unshift($instance->profiles['system'], $overHead);
-		}
+        if (!$instance->active) {
+            return false;
+        }
 
-		$aggregation = array ();
-		foreach ($instance->profiles as $type => $profiles) {
-			$sum = 0;
-			foreach ($profiles as $profile) {
-				$sum += $profile->period;
-			}
-			$aggregation[$type] = (object) array (
-				'period' => $sum
-			);
-		}
-		$instance->profiles['type.sum'] = $aggregation;
+        if (defined('REQUEST_START')) {
+            $overHead = (object) array(
+                        'start' => REQUEST_START,
+                        'end' => $instance->profilerStart,
+                        'period' => ($instance->profilerStart - REQUEST_START) * 1000,
+                        'token' => 'AutoloadAndConfig'
+            );
+            array_unshift($instance->profiles['system'], $overHead);
+        }
 
-		if (defined('REQUEST_START')) {
-			$instance->profiles['type.sum']['totalResponse'] = (object) array (
-				'period' => ($end -REQUEST_START) * 1000
-			);
-		}
+        $aggregation = array();
+        foreach ($instance->profiles as $type => $profiles) {
+            $sum = 0;
+            foreach ($profiles as $profile) {
+                $sum += $profile->period;
+            }
+            $aggregation[$type] = (object) array(
+                        'period' => $sum
+            );
+        }
+        $instance->profiles['type.sum'] = $aggregation;
 
-		return $instance->_getView('index.phtml');
-	}
-	
-	protected function _getView($template = 'index.phtml') {
-		
-		$view = new Zend_View();
-		$view->setScriptPath(realpath(APPLICATION_PATH . '/../library/Aitsu/Profiler'));
-		
-		$view->profiles = $this->profiles;
-		
-		return $view->render($template);
-	}
+        if (defined('REQUEST_START')) {
+            $instance->profiles['type.sum']['totalResponse'] = (object) array(
+                        'period' => ($end - REQUEST_START) * 1000
+            );
+        }
+
+        return $instance->_getView('index.phtml');
+    }
+
+    protected function _getView($template = 'index.phtml') {
+
+        $view = new Zend_View();
+        $view->setScriptPath(realpath(APPLICATION_PATH . '/../library/Aitsu/Profiler'));
+
+        $view->profiles = $this->profiles;
+
+        return $view->render($template);
+    }
+
 }
