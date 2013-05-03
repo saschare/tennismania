@@ -56,6 +56,7 @@ pageEditTabs.add({
 	}
 });
 
+<?php if (class_exists('XSLTProcessor')) : ?>
 pageEditTabs.add({
 	id: 'article-plugin-edit-boxmodel',
 	title: '<?php echo Aitsu_Translate :: translate('Box model'); ?>',
@@ -75,6 +76,7 @@ pageEditTabs.add({
 		}
 	}
 });
+<?php endif; ?>
 
 pageEditTabs.add({
 	id: 'article-plugin-edit-preview',
