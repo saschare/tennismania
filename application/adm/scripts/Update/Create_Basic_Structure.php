@@ -10,6 +10,17 @@ class Adm_Script_Create_Basic_Structure extends Aitsu_Adm_Script_Abstract {
 
         return Aitsu_Translate::translate('Create Basic Structure');
     }
+    
+    public function doCheckIfExecutable() {
+
+        $nav_main = (int) Moraso_Config::get('navigation.main');
+
+        if (!empty($nav_main) || is_int($nav_main)) {
+            throw new Exception(Aitsu_Translate :: translate('Script has already been executed!'));
+        }
+
+        return Aitsu_Adm_Script_Response::factory('The script will run!');
+    }
 
     public function doCreateMainCategory() {
 

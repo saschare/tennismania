@@ -11,6 +11,25 @@ class Adm_Script_Update_1_X_Auf_1_13 extends Aitsu_Adm_Script_Abstract {
         return Aitsu_Translate::translate('Update 1.x auf 1.13');
     }
 
+    public function doCheckIfExecutable() {
+
+        $privilegeid = (int) Moraso_Db::fetchOne('' .
+                        'select ' .
+                        '   privilegeid ' .
+                        'from ' .
+                        '   _acl_privilege ' .
+                        'where ' .
+                        '   identifier =:identifier', array(
+                    ':identifier' => 'plugin.management.configuration'
+        ));
+
+        if (!empty($privilegeid) || is_int($privilegeid)) {
+            throw new Exception(Aitsu_Translate :: translate('Script has already been executed!'));
+        }
+
+        return Aitsu_Adm_Script_Response::factory('The script will run!');
+    }
+
     public function doUpdate() {
 
         Moraso_Db::query('drop table if exists _moraso_config');
