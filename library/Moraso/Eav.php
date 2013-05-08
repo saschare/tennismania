@@ -6,12 +6,12 @@
  */
 class Moraso_Eav {
 
-    public static function deleteEntity($id) {
+    public static function delete($id) {
 
         Moraso_Db::delete('_eav_entity', array('entity_id' => $id));
     }
 
-    public static function setValues($attribute_set, $data) {
+    public static function set($attribute_set, $data) {
 
         $id = isset($data['id']) && !empty($data['id']) ? $data['id'] : Moraso_Db::query('insert into _eav_entity (entity_id) values (NULL)')->getLastInsertId();
 
@@ -81,7 +81,7 @@ class Moraso_Eav {
         }
     }
 
-    public static function getData($attribute_set, $entity_id = null) {
+    public static function get($attribute_set, $entity_id = null) {
 
         $attribute_set_id = self::_getAttributeSetId($attribute_set);
 
