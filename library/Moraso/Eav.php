@@ -2,13 +2,13 @@
 
 /**
  * @author Christian Kehres <c.kehres@webtischlerei.de>
- * @copyright (c) 2012, webtischlerei <http://www.webtischlerei.de>
+ * @copyright (c) 2013, webtischlerei <http://www.webtischlerei.de>
  */
 class Moraso_Eav {
 
     public static function createEntity() {
 
-        return Aitsu_Db::query('insert into _eav_entity (entity_id) values (NULL)')->getLastInsertId();
+        return Moraso_Db::query('insert into _eav_entity (entity_id) values (NULL)')->getLastInsertId();
     }
 
     public static function checkIfAttributeAlreadyExist($attribute_set_id, $attribute_alias) {
@@ -35,7 +35,7 @@ class Moraso_Eav {
 
     public static function createAttribute($set_id, $alias) {
 
-        return Aitsu_Db::query('' .
+        return Moraso_Db::query('' .
                         'insert into ' .
                         '   _eav_attribute ' .
                         '   (attribute_alias, attribute_set_id) ' .
@@ -43,10 +43,10 @@ class Moraso_Eav {
                         '   ("' . $alias . '", "' . $set_id . '")'
                 )->getLastInsertId();
     }
-    
+
     public static function createAttributeSet($set_name) {
 
-        return Aitsu_Db::query('' .
+        return Moraso_Db::query('' .
                         'insert into ' .
                         '   _eav_attribute_set ' .
                         '   (attribute_set_name) ' .
@@ -57,7 +57,7 @@ class Moraso_Eav {
 
     public static function deleteEntity($id) {
 
-        Aitsu_Db::query('' .
+        Moraso_Db::query('' .
                 'delete from ' .
                 '   _eav_entity ' .
                 'where ' .
@@ -74,15 +74,13 @@ class Moraso_Eav {
         foreach ($data as $attribute_alias => $value) {
 
             $attribute_set_id = self::checkIfAttributeSetAlreadyExist($attribute_set);
-            
+
             $attribute_id = self::checkIfAttributeAlreadyExist($attribute_set_id, $attribute_alias);
 
-            $originalValueLength = strlen($value);
-
-            if ($originalValueLength == strlen(intval($value))) {
-                $type = 'integer';
-            } elseif ($originalValueLength == strlen(floatval($value))) {
+            if (is_float($value)) {
                 $type = 'float';
+            } elseif (is_numeric($value)) {
+                $type = 'integer';
             } else {
                 $type = 'string';
             }
@@ -93,7 +91,7 @@ class Moraso_Eav {
 
     public static function getAttributeIdByAlias($set_id, $alias) {
 
-        return Aitsu_Db::fetchOne('' .
+        return Moraso_Db::fetchOne('' .
                         'select ' .
                         '   attribute_id ' .
                         'from ' .
@@ -104,12 +102,12 @@ class Moraso_Eav {
                         '   attribute_set_id =:set_id', array(
                     ':alias' => $alias,
                     ':set_id' => $set_id
-                ));
+        ));
     }
 
     public static function getAttributeSetId($set_name) {
 
-        return Aitsu_Db::fetchOne('' .
+        return Moraso_Db::fetchOne('' .
                         'select ' .
                         '   attribute_set_id ' .
                         'from ' .
@@ -117,12 +115,12 @@ class Moraso_Eav {
                         'where ' .
                         '   attribute_set_name =:set_name', array(
                     ':set_name' => $set_name
-                ));
+        ));
     }
 
     public static function setValue($entity_id, $attribute_id, $value, $type = 'string') {
 
-        $entity_attribute_id = Aitsu_Db::fetchOne('' .
+        $entity_attribute_id = Moraso_Db::fetchOne('' .
                         'select ' .
                         '   entity_attribute_id ' .
                         'from ' .
@@ -133,11 +131,11 @@ class Moraso_Eav {
                         '   attribute_id =:attribute_id', array(
                     ':entity_id' => $entity_id,
                     ':attribute_id' => $attribute_id
-                ));
+        ));
 
 
         if (!empty($entity_attribute_id)) {
-            $value_id = Aitsu_Db::fetchOne('' .
+            $value_id = Moraso_Db::fetchOne('' .
                             'select ' .
                             '   value_id ' .
                             'from ' .
@@ -148,7 +146,7 @@ class Moraso_Eav {
                             )
             );
         } else {
-            $entity_attribute_id = Aitsu_Db::query('' .
+            $entity_attribute_id = Moraso_Db::query('' .
                             'insert into ' .
                             '   _eav_entity_attribute ' .
                             '   (entity_id, attribute_id) ' .
@@ -156,7 +154,7 @@ class Moraso_Eav {
                             '   (' . $entity_id . ', ' . $attribute_id . ')'
                     )->getLastInsertId();
 
-            $value_id = Aitsu_Db::query('' .
+            $value_id = Moraso_Db::query('' .
                             'insert into ' .
                             '   _eav_value ' .
                             '   (entity_attribute_id) ' .
@@ -165,29 +163,31 @@ class Moraso_Eav {
                     )->getLastInsertId();
         }
 
+        if (is_array($value) || is_object($value)) {
+            $value = serialize($value);
+        }
+
         $data = array(
             'value_id' => $value_id,
-            'value' => $value
+            'value_' . $type => $value
         );
 
-        Aitsu_Db::query('delete from _eav_value_string where value_id =:valueid', array(':valueid' => $value_id));
-        Aitsu_Db::query('delete from _eav_value_integer where value_id =:valueid', array(':valueid' => $value_id));
-        Aitsu_Db::query('delete from _eav_value_float where value_id =:valueid', array(':valueid' => $value_id));
+        Moraso_Db::query('delete from _eav_value where value_id =:valueid', array(':valueid' => $value_id));
 
-        Aitsu_Db::put('_eav_value_' . $type, NULL, $data);
+        Moraso_Db::put('_eav_value', NULL, $data);
     }
 
     public static function getEntityData($attribute_set, $entity_id) {
 
         $attribute_set_id = self::getAttributeSetId($attribute_set);
-        
-        $rows = Aitsu_Db::fetchAll('' .
+
+        $rows = Moraso_Db::fetchAll('' .
                         'select ' .
                         '   a.attribute_alias, ' .
                         '   coalesce( ' .
-                        '       vs.value, ' .
-                        '       vi.value, ' .
-                        '       vf.value ' .
+                        '       v.value_string, ' .
+                        '       v.value_integer, ' .
+                        '       v.value_float ' .
                         '   ) as value ' .
                         'from ' .
                         '   _eav_entity as e ' .
@@ -197,12 +197,6 @@ class Moraso_Eav {
                         '   _eav_attribute as a on a.attribute_id = ea.attribute_id ' .
                         'left join ' .
                         '   _eav_value as v on v.entity_attribute_id = ea.entity_attribute_id ' .
-                        'left join ' .
-                        '   _eav_value_string as vs on vs.value_id = v.value_id ' .
-                        'left join ' .
-                        '   _eav_value_integer as vi on vi.value_id = v.value_id ' .
-                        'left join ' .
-                        '   _eav_value_float as vf on vf.value_id = v.value_id ' .
                         'where ' .
                         '   ea.entity_id =:entity_id ' .
                         'and ' .
@@ -221,17 +215,17 @@ class Moraso_Eav {
     }
 
     public static function getAllData($set_name) {
-        
+
         $attribute_set_id = self::getAttributeSetId($set_name);
 
-        $rows = Aitsu_Db::fetchAll('' .
+        $rows = Moraso_Db::fetchAll('' .
                         'select ' .
                         '   e.entity_id as id, ' .
                         '   a.attribute_alias, ' .
                         '   coalesce( ' .
-                        '       vs.value, ' .
-                        '       vi.value, ' .
-                        '       vf.value ' .
+                        '       v.value_string, ' .
+                        '       v.value_integer, ' .
+                        '       v.value_float ' .
                         '   ) as value ' .
                         'from ' .
                         '   _eav_entity as e ' .
@@ -241,12 +235,6 @@ class Moraso_Eav {
                         '   _eav_attribute as a on a.attribute_id = ea.attribute_id ' .
                         'left join ' .
                         '   _eav_value as v on v.entity_attribute_id = ea.entity_attribute_id ' .
-                        'left join ' .
-                        '   _eav_value_string as vs on vs.value_id = v.value_id ' .
-                        'left join ' .
-                        '   _eav_value_integer as vi on vi.value_id = v.value_id ' .
-                        'left join ' .
-                        '   _eav_value_float as vf on vf.value_id = v.value_id ' .
                         'where ' .
                         '   a.attribute_set_id =:attribute_set_id', array(
                     ':attribute_set_id' => $attribute_set_id

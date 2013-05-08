@@ -32,29 +32,12 @@
     <table name="eav_value" engine="InnoDB" since="">
         <field name="value_id" type="int(10) unsigned" default="null" autoincrement="true" primary="true" /> 
         
+        <field name="value_string" type="text" default="null" nullable="true" />
+        <field name="value_integer" type="int" default="null" nullable="true" />
+        <field name="value_float" type="float" default="null" nullable="true" />
+        
         <field name="entity_attribute_id" type="int(10) unsigned" default="null"> 
             <constraint table="eav_entity_attribute" column="entity_attribute_id" onupdate="restrict" ondelete="cascade"/>
         </field>
-    </table>
-    
-    <table name="eav_value_string" engine="InnoDB" since="">
-        <field name="value_id" type="int(10) unsigned" default="null" primary="true">
-            <constraint table="eav_value" column="value_id" onupdate="restrict" ondelete="cascade"/>
-        </field>
-        <field name="value" type="varchar(255)" default="null" />
-    </table>
-    
-    <table name="eav_value_integer" engine="InnoDB" since="">
-        <field name="value_id" type="int(10) unsigned" default="null" primary="true">
-            <constraint table="eav_value" column="value_id" onupdate="restrict" ondelete="cascade"/>
-        </field>
-        <field name="value" type="int" default="null" />
-    </table>
-    
-    <table name="eav_value_float" engine="InnoDB" since="">
-        <field name="value_id" type="int(10) unsigned" default="null" primary="true">
-            <constraint table="eav_value" column="value_id" onupdate="restrict" ondelete="cascade"/>
-        </field>
-        <field name="value" type="float" default="null" />
     </table>
 </database>
