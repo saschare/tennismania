@@ -20,19 +20,19 @@ class EditArticleController extends Aitsu_Adm_Plugin_Controller {
 
 		return (object) array (
 			'name' => 'edit',
-			'tabname' => Aitsu_Registry :: get()->Zend_Translate->translate('Edit'),
-			'enabled' => self :: getPosition($idart, 'edit'),
-			'position' => self :: getPosition($idart, 'edit'),
-			'id' => self :: ID
+			'tabname' => Aitsu_Registry::get()->Zend_Translate->translate('Edit'),
+			'enabled' => self::getPosition($idart, 'edit'),
+			'position' => self::getPosition($idart, 'edit'),
+			'id' => self::ID
 		);
 	}
 
 	public function indexAction() {
 
-		$this->view->pluginId = self :: ID;
+		$this->view->pluginId = self::ID;
 		$idart = $this->getRequest()->getParam('idart');
 
-		$idartlang = Aitsu_Persistence_Article :: factory($idart)->load()->idartlang;
+		$idartlang = Aitsu_Persistence_Article::factory($idart)->load()->idartlang;
 		$this->view->idart = $idart;
 		$this->view->idartlang = $idartlang;
 	}
@@ -44,14 +44,14 @@ class EditArticleController extends Aitsu_Adm_Plugin_Controller {
 		$idartlang = $this->getRequest()->getParam('idartlang');
 		$params = str_replace('\n', "\n", $this->getRequest()->getParam('params'));
 
-		Aitsu_Content_Edit :: start($type . '-' . $container);
-		$module = Moraso_Module :: factory($idartlang, $container, null, $type);
+		Aitsu_Content_Edit::start($type . '-' . $container);
+		$module = Moraso_Module::factory($idartlang, $container, $type);
 		$module->getOutput(false, '0', $container, $params);
 		$help = $module->getHelp();
-		Aitsu_Content_Edit :: end();
+		Aitsu_Content_Edit::end();
 
-		$editInfo = Aitsu_Content_Edit :: getContents();
-		$configs = Aitsu_Content_Edit :: getConfigs();	
+		$editInfo = Aitsu_Content_Edit::getContents();
+		$configs = Aitsu_Content_Edit::getConfigs();	
 		$configInfo = array ();
 		$configTabs = array();
 		foreach ($configs as $config) {
@@ -64,7 +64,7 @@ class EditArticleController extends Aitsu_Adm_Plugin_Controller {
 		}
 
 		foreach ($editInfo as $key => $panel) {
-			$editInfo[$key]->content = Aitsu_Content :: get($panel->index, $panel->type, $panel->idart, $panel->idlang, null);
+			$editInfo[$key]->content = Aitsu_Content::get($panel->index, $panel->type, $panel->idart, $panel->idlang, null);
 		}
 		$this->view->data = (object) array (
 			'type' => $type,
@@ -111,55 +111,55 @@ class EditArticleController extends Aitsu_Adm_Plugin_Controller {
 		
 		$this->_restoreContext($idartlang);
 
-		Aitsu_Registry :: get()->env->ajaxResponse = '1';
-		Aitsu_Registry :: get()->env->editAction = '1';
-		Aitsu_Registry :: get()->env->edit = '1';
-		Aitsu_Registry :: get()->env->env = 'backend';
+		Aitsu_Registry::get()->env->ajaxResponse = '1';
+		Aitsu_Registry::get()->env->editAction = '1';
+		Aitsu_Registry::get()->env->edit = '1';
+		Aitsu_Registry::get()->env->env = 'backend';
 
 		try {
-			Aitsu_Db :: startTransaction();
+			Aitsu_Db::startTransaction();
 
-			Aitsu_Event :: raise('backend.article.edit.save.start', array (
+			Aitsu_Event::raise('backend.article.edit.save.start', array (
 				'idartlang' => $idartlang
 			));
 
 			if ($contents != null) {
 				foreach ($contents as $key => $value) {
-					Aitsu_Content :: set($key, $idartlang, $value);
+					Aitsu_Content::set($key, $idartlang, $value);
 				}
 			}
 
 			foreach ($configType as $key => $value) {
 				$cType = $value;
 				$fieldValue = isset($config[$key]) ? $config[$key] : null;					
-				Aitsu_Core_Article_Property :: factory($idartlang)->setValue('ModuleConfig_' . $container, $key, $fieldValue, $cType);
+				Aitsu_Core_Article_Property::factory($idartlang)->setValue('ModuleConfig_' . $container, $key, $fieldValue, $cType);
 			}
 
-			Aitsu_Registry :: get()->env->substituteEmptyAreas = '1';
+			Aitsu_Registry::get()->env->substituteEmptyAreas = '1';
 
                         Moraso_Config::get('sys.client');
                                 
-			$output = Moraso_Module :: factory($idartlang, $container, null, $type)->getOutput(true, '1', $container, $params);
+			$output = Moraso_Module::factory($idartlang, $container, $type)->getOutput(true, '1', $container, $params);
 
-			if (Aitsu_Content_Edit :: noEdit($type)) {
+			if (Aitsu_Content_Edit::noEdit($type)) {
 				$data = $output;
 			} else {
-				if (Aitsu_Content_Edit :: isBlock()) {
+				if (Aitsu_Content_Edit::isBlock()) {
 					$data = '<div><div class="aitsu_hover">' . $output . '</div></div>';
 				} else {
 					$data = '<span><span class="aitsu_hover">' . $output . '</span></span>';
 				}
 			}
 
-			Aitsu_Event :: raise('backend.article.edit.save.end', array (
+			Aitsu_Event::raise('backend.article.edit.save.end', array (
 				'idartlang' => $idartlang
 			));
 
-			Aitsu_Persistence_Article :: touch($idartlang);
+			Aitsu_Persistence_Article::touch($idartlang);
 
-			Aitsu_Db :: commit();
+			Aitsu_Db::commit();
 		} catch (Exception $e) {
-			Aitsu_Db :: rollback();
+			Aitsu_Db::rollback();
 			throw $e;
 		}
 
@@ -180,7 +180,7 @@ class EditArticleController extends Aitsu_Adm_Plugin_Controller {
 		 * To render code as it would be done in the frontend we have
 		 * to restore the context.
 		 */
-		$article = Aitsu_Db :: fetchRow('' .
+		$article = Aitsu_Db::fetchRow('' .
 		'select ' .
 		'	artlang.idart as idart, ' .
 		'	artlang.idlang as idlang, ' .
@@ -193,12 +193,12 @@ class EditArticleController extends Aitsu_Adm_Plugin_Controller {
 		));
 
 		if ($article) {
-			Aitsu_Registry :: get()->env->idart = $article['idart'];
-			Aitsu_Registry :: get()->env->idartlang = $article['idartlang'];
-			Aitsu_Registry :: get()->env->idlang = $article['idlang'];
-			Aitsu_Registry :: get()->env->lang = $article['idlang'];
-			Aitsu_Registry :: get()->env->client = $article['idclient'];
-			Aitsu_Registry :: get()->env->idclient = $article['idclient'];
+			Aitsu_Registry::get()->env->idart = $article['idart'];
+			Aitsu_Registry::get()->env->idartlang = $article['idartlang'];
+			Aitsu_Registry::get()->env->idlang = $article['idlang'];
+			Aitsu_Registry::get()->env->lang = $article['idlang'];
+			Aitsu_Registry::get()->env->client = $article['idclient'];
+			Aitsu_Registry::get()->env->idclient = $article['idclient'];
 		}
 	}
 }

@@ -18,11 +18,10 @@ class Moraso_Module {
         $this->context = Moraso_Module_Context::get($idart, $idlang);
     }
 
-    public static function factory($idart, $container, $idlang = null, $shortCode = null) {
+    public static function factory($idartlang, $container, $shortCode = null) {
 
-        if (empty($idlang)) {
-            $idlang = Aitsu_Registry::get()->session->currentClient;
-        }
+        $idart = Moraso_Util::getIdArt($idartlang);
+        $idlang = Moraso_Util::getIdLangByIdArtLang($idartlang);
 
         return new self($idart, $idlang, $container, $shortCode);
     }

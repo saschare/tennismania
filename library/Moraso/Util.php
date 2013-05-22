@@ -67,4 +67,11 @@ class Moraso_Util extends Aitsu_Util {
         return $data;
     }
 
+    public static function getIdLangByIdArtLang($idartlang) {
+
+        return Aitsu_Db::fetchOne("SELECT `idlang` FROM `_art_lang` WHERE `idartlang` =:idartlang", array(
+                    ':idartlang' => $idartlang
+        ));
+    }
+
 }
