@@ -14,11 +14,11 @@ if (version_compare(PHP_VERSION, MIN_VERS_PHP, '<') || version_compare(mysql_get
     echo '<h2>Fehler</h2>';
 
     if (version_compare(PHP_VERSION, MIN_VERS_PHP, '<')) {
-        echo 'Auf Ihrem Server l‰ft PHP version ' . PHP_VERSION . ', moraso benˆtigt mindestens PHP ' . MIN_VERS_PHP . '!<br />';
+        echo 'Auf Ihrem Server l√§ft PHP version ' . PHP_VERSION . ', moraso ben√∂tigt mindestens PHP ' . MIN_VERS_PHP . '!<br />';
     }
 
     if (version_compare(mysql_get_client_info(), MIN_VERS_MYSQL, '<')) {
-        echo 'Auf Ihrem Server l‰uft MySQL version ' . mysql_get_client_info() . ', moraso benˆtigt mindestens MySQL ' . MIN_VERS_MYSQL . '!';
+        echo 'Auf Ihrem Server l√§uft MySQL version ' . mysql_get_client_info() . ', moraso ben√∂tigt mindestens MySQL ' . MIN_VERS_MYSQL . '!';
     }
 
     return;
