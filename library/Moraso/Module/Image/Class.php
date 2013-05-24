@@ -15,13 +15,9 @@ class Moraso_Module_Image_Class extends Moraso_Module_Abstract {
             'template' => 'index',
             'idart' => Aitsu_Registry::get()->env->idart,
             'attr' => '',
-            'all' => false
+            'all' => false,
+            'customFields' => 2
         );
-
-        /* depracted */
-        $defaults['style'] = '';
-        $defaults['float'] = '';
-        $defaults['rel'] = '';
 
         return $defaults;
     }
@@ -139,14 +135,11 @@ class Moraso_Module_Image_Class extends Moraso_Module_Abstract {
 
         if (!empty($float)) {
             $attr->style->float = $float;
-        } else {
-            if (!isset($attr->style->float)) {
-                if (isset($defaults['attr']->style->float) && !empty($defaults['attr']->style->float)) {
-                    $attr->style->float = $defaults['attr']->style->float;
-                } elseif (isset($defaults['float']) && !empty($defaults['float'])) { // depracted
-                    $attr->style->float = $defaults['float'];
-                }
-            }
+        }
+
+        $customFields = array();
+        for ($i = 1; $i <= $defaults['customFields']; $i++) {
+            $customFields[$i] = Aitsu_Content_Config_Text::set($this->_index, 'customField_' . $i, Aitsu_Translate::_('custom field') . ' #' . $i, $translation['configuration']);
         }
 
         if (empty($template) || empty($selectedImages) || !in_array($template, $this->_getTemplates())) {
@@ -160,19 +153,7 @@ class Moraso_Module_Image_Class extends Moraso_Module_Abstract {
         $view->height = $height;
         $view->render = $render;
         $view->attributes = $attr;
-
-        /* depracted */
-        if (isset($view->attributes->style->self)) {
-            $view->style = $view->attributes->style->self;
-        }
-
-        if (isset($view->attributes->style->float)) {
-            $view->float = $view->attributes->style->float;
-        }
-
-        if (isset($view->attributes->rel)) {
-            $view->rel = $view->attributes->rel;
-        }
+        $view->customFields = $customFields;
 
         return $view->render($template . '.phtml');
     }
