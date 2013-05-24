@@ -1,0 +1,23 @@
+var dashboard = Ext.getCmp('dashboard');
+
+var welcomeScreen = new Ext.Panel({
+    id: 'welcomeScreen',
+    title: 'welcome to moraso cms',
+    items: [{
+        html: "<p>Guten Morgen Herr Doe,<br /><br />für heute sind keine Aufgaben für Sie eingetragen.</p>",
+        xtype: "panel",
+        bodyStyle: 'padding: 10px',
+    }]
+});
+
+dashboard.add({
+    columnWidth: 1/3,
+    baseCls: 'x-plain',
+    bodyStyle: 'padding: 6px 4px 0 4px',
+    items: {
+        unstyled: true,
+        height: 200,
+        layout: 'fit',
+        items: welcomeScreen
+    }
+});

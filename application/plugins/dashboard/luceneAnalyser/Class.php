@@ -21,7 +21,7 @@ class luceneAnalyserDashboardController extends Aitsu_Adm_Plugin_Controller {
         return (object) array(
                     'name' => 'luceneAnalyser',
                     'tabname' => Aitsu_Translate :: _('luceneAnalyser'),
-                    'enabled' => !empty($luceneIndex) && is_dir(APPLICATION_PATH . '/data/lucene/' . $luceneIndex . '/') ? true : false,
+                    'enabled' => self::getDashboardEnabled('luceneAnalyser') && !empty($luceneIndex),
                     'id' => self :: ID
         );
     }
