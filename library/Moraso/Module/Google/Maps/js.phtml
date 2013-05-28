@@ -1,0 +1,37 @@
+google.maps.visualRefresh = true;
+var map;
+var geocoder;
+
+function initGoogleMap_<?php echo $this->index; ?> () {
+    geocoder = new google.maps.Geocoder();
+    
+    var mapOptions = {
+        mapTypeControl: <?php echo $this->control; ?>,
+        mapTypeControlOptions: {
+            style: google.maps.MapTypeControlStyle.<?php echo $this->controlStyle; ?>,
+            position: google.maps.ControlPosition.<?php echo $this->controlPosition; ?>
+        },
+        mapTypeId: google.maps.MapTypeId.<?php echo $this->type; ?>,
+        maxZoom: <?php echo $this->maxZoom; ?>,
+        minZoom: <?php echo $this->minZoom; ?>,
+        zoom: <?php echo $this->zoom; ?> ,
+        zoomControl: <?php echo $this->zoomControl; ?> 
+    };
+    
+    map = new google.maps.Map(document.getElementById('googleMap_<?php echo $this->index; ?>'), mapOptions);
+    
+    geocoder.geocode({'address': '<?php echo $this->address; ?>'}, function(results, status) {
+        if (status === google.maps.GeocoderStatus.OK) {
+            map.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+                map: map,
+                position: results[0].geometry.location,
+                title: '<?php echo $this->name; ?>'
+            });
+        } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+        }
+    });
+}
+
+google.maps.event.addDomListener(window, 'load', initGoogleMap_<?php echo $this->index; ?> );
