@@ -192,7 +192,7 @@ class Moraso_Module_Google_Maps_Class extends Moraso_Module_Abstract {
             $overviewMapControlOptions_opened = Aitsu_Content_Config_Select::set($this->_index, 'overviewMapControlOptions_opened', 'opened', $this->_trueFalseArray(), 'overviewMapControl');
         }
 
-        $overviewMapControlOptions->opened = !empty($overviewMapControlOptions_opened) ? filter_var($overviewMapControlOptions_opened, FILTER_VALIDATE_BOOLEAN) : $defaults['overviewMapControlOptions_opened'];
+        $overviewMapControlOptions->opened = (!empty($overviewMapControlOptions_opened) ? filter_var($overviewMapControlOptions_opened, FILTER_VALIDATE_BOOLEAN) : $defaults['overviewMapControlOptions_opened'])  ? 'true' : 'false';
 
         /* panControl */
         if ($defaults['configurable']['panControl']) {
@@ -296,35 +296,35 @@ class Moraso_Module_Google_Maps_Class extends Moraso_Module_Abstract {
             $wheater_WeatherLayer = Aitsu_Content_Config_Select::set($this->_index, 'WeatherLayer', 'WeatherLayer', $this->_trueFalseArray(), 'wheater');
         }
 
-        $weather->WeatherLayer = !empty($wheater_WeatherLayer) ? filter_var($wheater_WeatherLayer, FILTER_VALIDATE_BOOLEAN) : $defaults['wheater_WeatherLayer'];
+        $weather->WeatherLayer = (!empty($wheater_WeatherLayer) ? filter_var($wheater_WeatherLayer, FILTER_VALIDATE_BOOLEAN) : $defaults['wheater_WeatherLayer'])  ? 'true' : 'false';
         
         /* wheater_CloudLayer */
         if ($defaults['configurable']['wheater_CloudLayer']) {
             $wheater_CloudLayer = Aitsu_Content_Config_Select::set($this->_index, 'CloudLayer', 'CloudLayer', $this->_trueFalseArray(), 'wheater');
         }
 
-        $weather->CloudLayer = !empty($wheater_CloudLayer) ? filter_var($wheater_CloudLayer, FILTER_VALIDATE_BOOLEAN) : $defaults['wheater_CloudLayer'];
+        $weather->CloudLayer = (!empty($wheater_CloudLayer) ? filter_var($wheater_CloudLayer, FILTER_VALIDATE_BOOLEAN) : $defaults['wheater_CloudLayer'])  ? 'true' : 'false';
 
         /* create View */
         $view = $this->_getView();
 
         $view->index = $this->_index;
-        $view->mapTypeControl = $mapTypeControl;
+        $view->mapTypeControl = $mapTypeControl ? 'true' : 'false';
         $view->mapTypeControlOptions = $mapTypeControlOptions;
         $view->mapTypeId = $mapTypeId;
         $view->maxZoom = $maxZoom;
         $view->minZoom = $minZoom;
-        $view->overviewMapControl = $overviewMapControl;
+        $view->overviewMapControl = $overviewMapControl ? 'true' : 'false';
         $view->overviewMapControlOptions = $overviewMapControlOptions;
-        $view->panControl = $panControl;
+        $view->panControl = $panControl ? 'true' : 'false';
         $view->panControlOptions = $panControlOptions;
-        $view->rotateControl = $rotateControl;
+        $view->rotateControl = $rotateControl ? 'true' : 'false';
         $view->rotateControlOptions = $rotateControlOptions;
-        $view->scaleControl = $scaleControl;
+        $view->scaleControl = $scaleControl ? 'true' : 'false';
         $view->scaleControlOptions = $scaleControlOptions;
-        $view->scrollwheel = $scrollwheel;
+        $view->scrollwheel = $scrollwheel ? 'true' : 'false';
         $view->zoom = $zoom;
-        $view->zoomControl = $zoomControl;
+        $view->zoomControl = $zoomControl ? 'true' : 'false';
         $view->zoomControlOptions = $zoomControlOptions;
         $view->name = $name;
         $view->address = $address;

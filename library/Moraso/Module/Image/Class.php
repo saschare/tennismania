@@ -16,7 +16,9 @@ class Moraso_Module_Image_Class extends Moraso_Module_Abstract {
             'idart' => Aitsu_Registry::get()->env->idart,
             'attr' => '',
             'all' => false,
-            'customFields' => 2
+            'customFields' => 2,
+            'style' => '',
+            'float' => ''
         );
 
         return $defaults;
