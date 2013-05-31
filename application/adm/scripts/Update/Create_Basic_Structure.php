@@ -16,7 +16,7 @@ class Adm_Script_Create_Basic_Structure extends Aitsu_Adm_Script_Abstract {
         $nav_main = (int) Moraso_Config::get('navigation.main');
 
         if ($nav_main >= '1') {
-            throw new Exception(Aitsu_Translate :: translate('Script has already been executed!'));
+            throw new Exception(Aitsu_Translate::translate('Script has already been executed!'));
         }
 
         return Aitsu_Adm_Script_Response::factory('The script will run!');

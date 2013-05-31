@@ -1,4 +1,3 @@
-google.maps.visualRefresh = true;
 var map;
 var geocoder;
 
@@ -6,16 +5,37 @@ function initGoogleMap_<?php echo $this->index; ?> () {
     geocoder = new google.maps.Geocoder();
     
     var mapOptions = {
-        mapTypeControl: <?php echo $this->control; ?>,
+        mapTypeControl: <?php echo $this->mapTypeControl; ?>,
         mapTypeControlOptions: {
-            style: google.maps.MapTypeControlStyle.<?php echo $this->controlStyle; ?>,
-            position: google.maps.ControlPosition.<?php echo $this->controlPosition; ?>
+            position: google.maps.ControlPosition.<?php echo $this->mapTypeControlOptions->position; ?>,
+            style: google.maps.MapTypeControlStyle.<?php echo $this->mapTypeControlOptions->style; ?>
         },
-        mapTypeId: google.maps.MapTypeId.<?php echo $this->type; ?>,
+        mapTypeId: google.maps.MapTypeId.<?php echo $this->mapTypeId; ?>,
         maxZoom: <?php echo $this->maxZoom; ?>,
         minZoom: <?php echo $this->minZoom; ?>,
-        zoom: <?php echo $this->zoom; ?> ,
-        zoomControl: <?php echo $this->zoomControl; ?> 
+        overviewMapControl: <?php echo $this->overviewMapControl; ?>,
+        overviewMapControlOptions: {
+            opened: <?php echo $this->overviewMapControlOptions->opened; ?>
+        },
+        panControl: <?php echo $this->panControl; ?>,
+        panControlOptions: {
+            position: google.maps.ControlPosition.<?php echo $this->panControlOptions->position; ?>
+        },
+        rotateControl: <?php echo $this->rotateControl; ?>,
+        rotateControlOptions: {
+            position: google.maps.ControlPosition.<?php echo $this->rotateControlOptions->position; ?>
+        },
+        scaleControl: <?php echo $this->scaleControl; ?>,
+        scaleControlOptions: {
+            position: google.maps.ControlPosition.<?php echo $this->scaleControlOptions->position; ?>,
+            style: google.maps.ScaleControlStyle.<?php echo $this->scaleControlOptions->style; ?>
+        },
+        scrollwheel: <?php echo $this->scrollwheel; ?>,
+        zoom: <?php echo $this->zoom; ?>,
+        zoomControl: <?php echo $this->zoomControl; ?>,
+        zoomControlOptions: {
+            position: google.maps.ControlPosition.<?php echo $this->zoomControlOptions->position; ?>
+        }
     };
     
     map = new google.maps.Map(document.getElementById('googleMap_<?php echo $this->index; ?>'), mapOptions);
