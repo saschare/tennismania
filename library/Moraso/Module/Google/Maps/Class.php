@@ -29,7 +29,9 @@ class Moraso_Module_Google_Maps_Class extends Moraso_Module_Abstract {
             'scrollwheel' => true,
             'zoom' => 18,
             'zoomControl' => true,
-            'zoomControlOptions_position' => 'DEFAULT'
+            'zoomControlOptions_position' => 'DEFAULT',
+            'wheater_WeatherLayer' => false,
+            'wheater_CloudLayer' => false
         );
 
         $defaults['configurable'] = array(
@@ -51,7 +53,9 @@ class Moraso_Module_Google_Maps_Class extends Moraso_Module_Abstract {
             'scrollwheel' => true,
             'zoom' => true,
             'zoomControl' => true,
-            'zoomControlOptions_position' => true
+            'zoomControlOptions_position' => true,
+            'wheater_WeatherLayer' => true,
+            'wheater_CloudLayer' => true
         );
 
         $defaults['name'] = 'webtischlerei';
@@ -64,7 +68,7 @@ class Moraso_Module_Google_Maps_Class extends Moraso_Module_Abstract {
 
     protected function _init() {
 
-        Aitsu_Util_Javascript::addReference('https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&language=de');
+        Aitsu_Util_Javascript::addReference('https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=weather&sensor=false&language=de');
     }
 
     protected function _positionArray() {
@@ -284,6 +288,23 @@ class Moraso_Module_Google_Maps_Class extends Moraso_Module_Abstract {
 
         $zoomControlOptions->position = !empty($zoomControlOptions_position) ? $zoomControlOptions_position : $defaults['zoomControlOptions_position'];
 
+        /* weather */
+        $weather = new stdClass();
+        
+        /* wheater_WeatherLayer */
+        if ($defaults['configurable']['wheater_WeatherLayer']) {
+            $wheater_WeatherLayer = Aitsu_Content_Config_Select::set($this->_index, 'WeatherLayer', 'WeatherLayer', $this->_trueFalseArray(), 'wheater');
+        }
+
+        $weather->WeatherLayer = !empty($wheater_WeatherLayer) ? filter_var($wheater_WeatherLayer, FILTER_VALIDATE_BOOLEAN) : $defaults['wheater_WeatherLayer'];
+        
+        /* wheater_CloudLayer */
+        if ($defaults['configurable']['wheater_CloudLayer']) {
+            $wheater_CloudLayer = Aitsu_Content_Config_Select::set($this->_index, 'CloudLayer', 'CloudLayer', $this->_trueFalseArray(), 'wheater');
+        }
+
+        $weather->CloudLayer = !empty($wheater_CloudLayer) ? filter_var($wheater_CloudLayer, FILTER_VALIDATE_BOOLEAN) : $defaults['wheater_CloudLayer'];
+
         /* create View */
         $view = $this->_getView();
 
@@ -307,7 +328,8 @@ class Moraso_Module_Google_Maps_Class extends Moraso_Module_Abstract {
         $view->zoomControlOptions = $zoomControlOptions;
         $view->name = $name;
         $view->address = $address;
-
+        $view->weather = $weather;
+        
         Aitsu_Util_Javascript::add($view->render('js.phtml'));
 
         return $view->render('index.phtml');
