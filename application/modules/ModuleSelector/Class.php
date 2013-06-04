@@ -33,7 +33,7 @@ class Module_ModuleSelector_Class extends Aitsu_Module_Abstract {
 
             if (Aitsu_Registry::isEdit()) {
                 $startTag = '<div id="ModuleSelector-' . $this->_index . '-' . Aitsu_Registry::get()->env->idartlang . '" class="aitsu_editable on-demand"><div class="aitsu_hover">';
-                $startTag .= '<div class="show-on-demand" style="cursor:pointer; background-color:black; color:white; padding:10px; margin-bottom:5px; display:none; z-index; 999999; position: relative;">Edit ModuleSelector <strong>' . $this->_index . '</strong></div>';
+                $startTag .= '<div class="show-on-demand" style="cursor:pointer; background-color:black; color:white; padding:10px; margin-bottom:5px; display:none; z-index: 999999; position: relative;">Edit ModuleSelector <strong>' . $this->_index . '</strong></div>';
                 $endTag = '</div></div>';
             }
 

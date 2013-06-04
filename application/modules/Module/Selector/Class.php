@@ -40,7 +40,7 @@ class Module_Module_Selector_Class extends Aitsu_Module_Abstract {
 
             if (Aitsu_Registry :: isEdit()) {
                 $startTag = '<div id="' . $this->_moduleName . '-' . $this->_index . '-' . $idartlang . '" class="aitsu_editable on-demand"><div class="aitsu_hover">';
-                $startTag .= '<div class="show-on-demand" style="cursor:pointer; background-color:black; color:white; padding:10px; margin-bottom:5px; display:none; z-index; 999999; position: relative;">selects Modules <strong>(' . $this->_index . ')</strong></div>';
+                $startTag .= '<div class="show-on-demand" style="cursor:pointer; background-color:black; color:white; padding:10px; margin-bottom:5px; display:none; z-index: 999999; position: relative;">selects Modules <strong>(' . $this->_index . ')</strong></div>';
                 $endTag = '</div></div>';
             }
 
