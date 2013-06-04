@@ -61,7 +61,7 @@ class Moraso_Module_Template_Class extends Moraso_Module_Abstract {
                 $edit = (isset($params->hoverEdit) && $params->hoverEdit) || !isset($params->hoverEdit) ? ' no-edit' : ' ';
 
                 $startTag = '<div id="Template-' . $index . '-' . $idartlang . '" class="aitsu_editable on-demand' . $edit . '"><div class="aitsu_hover">';
-                $startTag .= '<div class="show-on-demand" style="cursor:pointer; background-color:black; color:white; padding:10px; margin-bottom:5px; display:none;">Edit template area <strong>' . $index . '</strong></div>';
+                $startTag .= '<div class="show-on-demand" style="cursor:pointer; background-color:black; color:white; padding:10px; margin-bottom:5px; display:none; z-index; 999999; position: relative;">Edit template area <strong>' . $index . '</strong></div>';
                 $endTag = '</div></div>';
             }
 
