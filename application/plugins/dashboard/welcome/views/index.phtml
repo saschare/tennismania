@@ -4,9 +4,9 @@ var welcomeScreen = new Ext.Panel({
     id: 'welcomeScreen',
     title: 'welcome to moraso cms',
     items: [{
-        html: "<p>Guten Morgen Herr Doe,<br /><br />für heute sind keine Aufgaben für Sie eingetragen.</p>",
+        html: "<p><?php echo $this->greeting; ?> Herr <?php echo $this->user; ?>,<br /><br />aktuell <?php echo $this->todos; ?> für Sie hinterlegt.</p>",
         xtype: "panel",
-        bodyStyle: 'padding: 10px',
+        bodyStyle: 'padding: 10px'
     }]
 });
 

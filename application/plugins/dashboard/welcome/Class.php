@@ -25,7 +25,40 @@ class welcomeDashboardController extends Aitsu_Adm_Plugin_Controller {
     }
 
     public function indexAction() {
-        
+
+        if (date('H') >= 18) {
+            $this->view->greeting = 'Guten Abend';
+        } elseif (date('H') >= 10) {
+            $this->view->greeting = 'Guten Tag';
+        } else {
+            $this->view->greeting = 'Guten Morgen';
+        }
+
+        $user = Aitsu_Adm_User::getInstance();
+        $this->view->user = $user->lastname;
+
+        $todos = Aitsu_Db::fetchOne('' .
+                        'SELECT' .
+                        '   count(*) ' .
+                        'FROM ' .
+                        '   _todo ' .
+                        'WHERE ' .
+                        '   status =:status ' .
+                        'AND ' .
+                        '   userid =:userid', array(
+                    ':status' => 0,
+                    ':userid' => $user->userid
+        ));
+
+        if (empty($todos)) {
+            $this->view->todos = 'sind keine Aufgaben';
+        } else {
+            if ($todos == 1) {
+                $this->view->todos = 'ist ' . $todos . ' Aufgabe';
+            } else {
+                $this->view->todos = 'sind ' . $todos . ' Aufgaben';
+            }
+        }
     }
 
 }
