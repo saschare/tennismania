@@ -56,7 +56,7 @@
                 <value attribute="config">default</value>
                 <value attribute="env">default</value>
                 <value attribute="identifier">rewrite.controller</value>
-                <value attribute="value">Aitsu_Rewrite_Standard</value>
+                <value attribute="value">Moraso_Rewrite_Standard</value>
             </record>
             <record>
                 <value attribute="config">default</value>
