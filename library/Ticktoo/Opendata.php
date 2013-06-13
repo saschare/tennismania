@@ -8,9 +8,7 @@ class Ticketoo_Opendata {
 
     public static function getBankleitzahlen($format = 'json') {
 
-        $cache = new Aitsu_Cache_File();
-        $cache->setId('ticketoo_opendata_bankleitzahlen_de');
-        $cache->setCacheIfLoggedIn(true);
+        $cache = Aitsu_Cache::getInstance('ticketoo_opendata_bankleitzahlen_de', true);
         $cache->setLifetime(Aitsu_Util_Date::secondsUntilEndOf('week'));
 
         if ($cache->isValid()) {
@@ -26,9 +24,7 @@ class Ticketoo_Opendata {
 
     public static function getVorwahlen($format = 'json') {
 
-        $cache = new Aitsu_Cache_File();
-        $cache->setId('ticketoo_opendata_vorwahlen_de');
-        $cache->setCacheIfLoggedIn(true);
+        $cache = Aitsu_Cache::getInstance('ticketoo_opendata_vorwahlen_de', true);
         $cache->setLifetime(Aitsu_Util_Date::secondsUntilEndOf('week'));
 
         if ($cache->isValid()) {
@@ -44,9 +40,7 @@ class Ticketoo_Opendata {
 
     public static function getCountries($format = 'json') {
 
-        $cache = new Aitsu_Cache_File();
-        $cache->setId('ticketoo_opendata_countries');
-        $cache->setCacheIfLoggedIn(true);
+        $cache = Aitsu_Cache::getInstance('ticketoo_opendata_countries', true);
         $cache->setLifetime(Aitsu_Util_Date::secondsUntilEndOf('week'));
 
         if ($cache->isValid()) {
