@@ -10,12 +10,10 @@ class Adm_Script_Create_Basic_Structure extends Aitsu_Adm_Script_Abstract {
 
         return Aitsu_Translate::translate('Create Basic Structure');
     }
-    
+
     public function doCheckIfExecutable() {
 
-        $nav_main = (int) Moraso_Config::get('navigation.main');
-
-        if ($nav_main >= '1') {
+        if (Moraso_Config::get('done.create.basic.structure')) {
             throw new Exception(Aitsu_Translate::translate('Script has already been executed!'));
         }
 
@@ -204,16 +202,16 @@ class Adm_Script_Create_Basic_Structure extends Aitsu_Adm_Script_Abstract {
         $config->setValue($client, $env, 'sys.errorpage', Aitsu_Registry::get()->session->createStructure->errorIdArt);
         $config->setValue($client, $env, 'sys.startcat', Aitsu_Registry::get()->session->createStructure->mainIdCat);
         $config->setValue($client, $env, 'sys.loginpage', Aitsu_Registry::get()->session->createStructure->loginIdCat);
-        
+
         $config->setValue($client, $env, 'navigation.main', Aitsu_Registry::get()->session->createStructure->mainIdCat);
         $config->setValue($client, $env, 'navigation.meta', Aitsu_Registry::get()->session->createStructure->metaIdCat);
-        
+
         $config->setValue($client, $env, 'search.lucene.area.1', Aitsu_Registry::get()->session->createStructure->mainIdCat);
         $config->setValue($client, $env, 'search.lucene.area.2', Aitsu_Registry::get()->session->createStructure->metaIdCat);
 
         $config->setValue($client, $env, 'sys.webpath', 'http://' . str_replace('local.', 'www.', $_SERVER['HTTP_HOST']) . '/');
         $config->setValue($client, Moraso_Util::getEnv(), 'sys.webpath', 'http://' . $_SERVER['HTTP_HOST'] . '/');
-        
+
         $config->save();
 
         Aitsu_Db::commit();
@@ -224,7 +222,14 @@ class Adm_Script_Create_Basic_Structure extends Aitsu_Adm_Script_Abstract {
     public function doFinished() {
 
         Aitsu_Registry::get()->session->createStructure = null;
-        
+
+        Moraso_Db::put('_moraso_config', 'id', array(
+            'config' => 'default',
+            'env' => 'default',
+            'identifier' => 'done.create.basic.structure',
+            'value' => true
+        ));
+
         return Aitsu_Adm_Script_Response::factory(Aitsu_Translate::translate('Script finished!'));
     }
 
