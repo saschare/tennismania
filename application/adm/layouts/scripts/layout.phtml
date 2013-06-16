@@ -1,18 +1,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-	<head>
-		
-		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-		
-		<title>aitsu Administration area</title>
-		
-		<link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl('/js/ext-3.4.0/resources/css/ext-all-notheme.css'); ?>" />
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+
+        <title>moraso Backend</title>
+
+        <link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl('/js/ext-3.4.0/resources/css/ext-all-notheme.css'); ?>" />
         <link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl('/js/ext-3.4.0/resources/css/xtheme-gray.css'); ?>" />
         <link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl('/css/extjs-aitsu.css'); ?>" />
         <link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl('/css/extjs-moraso.css'); ?>" />
         <link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl('/css/extjs-moraso_icons.css'); ?>" />
-		<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl('/js/ext-3.4.0/extensions/ext.ux.plupload.css'); ?>" />
-              
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl('/js/ext-3.4.0/extensions/ext.ux.plupload.css'); ?>" />
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl('/js/jquery/jcrop/css/jquery.Jcrop.css'); ?>" />    
+
         <script type="text/javascript" src="<?php echo $this->baseUrl('/editors/ckeditor/ckeditor.js'); ?>"></script>
         <script type="text/javascript" src="<?php echo $this->baseUrl('/js/jquery/jquery-1.7.1.min.js'); ?>"></script>
         <script type="text/javascript" src="<?php echo $this->baseUrl('/js/jquery/jquery-ui-1.8.6.custom.min.js'); ?>"></script>
@@ -21,92 +21,87 @@
         <script type="text/javascript" src="<?php echo $this->baseUrl('/js/ext-3.4.0/ext-all.js'); ?>"></script>   
         <script type="text/javascript" src="<?php echo $this->baseUrl('/js/ext-3.4.0/ux-all.js'); ?>"></script>
         <script type="text/javascript" src="<?php echo $this->baseUrl('/js/ext-3.4.0/ext-aitsu.js'); ?>"></script>
-    		
-		<script type="text/javascript" src="<?php echo $this->baseUrl('/js/plupload/js/plupload.full.js'); ?>"></script>
-		<script type="text/javascript" src="<?php echo $this->baseUrl('/js/ext-3.4.0/extensions/ext.ux.plupload.js'); ?>"></script>
-		<script type="text/javascript" src="<?php echo $this->baseUrl('/js/ext-3.4.0/extensions/ext.ux.linkField.js'); ?>"></script>
-		
-		<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl('/js/jquery/jcrop/css/jquery.Jcrop.css'); ?>" />    		
-		<script type="text/javascript" src="<?php echo $this->baseUrl('/js/jquery/jcrop/js/jquery.Jcrop.min.js'); ?>"></script>
-		
-		<script type="text/javascript" src="<?php echo $this->baseUrl('/js/markItUp/1.1.12/markitup/jquery.markitup.js'); ?>"></script>
-		<script type="text/javascript" src="<?php echo $this->baseUrl('/js/markItUp/1.1.12/markitup/sets/flex/set.js'); ?>"></script>
-    		
-                <link href='http://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css'>
-                    
-    <script type="text/javascript"> 
-    Ext.onReady(function(){
+        <script type="text/javascript" src="<?php echo $this->baseUrl('/js/plupload/js/plupload.full.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl('/js/ext-3.4.0/extensions/ext.ux.plupload.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl('/js/ext-3.4.0/extensions/ext.ux.linkField.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl('/js/jquery/jcrop/js/jquery.Jcrop.min.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl('/js/markItUp/1.1.12/markitup/jquery.markitup.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl('/js/markItUp/1.1.12/markitup/sets/flex/set.js'); ?>"></script>
 
-    	Ext.QuickTips.init();
-    	
-		Ext.getBody().on("contextmenu", Ext.emptyFn, null, {preventDefault: true});
-        Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
-        
-        var registry = Ext.aitsu.registry();
-        
-        var resetUI = function() {
-        	var dim = registry.get('center-south-dim');
-			if (typeof(dim) != 'undefined' && dim.isBig) {
-				Ext.getCmp('viewport-inner-centerarea').setVisible(true);
-				Ext.getCmp('center-south').setHeight(dim.height);
-				if (dim.westIsVisible) {
-					Ext.getCmp('viewport-west').setVisible(true);
-				}
-				dim.isBig = false;
-			}
-        }
-        
-		Ext.apply(Ext.DatePicker.prototype, {
-			format: "Y-m-d"
-		});
-        
-		Ext.apply(Ext.ux.form.LinkField.prototype, {
-			dataSource: "<?php echo $this->url(array('controller' => 'data', 'action' => 'treesource'), 'default'); ?>",
-			cancelButtonText: "<?php echo Aitsu_Translate :: translate('Cancel'); ?>",
-			selectButtonText: "<?php echo Aitsu_Translate :: translate('Select'); ?>"
-		});
-        
-        var sessionClock = new Ext.Toolbar.TextItem('');
-                        
-        var viewport = new Ext.Viewport({
-            layout: 'border',
-            id: 'viewport',
-            items: [
-            <?php echo $this->partial('layout/regions/north.phtml'); ?>, 
-            <?php echo $this->partial('layout/regions/south.phtml'); ?>,  
-            <?php echo $this->partial('layout/regions/west.phtml'); ?>, 
-            {
-            	region: 'center',
-            	id: 'viewport-centerarea',
-            	unstyled: true,
-            	layout: 'border',
-            	split: false,
-            	items: [
-            		{
-            			region: 'center',
-            			id: 'viewport-inner-centerarea',
-            			unstyled: true,
-            			layout: 'border',
-            			split: true,
-            			items: [
-            				<?php echo $this->partial('layout/regions/center.phtml'); ?>,
-            				<?php echo $this->partial('layout/regions/east.phtml'); ?>
-            			]
-            		},
-            		<?php echo $this->partial('layout/regions/center-south.phtml'); ?>
-            	]
-            }]
-        });
-        
-        Ext.getCmp('center-south').setVisible(false);
-        
-		<?php echo $this->partial('layout/js/sessionManagement.phtml'); ?>
-        
-        <?php echo $this->layout()->content; ?>
-    });
-    </script> 
-</head> 
+        <link href='http://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css'>
 
-<body>
-</body> 
+            <script type="text/javascript">
+                Ext.onReady(function() {
+
+                    Ext.QuickTips.init();
+
+                    Ext.getBody().on("contextmenu", Ext.emptyFn, null, {preventDefault: true});
+                    Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
+
+                    var registry = Ext.aitsu.registry();
+
+                    var resetUI = function() {
+                        var dim = registry.get('center-south-dim');
+                        if (typeof(dim) !== 'undefined' && dim.isBig) {
+                            Ext.getCmp('viewport-inner-centerarea').setVisible(true);
+                            Ext.getCmp('center-south').setHeight(dim.height);
+                            if (dim.westIsVisible) {
+                                Ext.getCmp('viewport-west').setVisible(true);
+                            }
+                            dim.isBig = false;
+                        }
+                    };
+
+                    Ext.apply(Ext.DatePicker.prototype, {
+                        format: "Y-m-d"
+                    });
+
+                    Ext.apply(Ext.ux.form.LinkField.prototype, {
+                        dataSource: "<?php echo $this->url(array('controller' => 'data', 'action' => 'treesource'), 'default'); ?>",
+                        cancelButtonText: "<?php echo Aitsu_Translate :: translate('Cancel'); ?>",
+                        selectButtonText: "<?php echo Aitsu_Translate :: translate('Select'); ?>"
+                    });
+
+                    var viewport = new Ext.Viewport({
+                        layout: 'border',
+                        id: 'viewport',
+                        items: [
+<?php echo $this->partial('layout/regions/north.phtml'); ?>,
+<?php echo $this->partial('layout/regions/south.phtml'); ?>,
+<?php echo $this->partial('layout/regions/west.phtml'); ?>,
+                            {
+                                region: 'center',
+                                id: 'viewport-centerarea',
+                                unstyled: true,
+                                layout: 'border',
+                                split: false,
+                                items: [
+                                    {
+                                        region: 'center',
+                                        id: 'viewport-inner-centerarea',
+                                        unstyled: true,
+                                        layout: 'border',
+                                        split: true,
+                                        items: [
+<?php echo $this->partial('layout/regions/center.phtml'); ?>,
+<?php echo $this->partial('layout/regions/east.phtml'); ?>
+                                        ]
+                                    },
+<?php echo $this->partial('layout/regions/center-south.phtml'); ?>
+                                ]
+                            }]
+                    });
+
+                    Ext.getCmp('center-south').setVisible(false);
+
+<?php echo $this->partial('layout/js/sessionManagement.phtml'); ?>
+
+<?php echo $this->layout()->content; ?>
+                });
+            </script> 
+    </head> 
+
+    <body>
+        <!-- filled by ExtJS -->
+    </body> 
 </html>
