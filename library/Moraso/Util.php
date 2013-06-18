@@ -8,10 +8,10 @@ class Moraso_Util extends Aitsu_Util {
 
     public static function getIdlang() {
 
-        $idlang = Aitsu_Registry :: get()->env->idlang;
+        $idlang = Aitsu_Registry::get()->session->currentLanguage;
 
         if (empty($idlang)) {
-            $idlang = Aitsu_Registry :: get()->session->currentLanguage;
+            $idlang = Aitsu_Registry::get()->env->idlang;
         }
 
         return $idlang;
@@ -30,10 +30,10 @@ class Moraso_Util extends Aitsu_Util {
 
     public static function getIdClient() {
 
-        $idclient = Aitsu_Registry :: get()->env->idclient;
+        $idclient = Aitsu_Registry::get()->session->currentClient;
 
         if (empty($idclient)) {
-            $idclient = Aitsu_Registry :: get()->session->currentClient;
+            $idclient = Aitsu_Registry::get()->env->idclient;
         }
 
         return $idclient;
@@ -69,7 +69,13 @@ class Moraso_Util extends Aitsu_Util {
 
     public static function getIdLangByIdArtLang($idartlang) {
 
-        return Aitsu_Db::fetchOne("SELECT `idlang` FROM `_art_lang` WHERE `idartlang` =:idartlang", array(
+        return Aitsu_Db::fetchOneC('eternal', '' .
+                        'SELECT ' .
+                        '   idlang ' .
+                        'FROM ' .
+                        '   _art_lang ' .
+                        'WHERE ' .
+                        '   idartlang =:idartlang', array(
                     ':idartlang' => $idartlang
         ));
     }
