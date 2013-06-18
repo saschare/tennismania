@@ -1,33 +1,21 @@
-<div class="row show-for-medium-up">
-    <div class="large-12 columns">
-        <script type="application/x-moraso" src="Navigation.BreadCrumb:BreadCrumb"></script>
-    </div>
-</div>
-
 <div class="row">    
-    <div class="large-9 push-3 columns">
+    <article class="large-9 columns">
         <script type="application/x-moraso" src="HTML.Meta.PagetitleAsHeadline:Headline">
-            tag = h2
+            tag = h1
         </script>
 
-        <hr />
-
         <script type="application/x-moraso" src="HTML.Content:Content"></script>
-        
-        <hr />
 
-        <script type="application/x-moraso" src="Google.Maps:webtischlerei"></script>
-        
-        <hr />
+    </article>
 
-        <script type="application/x-moraso" src="Article.Include:1"></script>
-    </div>
-
-    <div class="large-3 pull-9 columns show-for-medium-up">        
+    <aside class="large-3 columns">        
         <script type="application/x-moraso" src="Navigation.Sub:Sub"></script>
 
-        <p>
-            <a style="margin-bottom: 0;" data-reveal-id="contactModal" class="button expand" href="#">Kontakt</a>
-        </p>
-    </div>
+        <p>Ich bin die Sidebar</p>
+    </aside>
+
+    <script type="application/x-moraso" src="Navigation:meta">
+        template = meta
+    </script>
 </div>
+

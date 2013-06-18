@@ -3,7 +3,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="de"> <!--<![endif]-->
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="viewport" content="width=device-width" />
         <script type="application/x-moraso" src="HTML.Meta.PageTitle">
             suffix = " | moraso CMS"
         </script>
@@ -34,15 +34,18 @@
         <!-- Windows 8 Tile :: End -->
 
         <!-- CSS :: Start -->
-        <link rel="stylesheet" href="/skin/css/normalize.css" />
         <link rel="stylesheet" href="/skin/css/foundation.min.css">
-        <link rel="stylesheet" href="/skin/css/compiled/app.css">
+        <link rel="stylesheet" href="/skin/css/app.css">
         <!-- CSS :: End -->
 
         <!-- JS :: Start -->
         <script src="/skin/js/vendor/prefixfree.min.js"></script>
         <script src="/skin/js/vendor/custom.modernizr.js"></script>
         <!-- JS :: End -->
+
+        <!-- Google Fonts :: Start -->
+        <link href='http://fonts.googleapis.com/css?family=Raleway:400,700' rel='stylesheet' type='text/css'>
+        <!-- Google Fonts :: End -->
 
         <!-- IE Fix for HTML5 Tags -->
         <!--[if lt IE 9]>
@@ -58,47 +61,63 @@
         <!-- End Google Tag Manager -->
 
         <!-- Header :: Start -->
-        <script type="application/x-moraso" src="Template:Header">
-            defaultTemplate = default
+        <header id="header">
+            <div class="row">
+                <div class="large-12 columns">
+                    <script type="application/x-moraso" src="Template:Header">
+                        defaultTemplate = default
 
-            template.default.name = Standard
-            template.default.file = templates/header/default.phtml 
-        </script>
+                        template.default.name = Standard
+                        template.default.file = templates/header/default.phtml 
+                    </script>
+                </div>
+            </div>
+        </header>
         <!-- Header :: End -->
-        
-        <!-- Content :: Start -->
-        <script type="application/x-moraso" src="Template:Content">
-            defaultTemplate = default
 
-            template.default.name = Standard
-            template.default.file = templates/content/default.phtml 
-            
-            template.start.name = Start
-            template.start.file = templates/content/start.phtml 
-        </script>
+        <!-- Content :: Start -->
+        <div class="row" role="main">
+            <div id="page-wrapper" class="large-12 columns">
+                <script type="application/x-moraso" src="Template:Content">
+                    defaultTemplate = default
+
+                    template.default.name = Standard
+                    template.default.file = templates/content/default.phtml 
+
+                    template.start.name = Start
+                    template.start.file = templates/content/start.phtml 
+                </script>
+            </div>
+        </div>
         <!-- Content :: End -->
 
         <!-- Footer :: Start -->
-        <script type="application/x-moraso" src="Template:Footer">
-            defaultTemplate = default
+        <footer id="footer">
+            <div class="row">
+                <div class="large-12 columns">
+                    <script type="application/x-moraso" src="Template:Footer">
+                        defaultTemplate = default
 
-            template.default.name = Standard
-            template.default.file = templates/footer/default.phtml 
-        </script>
+                        template.default.name = Standard
+                        template.default.file = templates/footer/default.phtml 
+                    </script>
+                </div>
+            </div>
+        </footer>
         <!-- Footer :: End -->
 
         <!-- JS :: Start -->
         <script>
             document.write('<script src=' +
-            ('__proto__' in {} ? '/skin/js/vendor/zepto' : '/skin/js/vendor/jquery') +
-            '.js><\/script>');
+            ('__proto__' in {} ? 'skin/js/vendor/zepto' : 'skin/js/vendor/jquery') +
+            '.js><\/script>')
         </script>
         <script src="/skin/js/foundation.min.js"></script>
         <script>
             $(document).foundation();
         </script>
         <!-- JS :: End -->
-        
+
         <div id="contactModal" class="reveal-modal">
             <h2>Awesome. I have it.</h2>
             <p class="lead">Your couch.  It is mine.</p>
