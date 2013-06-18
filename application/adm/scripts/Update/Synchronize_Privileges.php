@@ -25,10 +25,16 @@ class Adm_Script_Synchronize_Privileges extends Aitsu_Adm_Script_Abstract {
 
         foreach ($plugins as $plugin) {
             $pluginInfo = simplexml_load_file($plugin);
-            
+
             foreach ($pluginInfo->privileges->privilege as $privilege) {
                 $this->_privileges[] = (string) $privilege->identifier;
             }
+        }
+
+        $privileges = simplexml_load_file(APPLICATION_PATH . '/privileges.xml');
+
+        foreach ($privileges->privilege as $privilege) {
+            $this->_privileges[] = (string) $privilege->identifier;
         }
     }
 
@@ -38,9 +44,23 @@ class Adm_Script_Synchronize_Privileges extends Aitsu_Adm_Script_Abstract {
     }
 
     protected function _setPrivileges() {
-        
-        trigger_error(print_r($this->_privileges, true));
-        
+
+        $privileges = Moraso_Db::fetchAll('' .
+                        'SELECT ' .
+                        '   privilegeid, ' .
+                        '   identifier ' .
+                        'FROM ' .
+                        '   _acl_privilege');
+
+        $removedPrivileges = array();
+        foreach ($privileges as $privilege) {
+            if (!in_array($privilege['identifier'], $this->_privileges)) {
+                $removedPrivileges[] = $privilege['privilegeid'];
+                Aitsu_Db::query('DELETE FROM _acl_privilege WHERE privilegeid =:privilegeid', array(':privilegeid' => $privilege['privilegeid']));
+            }
+        }
+
+        $newPrivileges = array();
         foreach ($this->_privileges as $privilege) {
 
             $privilegeid = Moraso_Db::fetchOne('' .
@@ -53,10 +73,7 @@ class Adm_Script_Synchronize_Privileges extends Aitsu_Adm_Script_Abstract {
                         ':privilege' => $privilege
             ));
 
-            $i = 0;
             if (empty($privilegeid)) {
-                $i++;
-                
                 $privilegeid = Aitsu_Db::put('_acl_privilege', 'privilegeid', array(
                             'identifier' => $privilege
                 ));
@@ -65,14 +82,20 @@ class Adm_Script_Synchronize_Privileges extends Aitsu_Adm_Script_Abstract {
                     'roleid' => 18,
                     'privilegeid' => $privilegeid
                 ));
+
+                $newPrivileges[] = $privilegeid;
             }
         }
 
-        if ($i > 0) {
-            return Aitsu_Translate::translate('Privilegien wurden geprüft. Es wurden ' . $i . ' neue Privilegien eingetragen und der Rolle "Admin" zugewiesen.');
-        } else {
-            return Aitsu_Translate::translate('Privilegien wurden geprüft. Es wurden keine neue Privilegien eingetragen.');
+        if (!empty($newPrivileges)) {
+            return Aitsu_Translate::translate('Privilegien wurden geprüft. Es wurden ' . count($newPrivileges) . ' neue Privilegien eingetragen und der Rolle "Admin" zugewiesen.');
         }
+        
+        if (!empty($removedPrivileges)) {
+            return Aitsu_Translate::translate('Privilegien wurden geprüft. Es wurden keine neue Privilegien eingetragen und ' . count($removedPrivileges) . ' Privilegien entfernt.');
+        }
+
+        return Aitsu_Translate::translate('Privilegien wurden geprüft. Es wurden keine neue Privilegien eingetragen oder entfernt.');
     }
 
     protected function _hasNext() {

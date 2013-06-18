@@ -1,0 +1,131 @@
+<privileges>
+    <privilege>
+        <identifier>article: delete</identifier>
+    </privilege>
+    <privilege>
+        <identifier>article: insert</identifier>
+    </privilege>
+    <privilege>
+        <identifier>article: move</identifier>
+    </privilege>
+    <privilege>
+        <identifier>article: publish</identifier>
+    </privilege>
+    <privilege>
+        <identifier>article: set offline</identifier>
+    </privilege>
+    <privilege>
+        <identifier>article: set online</identifier>
+    </privilege>
+    <privilege>
+        <identifier>article: unpublish</identifier>
+    </privilege>
+    <privilege>
+        <identifier>article: update</identifier>
+    </privilege>
+    <privilege>
+        <identifier>category: delete</identifier>
+    </privilege>
+    <privilege>
+        <identifier>category: insert</identifier>
+    </privilege>
+    <privilege>
+        <identifier>category: move</identifier>
+    </privilege>
+    <privilege>
+        <identifier>category: publish</identifier>
+    </privilege>
+    <privilege>
+        <identifier>category: set offline</identifier>
+    </privilege>
+    <privilege>
+        <identifier>category: set online</identifier>
+    </privilege>
+    <privilege>
+        <identifier>category: unpublish</identifier>
+    </privilege>
+    <privilege>
+        <identifier>category: update</identifier>
+    </privilege>
+    <privilege>
+        <identifier>client: crud</identifier>
+    </privilege>
+    <privilege>
+        <identifier>config: crud</identifier>
+    </privilege>
+    <privilege>
+        <identifier>dates: crud</identifier>
+    </privilege>
+    <privilege>
+        <identifier>frontend: view</identifier>
+    </privilege>
+    <privilege>
+        <identifier>management: view</identifier>
+    </privilege>
+    <privilege>
+        <identifier>mapping: crud</identifier>
+    </privilege>
+    <privilege>
+        <identifier>plugin.configuration.generic</identifier>
+    </privilege>
+    <privilege>
+        <identifier>plugin.dashboard.welcome</identifier>
+    </privilege>
+    <privilege>
+        <identifier>plugin.logs.generic</identifier>
+    </privilege>
+    <privilege>
+        <identifier>plugin.placeholder.generic</identifier>
+    </privilege>
+    <privilege>
+        <identifier>plugin.plugins.generic</identifier>
+    </privilege>
+    <privilege>
+        <identifier>plugin.plugins.generic.delete</identifier>
+    </privilege>
+    <privilege>
+        <identifier>plugin.plugins.generic.disable</identifier>
+    </privilege>
+    <privilege>
+        <identifier>plugin.plugins.generic.enable</identifier>
+    </privilege>
+    <privilege>
+        <identifier>plugin.rewritehistory.generic</identifier>
+    </privilege>
+    <privilege>
+        <identifier>plugin.todo.generic</identifier>
+    </privilege>
+    <privilege>
+        <identifier>plugin.uuid.generic</identifier>
+    </privilege>
+    <privilege>
+        <identifier>plugin.welcome.dashboard</identifier>
+    </privilege>
+    <privilege>
+        <identifier>plugins: view</identifier>
+    </privilege>
+    <privilege>
+        <identifier>script:execute</identifier>
+    </privilege>
+    <privilege>
+        <identifier>syndication: crud</identifier>
+    </privilege>
+    <privilege>
+        <identifier>translation: edit</identifier>
+    </privilege>
+    <privilege>
+        <identifier>translation: export</identifier>
+    </privilege>
+    <privilege>
+        <identifier>translation: import</identifier>
+    </privilege>
+    <privilege>
+        <identifier>usermanagement: crud</identifier>
+    </privilege>
+    <privilege>
+        <identifier>userprofile: change login</identifier>
+    </privilege>
+    <privilege>
+        <identifier>userprofile: change password</identifier>
+    </privilege>
+</privileges>
