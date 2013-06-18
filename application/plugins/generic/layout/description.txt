@@ -1,2 +1,0 @@
-Layout
-All plugins that deal with the layout.

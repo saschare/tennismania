@@ -1,0 +1,10 @@
+<plugin>
+    <name>Logs</name>
+    <icon>tm-terminal</icon>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.logs.generic</identifier>
+        </privilege>
+    </privileges>
+</plugin>

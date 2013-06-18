@@ -1,0 +1,9 @@
+<plugin>
+    <name>Welcome</name>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.welcome.dashboard</identifier>
+        </privilege>
+    </privileges>
+</plugin>

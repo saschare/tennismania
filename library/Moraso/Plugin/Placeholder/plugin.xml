@@ -1,0 +1,10 @@
+<plugin>
+    <name>Placeholder</name>
+    <icon>tm-usermanagement</icon>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.placeholder.generic</identifier>
+        </privilege>
+    </privileges>
+</plugin>

@@ -1,43 +1,46 @@
 <?php
 
-
 /**
- * @author Andreas Kummer, w3concepts AG
- * @copyright Copyright &copy; 2010, w3concepts AG
+ * @author Christian Kehres <c.kehres@webtischlerei.de>
+ * @copyright (c) 2013, webtischlerei <http://www.webtischlerei.de>
  */
-
 class IndexController extends Zend_Controller_Action {
 
-	public function init() {
-		
-		if ($this->getRequest()->getParam('ajax')) {
-			header("Content-type: text/javascript");
-			$this->_helper->layout->disableLayout();
-		}
-	}
+    public function init() {
 
-	public function indexAction() {
-	
-		$this->_loadPlugins();
-	}
-	
-	protected function _loadPlugins() {
+        if ($this->getRequest()->getParam('ajax')) {
+            header("Content-type: text/javascript");
+            $this->_helper->layout->disableLayout();
+        }
+    }
 
-		$plugins = Aitsu_Util_Dir :: scan(APPLICATION_PATH . '/plugins/dashboard', 'Class.php');
-		$this->view->plugins = array ();
-		foreach ($plugins as $plugin) {
-			$parts = explode('/', $plugin);
-			$pluginName = $parts[count($parts) - 2];
-			include_once ($plugin);
-			$controller = ucfirst($pluginName) . 'Dashboard';
-			$controllerClass = $controller . 'Controller';
-			$registry = call_user_func(array (
-				$controllerClass,
-				'register'
-			));
-			if ($registry->enabled) {
-				$this->view->plugins[] = $registry;
-			}
-		}
-	}
+    public function indexAction() {
+
+        $pluginDir = APPLICATION_LIBPATH . '/Moraso/Plugin';
+
+        $plugins = Aitsu_Util_Dir::scan($pluginDir, 'Class.php');
+        $baseLength = strlen($pluginDir);
+
+        $this->view->plugins = array();
+
+        foreach ($plugins as $plugin) {
+            $pluginPathInfo = explode('/', substr($plugin, $baseLength + 1));
+            $pluginType = $pluginPathInfo[1];
+            $pluginName = $pluginPathInfo[0];
+
+            if ($pluginType == 'Dashboard') {
+                include_once ($plugin);
+
+                $registry = call_user_func(array(
+                    'Moraso_Plugin_' . $pluginName . '_Dashboard_Controller',
+                    'register'
+                ));
+
+                if ($registry->enabled) {
+                    $this->view->plugins[] = $registry;
+                }
+            }
+        }
+    }
+
 }

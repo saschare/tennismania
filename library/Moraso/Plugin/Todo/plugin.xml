@@ -1,0 +1,10 @@
+<plugin>
+    <name>ToDo List</name>
+    <icon>tm-todo</icon>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.todo.generic</identifier>
+        </privilege>
+    </privileges>
+</plugin>

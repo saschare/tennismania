@@ -1,0 +1,10 @@
+<plugin>
+    <name>Rewrite History</name>
+    <icon>tm-todo</icon>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.rewritehistory.generic</identifier>
+        </privilege>
+    </privileges>
+</plugin>

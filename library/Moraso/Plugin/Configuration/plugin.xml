@@ -1,0 +1,10 @@
+<plugin>
+    <name>Configuration</name>
+    <icon>execute</icon>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.configuration.generic</identifier>
+        </privilege>
+    </privileges>
+</plugin>

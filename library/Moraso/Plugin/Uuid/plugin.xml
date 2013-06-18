@@ -1,0 +1,10 @@
+<plugin>
+    <name>UUID Generator</name>
+    <icon>tm-tag-green</icon>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.uuid.generic</identifier>
+        </privilege>
+    </privileges>
+</plugin>

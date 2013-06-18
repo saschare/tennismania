@@ -1,3 +1,0 @@
-Management
-All management tasks.
-tm-usermanagement

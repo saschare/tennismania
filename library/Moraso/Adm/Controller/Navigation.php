@@ -138,7 +138,7 @@ class Moraso_Adm_Controller_Navigation extends Zend_Controller_Plugin_Abstract {
                     'controller' => 'plugins',
                     'action' => 'index',
                     'route' => 'default',
-                    'pages' => $this->_getCorePluginNav(),
+                    'pages' => $this->_getGenericPlugins(),
                     'ac' => array(
                         'area' => 'plugins'
                     ),
@@ -227,10 +227,10 @@ class Moraso_Adm_Controller_Navigation extends Zend_Controller_Plugin_Abstract {
         return $plugins;
     }
 
-    protected function _getCorePluginNav() {
+    protected function _getGenericPlugins() {
         $user = Aitsu_Adm_User::getInstance();
 
-        $pluginDir = APPLICATION_LIBPATH . '/Moraso/Plugins';
+        $pluginDir = APPLICATION_LIBPATH . '/Moraso/Plugin';
 
         $files = Aitsu_Util_Dir::scan($pluginDir, 'Class.php');
         $baseLength = strlen($pluginDir);
@@ -243,23 +243,23 @@ class Moraso_Adm_Controller_Navigation extends Zend_Controller_Plugin_Abstract {
             $pluginType = $pluginPathInfo[1];
             $pluginName = $pluginPathInfo[0];
 
-            $aclAreaCheck = 'plugin.' . strtolower($pluginName) . '.' . strtolower($pluginType);
+            if ($pluginType === 'Generic') {
+                $aclAreaCheck = 'plugin.' . strtolower($pluginName) . '.generic';
 
-            if ($user != null && $user->isAllowed(array('area' => $aclAreaCheck))) {
-                $plugins[] = array(
-                    'label' => (string) $pluginInfo->name,
-                    'id' => uniqid(),
-                    'controller' => 'morasoplugin',
-                    'action' => 'index',
-                    'params' => array(
-                        'area' => $pluginType,
-                        'plugin' => $pluginName,
-                        'paction' => 'index'
-                    ),
-                    'route' => 'morasoplugin',
-                    'pages' => array(),
-                    'icon' => (string) $pluginInfo->icon
-                );
+                if ($user != null && $user->isAllowed(array('area' => $aclAreaCheck))) {
+                    $plugins[] = array(
+                        'label' => (string) $pluginInfo->name,
+                        'id' => uniqid(),
+                        'controller' => 'plugin',
+                        'params' => array(
+                            'plugin' => $pluginName,
+                            'paction' => 'index'
+                        ),
+                        'route' => 'gplugin',
+                        'pages' => array(),
+                        'icon' => (string) $pluginInfo->icon
+                    );
+                }
             }
         }
 

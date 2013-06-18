@@ -1,3 +1,0 @@
-UUID Generator
-Generates about 100 universally unique identifiers.
-tm-tag-green
