@@ -25,9 +25,9 @@ class Adm_Script_Synchronize_Privileges extends Aitsu_Adm_Script_Abstract {
 
         foreach ($plugins as $plugin) {
             $pluginInfo = simplexml_load_file($plugin);
-
-            foreach ($pluginInfo->privileges as $privilege) {
-                $this->_privileges[] = (string) $privilege->privilege->identifier;
+            
+            foreach ($pluginInfo->privileges->privilege as $privilege) {
+                $this->_privileges[] = (string) $privilege->identifier;
             }
         }
     }
@@ -38,7 +38,9 @@ class Adm_Script_Synchronize_Privileges extends Aitsu_Adm_Script_Abstract {
     }
 
     protected function _setPrivileges() {
-
+        
+        trigger_error(print_r($this->_privileges, true));
+        
         foreach ($this->_privileges as $privilege) {
 
             $privilegeid = Moraso_Db::fetchOne('' .
@@ -59,7 +61,7 @@ class Adm_Script_Synchronize_Privileges extends Aitsu_Adm_Script_Abstract {
                             'identifier' => $privilege
                 ));
 
-                Aitsu_Db::put('_acl_privilege', null, array(
+                Aitsu_Db::put('_acl_privileges', null, array(
                     'roleid' => 18,
                     'privilegeid' => $privilegeid
                 ));

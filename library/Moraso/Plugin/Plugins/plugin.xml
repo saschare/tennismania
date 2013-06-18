@@ -1,0 +1,22 @@
+<plugin>
+    <name>Plugins</name>
+    <icon>tm-plugin</icon>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.plugins.generic</identifier>
+        </privilege>
+        
+        <privilege>
+            <identifier>plugin.plugins.generic.enable</identifier>
+        </privilege>
+        
+        <privilege>
+            <identifier>plugin.plugins.generic.disable</identifier>
+        </privilege>
+        
+        <privilege>
+            <identifier>plugin.plugins.generic.delete</identifier>
+        </privilege>
+    </privileges>
+</plugin>

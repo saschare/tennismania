@@ -150,7 +150,7 @@ class Moraso_Adm_Controller_Navigation extends Zend_Controller_Plugin_Abstract {
                     'controller' => 'plugins',
                     'action' => 'index',
                     'route' => 'default',
-                    'pages' => $this->_getPluginNav(),
+                    'pages' => $this->_getGenericPlugins(),
                     'ac' => array(
                         'area' => 'plugins'
                     ),
@@ -170,61 +170,6 @@ class Moraso_Adm_Controller_Navigation extends Zend_Controller_Plugin_Abstract {
             echo $e->getMessage();
             exit;
         }
-    }
-
-    protected function _getPluginNav() {
-
-        $user = Aitsu_Adm_User::getInstance();
-
-        $dir = APPLICATION_PATH . '/plugins/generic';
-
-        $files = Aitsu_Util_Dir::scan(APPLICATION_PATH . '/plugins/generic', '.description.txt');
-        sort($files);
-        $baseLength = strlen(APPLICATION_PATH . '/plugins/generic/');
-        $plugins = array();
-        foreach ($files as $file) {
-            $content = explode("\n", file_get_contents($file));
-            $file = substr($file, $baseLength);
-            $file = explode('/', $file);
-            if (count($file) == 2) {
-                if ($user != null && $user->isAllowed(array(
-                            'area' => 'plugin.' . $file[0]
-                        ))) {
-                    $plugins[] = array(
-                        'label' => trim($content[0]),
-                        'id' => uniqid(),
-                        'controller' => 'plugins',
-                        'action' => 'index',
-                        'params' => array(
-                            'area' => $file[0]
-                        ),
-                        'route' => 'plugins',
-                        'pages' => array(),
-                        'icon' => isset($content[2]) ? $content[2] : ''
-                    );
-                }
-            } elseif (count($file) == 3) {
-                if ($user != null && $user->isAllowed(array(
-                            'area' => 'plugin.' . $file[0] . '.' . $file[1]
-                        ))) {
-                    $plugins[count($plugins) - 1]['pages'][] = array(
-                        'label' => trim($content[0]),
-                        'id' => uniqid(),
-                        'controller' => 'plugin',
-                        'action' => 'index',
-                        'params' => array(
-                            'area' => $file[0],
-                            'plugin' => $file[1],
-                            'paction' => 'index'
-                        ),
-                        'route' => 'plugin',
-                        'icon' => isset($content[2]) ? $content[2] : ''
-                    );
-                }
-            }
-        }
-
-        return $plugins;
     }
 
     protected function _getGenericPlugins() {
