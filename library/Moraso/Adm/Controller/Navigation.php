@@ -133,7 +133,7 @@ class Moraso_Adm_Controller_Navigation extends Zend_Controller_Plugin_Abstract {
                     )
                 ),
                 array(
-                    'label' => 'System',
+                    'label' => 'System - Plugins',
                     'id' => uniqid(),
                     'controller' => 'plugins',
                     'action' => 'index',
@@ -145,7 +145,7 @@ class Moraso_Adm_Controller_Navigation extends Zend_Controller_Plugin_Abstract {
                     'icon' => 'tm-plugin'
                 ),
                 array(
-                    'label' => 'Plugins',
+                    'label' => 'Community - Plugins',
                     'id' => 'plugins',
                     'controller' => 'plugins',
                     'action' => 'index',
@@ -182,7 +182,7 @@ class Moraso_Adm_Controller_Navigation extends Zend_Controller_Plugin_Abstract {
         $plugins = array();
 
         foreach ($files as $plugin) {
-            $pluginXml = realpath(dirname($plugin) . '/../plugin.xml');
+            $pluginXml = realpath(dirname($plugin) . '/plugin.xml');
             $pluginInfo = simplexml_load_file($pluginXml);
             $pluginPathInfo = explode('/', substr($plugin, $baseLength + 1));
             $pluginType = $pluginPathInfo[1];

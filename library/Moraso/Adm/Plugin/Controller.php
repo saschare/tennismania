@@ -27,12 +27,12 @@ abstract class Moraso_Adm_Plugin_Controller extends Zend_Controller_Action {
         if ($type === 'category') {
             return self::getPositionCat($id, $plugin);
         }
-
-        if (!isset(Aitsu_Article_Config::factory($id)->plugin->$plugin->article->position)) {
+        
+        if (!isset(Aitsu_Article_Config::factory($id)->plugin->$plugin->$type->position)) {
             return 0;
         }
 
-        $position = Aitsu_Article_Config::factory($id)->plugin->$plugin->article->position;
+        $position = Aitsu_Article_Config::factory($id)->plugin->$plugin->$type->position;
 
         if (!isset($position->ifindex)) {
             return $position->default;

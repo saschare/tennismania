@@ -56,7 +56,7 @@ class Adm_Script_Synchronize_Privileges extends Aitsu_Adm_Script_Abstract {
         foreach ($privileges as $privilege) {
             if (!in_array($privilege['identifier'], $this->_privileges)) {
                 $removedPrivileges[] = $privilege['privilegeid'];
-                Aitsu_Db::query('DELETE FROM _acl_privilege WHERE privilegeid =:privilegeid', array(':privilegeid' => $privilege['privilegeid']));
+                Moraso_Db::query('DELETE FROM _acl_privilege WHERE privilegeid =:privilegeid', array(':privilegeid' => $privilege['privilegeid']));
             }
         }
 
@@ -74,11 +74,11 @@ class Adm_Script_Synchronize_Privileges extends Aitsu_Adm_Script_Abstract {
             ));
 
             if (empty($privilegeid)) {
-                $privilegeid = Aitsu_Db::put('_acl_privilege', 'privilegeid', array(
+                $privilegeid = Moraso_Db::put('_acl_privilege', 'privilegeid', array(
                             'identifier' => $privilege
                 ));
 
-                Aitsu_Db::put('_acl_privileges', null, array(
+                Moraso_Db::put('_acl_privileges', null, array(
                     'roleid' => 18,
                     'privilegeid' => $privilegeid
                 ));
@@ -88,9 +88,13 @@ class Adm_Script_Synchronize_Privileges extends Aitsu_Adm_Script_Abstract {
         }
 
         if (!empty($newPrivileges)) {
-            return Aitsu_Translate::translate('Privilegien wurden geprüft. Es wurden ' . count($newPrivileges) . ' neue Privilegien eingetragen und der Rolle "Admin" zugewiesen.');
+            if (empty($removedPrivileges)) {
+                return Aitsu_Translate::translate('Privilegien wurden geprüft. Es wurden ' . count($newPrivileges) . ' neue Privilegien eingetragen, der Rolle "Admin" zugewiesen und keine Privilegien wurden entfernt.');
+            }
+
+            return Aitsu_Translate::translate('Privilegien wurden geprüft. Es wurden ' . count($newPrivileges) . ' neue Privilegien eingetragen, der Rolle "Admin" zugewiesen und ' . count($removedPrivileges) . ' Privilegien wurden entfernt.');
         }
-        
+
         if (!empty($removedPrivileges)) {
             return Aitsu_Translate::translate('Privilegien wurden geprüft. Es wurden keine neue Privilegien eingetragen und ' . count($removedPrivileges) . ' Privilegien entfernt.');
         }

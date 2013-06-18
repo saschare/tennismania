@@ -1,0 +1,100 @@
+var center = Ext.getCmp('viewport-center');
+center.removeAll();
+
+var pluginsGrid = new Ext.grid.GridPanel({
+    title: '<?php echo Aitsu_Translate::translate('Plugins'); ?>',
+    id: 'pluginsGrid',
+    store: new Ext.data.JsonStore({
+        url: '<?php echo $this->url(array('paction' => 'store')); ?>',
+        root: 'plugins',
+        fields: [
+            'id',
+            'name',
+            'type',
+            'author',
+            'copyright'
+        ],
+        autoLoad: true
+    }),
+    columns: [{
+        dataIndex: 'id',
+            type: 'int',
+            width: 250,
+            fixed: true,
+            header: 'ID',
+            menuDisabled: true
+    }, {
+            dataIndex: 'type',
+            header: 'Type',
+            width: 100,
+            fixed: true,
+            menuDisabled: true
+    }, {
+            dataIndex: 'author',
+            header: 'Author',
+            width: 150,
+            fixed: true,
+            menuDisabled: true
+    }, {
+            dataIndex: 'copyright',
+            header: 'Copyright',
+            width: 150,
+            fixed: true,
+            menuDisabled: true
+    }, {
+            dataIndex: 'name',
+            header: 'Name',
+            menuDisabled: true
+    }],
+    viewConfig: {
+	forceFit: true,
+	autoFill: true
+    },
+    tbar: {
+        items: []
+    },
+    listeners: {
+        rowcontextmenu: function(grid, rowIndex, event) {
+            this.getSelectionModel().selectRow(rowIndex);
+                
+            var plugin = this.getStore().getAt(rowIndex);
+                
+            var menu = new Ext.menu.Menu();
+              
+            menu.addItem({
+                text: '<?php echo $this->translate('Delete'); ?>',
+                iconCls: 'delete',
+                handler: function() {
+                    Ext.MessageBox.show({
+                        title: '<?php echo $this->translate('Delete Plugin'); ?>',
+                        msg: '<?php echo $this->translate('Are you sure to delete the selected Plugin?'); ?>',
+                        buttons: Ext.MessageBox.OKCANCEL,
+                        fn: function(result) {
+                            if (result == 'ok') {
+                                Ajax.request({
+                                    url: '<?php echo $this->url(array('paction' => 'delete')); ?>',
+                                    success: function(response, opts) {
+                                        var rsp = Ext.decode(response.responseText);
+                                        if (rsp.success) {
+                                            Ext.aitsu.msg('<?php echo Aitsu_Translate::translate('Plugin deleted'); ?>', '<?php echo Aitsu_Translate::translate('The selected Plugin has been removed.'); ?>');
+                                            grid.getStore().load(); 
+                                        }
+                                    },
+                                    params: {
+                                        id: record.get('id')
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+             
+            menu.showAt(event.getXY());
+        }		
+    }
+});
+
+center.add(pluginsGrid);
+
+Ext.getCmp('viewport').doLayout();

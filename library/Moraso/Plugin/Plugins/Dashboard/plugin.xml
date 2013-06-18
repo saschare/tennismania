@@ -1,0 +1,10 @@
+<plugin>
+    <id>51c09c70-0298-4775-bef9-1367c0a8b230</id>
+    <name>Plugins</name>
+    
+    <privileges>        
+        <privilege>
+            <identifier>plugin.plugins.dashboard</identifier>
+        </privilege>
+    </privileges>
+</plugin>

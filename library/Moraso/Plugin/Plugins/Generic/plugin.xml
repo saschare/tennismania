@@ -1,6 +1,9 @@
 <plugin>
+    <id>51c09264-dcbc-4eb8-89ff-1221c0a8b230</id>
     <name>Plugins</name>
     <icon>tm-plugin</icon>
+    <author>Christian Kehres</author>
+    <copyright>2013, webtischlerei</copyright>
     
     <privileges>
         <privilege>
