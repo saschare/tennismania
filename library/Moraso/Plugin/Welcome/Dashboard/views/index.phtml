@@ -7,7 +7,18 @@ var welcomeScreen = new Ext.Panel({
         html: "<p><?php echo $this->greeting; ?> Herr <?php echo $this->user; ?>,<br /><br />aktuell <?php echo $this->todos; ?> für Sie hinterlegt.</p>",
         xtype: "panel",
         bodyStyle: 'padding: 10px'
-    }]
+    }],
+    bbar: {
+    <?php if (!empty($this->todos)) : ?>
+        items: [{
+            ltip: '<?php echo Aitsu_Translate::translate('Open todo list'); ?>',
+            iconCls: 'tm-todo',
+            handler: function(b, e) {
+                Ext.aitsu.load(['gplugin/Aitsu/Todo'], null, {ajax: 1});
+            }
+        }]
+    <?php endif; ?>
+    }
 });
 
 dashboard.add({

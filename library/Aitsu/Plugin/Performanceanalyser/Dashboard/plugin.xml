@@ -1,0 +1,12 @@
+<plugin>
+    <id>4cd12585-4714-4e11-92ae-0a567f000101</id>
+    <name>Performanceanalyser</name>
+    <author>Andreas Kummer</author>
+    <copyright>2010, w3concepts AG</copyright>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.performanceanalyser.dashboard</identifier>
+        </privilege>
+    </privileges>
+</plugin>

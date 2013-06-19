@@ -7,7 +7,7 @@
  * @copyright Copyright &copy; 2011, webtischlerei
  * @copyright Copyright &copy; 2011, w3concepts AG
  */
-class toDoListDashboardController extends Aitsu_Adm_Plugin_Controller {
+class Moraso_Plugin_Todo_Dashboard_Controller extends Moraso_Adm_Plugin_Controller {
 
     const ID = '4df9e2fc-fac4-4b01-9db5-09167f000101';
 
@@ -20,9 +20,9 @@ class toDoListDashboardController extends Aitsu_Adm_Plugin_Controller {
     public static function register() {
 
         return (object) array(
-                    'name' => 'toDoList',
-                    'tabname' => Aitsu_Translate :: _('To-do-List'),
-                    'enabled' => self::getDashboardEnabled('toDoList'),
+                    'name' => 'toDo',
+                    'tabname' => Aitsu_Translate :: _('To-do'),
+                    'enabled' => self::getDashboardEnabled('toDo'),
                     'id' => self :: ID
         );
     }

@@ -4,7 +4,7 @@
  * @author Andreas Kummer, w3concepts AG
  * @copyright Copyright &copy; 2010, w3concepts AG
  */
-class PerformanceAnalyzerDashboardController extends Aitsu_Adm_Plugin_Controller {
+class Aitsu_Plugin_Performanceanalyser_Dashboard_Controller extends Moraso_Adm_Plugin_Controller {
 
     const ID = '4cd12585-4714-4e11-92ae-0a567f000101';
 
@@ -19,7 +19,7 @@ class PerformanceAnalyzerDashboardController extends Aitsu_Adm_Plugin_Controller
         return (object) array(
                     'name' => 'performanceAnalyzer',
                     'tabname' => Aitsu_Translate :: _('Site performance'),
-                    'enabled' => self::getDashboardEnabled('performanceAnalyzer'),
+                    'enabled' => self::getDashboardEnabled('performanceAnalyser'),
                     'id' => self :: ID
         );
     }

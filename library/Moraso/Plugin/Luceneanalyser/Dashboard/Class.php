@@ -4,7 +4,7 @@
  * @author Christian Kehres <c.kehres@webtischlerei.de>
  * @copyright (c) 2013, webtischlerei <http://www.webtischlerei.de>
  */
-class luceneAnalyserDashboardController extends Aitsu_Adm_Plugin_Controller {
+class Moraso_Plugin_Luceneanalyser_Dashboard_Controller extends Moraso_Adm_Plugin_Controller {
 
     const ID = '515c5162-69dc-488f-b3aa-2f77c0a8b230';
 

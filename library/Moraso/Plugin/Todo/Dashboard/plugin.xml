@@ -1,0 +1,12 @@
+<plugin>
+    <id>4df9e2fc-fac4-4b01-9db5-09167f000101</id>
+    <name>To Do</name>
+    <author>Christian Kehres</author>
+    <copyright>2011, webtischlerei</copyright>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.todo.dashboard</identifier>
+        </privilege>
+    </privileges>
+</plugin>

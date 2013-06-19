@@ -11,29 +11,27 @@ class Moraso_Adm_Controller_Navigation extends Zend_Controller_Plugin_Abstract {
         $t = Zend_Registry::get('Zend_Translate');
         try {
 
-            $communityPlugins = $this->_getPlugins(null, array('Aitsu', 'Moraso'));
+            $plugins = $this->_getPlugins(null, array('Aitsu', 'Moraso'));
 
-            $communityPluginsNav = array(
-                'label' => 'Community - Plugins',
-                'id' => 'community-plugins',
+            $pluginsNav = array(
+                'label' => 'Plugins',
+                'id' => 'plugins',
                 'controller' => 'plugins',
                 'action' => 'index',
                 'route' => 'default',
-                'pages' => $communityPlugins,
+                'pages' => $plugins,
                 'ac' => array(
                     'area' => 'plugins'
                 ),
                 'icon' => 'tm-plugin'
             );
             
-            if (empty($communityPlugins)) {
-                $communityPluginsNav['ac'] = array(
+            if (empty($plugins)) {
+                $pluginsNav['ac'] = array(
                     'area' => 'keinZutritt'
                 );
             }
             
-            trigger_error(print_r($communityPluginsNav, true));
-
             $nav = array(
                 array(
                     'label' => $t->translate('Dashboard'),
@@ -157,8 +155,8 @@ class Moraso_Adm_Controller_Navigation extends Zend_Controller_Plugin_Abstract {
                     )
                 ),
                 array(
-                    'label' => 'System - Plugins',
-                    'id' => 'system-plugins',
+                    'label' => 'System',
+                    'id' => 'system',
                     'controller' => 'plugins',
                     'action' => 'index',
                     'route' => 'default',
@@ -166,8 +164,8 @@ class Moraso_Adm_Controller_Navigation extends Zend_Controller_Plugin_Abstract {
                     'ac' => array(
                         'area' => 'plugins'
                     ),
-                    'icon' => 'tm-plugin'
-                ), $communityPluginsNav,
+                    'icon' => 'tm-management'
+                ), $pluginsNav,
                 array(
                     'label' => $t->translate('Logout'),
                     'id' => 'logout',

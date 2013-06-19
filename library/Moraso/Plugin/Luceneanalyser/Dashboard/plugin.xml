@@ -1,0 +1,12 @@
+<plugin>
+    <id>515c5162-69dc-488f-b3aa-2f77c0a8b230</id>
+    <name>Luceneanalyser</name>
+    <author>Christian Kehres</author>
+    <copyright>2013, webtischlerei</copyright>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.luceneanalyser.dashboard</identifier>
+        </privilege>
+    </privileges>
+</plugin>

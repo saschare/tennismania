@@ -1,0 +1,12 @@
+<plugin>
+    <id>4cd011a7-b334-43f8-bc6a-0a5f7f000101</id>
+    <name>Contentanalyser</name>
+    <author>Andreas Kummer</author>
+    <copyright>2010, w3concepts AG</copyright>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.contentanalyser.dashboard</identifier>
+        </privilege>
+    </privileges>
+</plugin>

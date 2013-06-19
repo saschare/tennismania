@@ -4,7 +4,7 @@
  * @author Andreas Kummer, w3concepts AG
  * @copyright Copyright &copy; 2010, w3concepts AG
  */
-class ContentAnalyzerDashboardController extends Aitsu_Adm_Plugin_Controller {
+class Aitsu_Plugin_Contentanalyser_Dashboard_Controller extends Moraso_Adm_Plugin_Controller {
 
     const ID = '4cd011a7-b334-43f8-bc6a-0a5f7f000101';
 
@@ -19,7 +19,7 @@ class ContentAnalyzerDashboardController extends Aitsu_Adm_Plugin_Controller {
         return (object) array(
                     'name' => 'contentAnalyzer',
                     'tabname' => Aitsu_Translate :: _('Analyzer'),
-                    'enabled' => self::getDashboardEnabled('contentAnalyzer'),
+                    'enabled' => self::getDashboardEnabled('contentAnalyser'),
                     'id' => self :: ID
         );
     }
