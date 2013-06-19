@@ -53,11 +53,11 @@ class Moraso_Plugin_Luceneanalyser_Dashboard_Controller extends Moraso_Adm_Plugi
                     ':idlang' => Aitsu_Registry::get()->session->currentLanguage
         ));
 
-        $index = new Zend_Search_Lucene(APPLICATION_PATH . '/data/lucene/' . $luceneIndex . '/');
-
         foreach ($articles as $key => $article) {
             $article = (object) $article;
 
+            $index = new Zend_Search_Lucene(APPLICATION_PATH . '/data/lucene/' . $luceneIndex . '/');
+            
             $hits = $index->find('uid:' . $article->uid . ' AND lang:' . $article->idlang . ' AND idart:' . $article->idart);
 
             if (isset($hits[0]) && !empty($hits[0]->id)) {
@@ -133,7 +133,6 @@ class Moraso_Plugin_Luceneanalyser_Dashboard_Controller extends Moraso_Adm_Plugi
         foreach ($articles as $article) {
             $article = (object) $article;
 
-            // index muss ich jedes mal neu aufrufen, sonst löscht der alle bis auf einen, komische Sache
             $index = new Zend_Search_Lucene(APPLICATION_PATH . '/data/lucene/' . $luceneIndex . '/');
 
             $hits = $index->find('uid:' . $article->uid . ' AND lang:' . $article->idlang . ' AND idart:' . $article->idart);
