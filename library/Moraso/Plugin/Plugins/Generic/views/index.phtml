@@ -8,7 +8,6 @@ var pluginsGrid = new Ext.grid.GridPanel({
         url: '<?php echo $this->url(array('paction' => 'store')); ?>',
         root: 'plugins',
         fields: [
-            'id',
             'namespace',
             'dir',
             'name',
@@ -19,13 +18,6 @@ var pluginsGrid = new Ext.grid.GridPanel({
         autoLoad: true
     }),
     columns: [{
-        dataIndex: 'id',
-            type: 'int',
-            width: 250,
-            fixed: true,
-            header: 'ID',
-            menuDisabled: true
-    }, {
             dataIndex: 'namespace',
             header: 'Namespace',
             width: 100,
@@ -65,7 +57,15 @@ var pluginsGrid = new Ext.grid.GridPanel({
             tooltip: '<?php echo Aitsu_Translate::translate('Refresh list'); ?>',
             iconCls: 'tb-refresh',
             handler: function(b, e) {
-                Ext.getCmp('pluginsGrid').getStore().load();
+                Ext.getCmp('pluginsGrid').getStore().load({
+                    params: {
+                        refresh: 1
+                    },
+                    callback: Ext.aitsu.mask(true),
+                    callback: function(r, options, success) {
+                        Ext.aitsu.mask(false);
+                    }
+                });
             }
         }]
     },

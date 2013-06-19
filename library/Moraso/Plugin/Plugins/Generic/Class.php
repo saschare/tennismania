@@ -32,7 +32,6 @@ class Moraso_Plugin_Plugins_Generic_Controller extends Moraso_Adm_Plugin_Control
                 $pluginPathInfo = explode('/', substr($plugin, $baseLength + 1));
 
                 $plugins[] = array(
-                    'id' => (string) $pluginInfo->id,
                     'namespace' => $namespace,
                     'dir' => $pluginPathInfo[0],
                     'name' => (string) $pluginInfo->name,
