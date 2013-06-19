@@ -22,9 +22,11 @@ class Moraso_Module_Article_Include_Class extends Moraso_Module_Abstract {
         $idart_source = Aitsu_Content_Config_Link::set($this->_index, 'Article.Include.Source', 'Source', Aitsu_Translate::_('Source article'));
         $idart = preg_replace('/[^0-9]/', '', $idart_source);
 
-        if (empty($idart)) {
+        if (empty($idart) || strpos($idart_source, 'idart') === false) {
             return '';
         }
+
+        $view = $this->_getView();
 
         $idlang = Moraso_Util::getIdlang();
 
@@ -34,8 +36,7 @@ class Moraso_Module_Article_Include_Class extends Moraso_Module_Abstract {
 
         $selectTemplate = Aitsu_Content_Config_Select::set($this->_index, 'template', Aitsu_Translate::_('Template'), $this->_getTemplates(), Aitsu_Translate::_('Configuration'));
 
-        /* set Variables */
-        $content = Aitsu_Db::fetchAll('' .
+        $view->content = Moraso_Db::fetchAll('' .
                         'SELECT ' .
                         '   `index`, ' .
                         '   value ' .
@@ -45,19 +46,16 @@ class Moraso_Module_Article_Include_Class extends Moraso_Module_Abstract {
                         '   idartlang =:idartlang', array(
                     ':idartlang' => $idartlang
         ));
-        $images = Aitsu_Core_File::getFiles($idartlang);
-        $tags = $article->getTags();
-        $data = $article->getData();
+
+        $view->images = Aitsu_Core_File::getFiles($idartlang);
+        $view->tags = $article->getTags();
+        $view->data = $article->getData();
 
         $template = !empty($selectTemplate) ? $selectTemplate : $defaults['template'];
 
-        /* create View */
-        $view = $this->_getView();
-
-        $view->content = $content;
-        $view->images = $images;
-        $view->tags = $tags;
-        $view->data = $data;
+        if (!in_array($template, $this->_getTemplates())) {
+            return '';
+        }
 
         return $view->render($template . '.phtml');
     }
