@@ -4,7 +4,8 @@
  * @author Christian Kehres
  * @copyright Copyright &copy; 2011, webtischlerei
  */
-class RewritehistoryArticleController extends Aitsu_Adm_Plugin_Controller {
+class Moraso_Plugin_Rewritehistory_Article_Controller extends Moraso_Adm_Plugin_Controller {
+
     const ID = '4cbd68e4-6b4c-487c-9fd7-13237f000201';
 
     public function init() {
@@ -16,11 +17,11 @@ class RewritehistoryArticleController extends Aitsu_Adm_Plugin_Controller {
     public static function register($idart) {
 
         return (object) array(
-            'name' => 'rewritehistory',
-            'tabname' => Aitsu_Registry :: get()->Zend_Translate->translate('Rewrite History'),
-            'enabled' => self :: getPosition($idart, 'rewritehistory'),
-            'position' => self :: getPosition($idart, 'rewritehistory'),
-            'id' => self :: ID
+                    'name' => 'rewritehistory',
+                    'tabname' => Aitsu_Registry :: get()->Zend_Translate->translate('Rewrite History'),
+                    'enabled' => self :: getPosition($idart, 'rewritehistory'),
+                    'position' => self :: getPosition($idart, 'rewritehistory'),
+                    'id' => self :: ID
         );
     }
 
@@ -47,7 +48,7 @@ class RewritehistoryArticleController extends Aitsu_Adm_Plugin_Controller {
                 `history`.`id` DESC
             ", array(
                     ':idart' => $idart
-                ));
+        ));
 
         $this->_helper->json((object) array(
                     'data' => $data
@@ -91,7 +92,7 @@ class RewritehistoryArticleController extends Aitsu_Adm_Plugin_Controller {
                 `history`.`id` = :id
         ", array(
                     ':id' => $id
-                ));
+        ));
 
         $data['idart'] = $idart;
         $form->setValues($data);

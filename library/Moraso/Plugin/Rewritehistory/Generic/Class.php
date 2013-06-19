@@ -6,6 +6,8 @@
  */
 class Moraso_Plugin_Rewritehistory_Generic_Controller extends Moraso_Adm_Plugin_Controller {
 
+    const ID = '51c19b50-36a8-4e7d-9e9d-0f49c0a8b2301';
+
     public function init() {
         $this->_helper->layout->disableLayout();
     }

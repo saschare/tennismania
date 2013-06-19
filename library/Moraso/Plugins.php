@@ -8,7 +8,7 @@ class Moraso_Plugins {
 
     public static function installPrivileges($namespace, $plugin, $type) {
 
-        $pluginInfo = simplexml_load_file(APPLICATION_LIBPATH . '/' . $namespace . '/Plugin/' . $plugin . '/' . $type . '/plugin.xml');
+        $pluginInfo = simplexml_load_file(APPLICATION_LIBPATH . '/' . ucfirst($namespace) . '/Plugin/' . ucfirst($plugin) . '/' . ucfirst($type) . '/plugin.xml');
 
         foreach ($pluginInfo->privileges->privilege as $privilege) {
             $privilegeid = Moraso_Db::fetchOne('' .

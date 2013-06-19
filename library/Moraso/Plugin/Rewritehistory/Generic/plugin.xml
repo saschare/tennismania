@@ -1,9 +1,9 @@
 <plugin>
-    <id></id>
+    <id>51c19b50-36a8-4e7d-9e9d-0f49c0a8b230</id>
     <name>Rewrite History</name>
     <icon>tm-todo</icon>
     <author>Christian Kehres</author>
-    <copyright>2013, webtischlerei</copyright>
+    <copyright>2012, webtischlerei</copyright>
     
     
     <privileges>

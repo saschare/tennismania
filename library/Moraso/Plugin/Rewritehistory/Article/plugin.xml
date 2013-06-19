@@ -1,0 +1,13 @@
+<plugin>
+    <id>4cbd68e4-6b4c-487c-9fd7-13237f000201</id>
+    <name>Rewrite History</name>
+    <author>Christian Kehres</author>
+    <copyright>2011, webtischlerei</copyright>
+    
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.rewritehistory.article</identifier>
+        </privilege>
+    </privileges>
+</plugin>

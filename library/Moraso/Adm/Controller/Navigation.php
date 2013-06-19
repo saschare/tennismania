@@ -10,6 +10,30 @@ class Moraso_Adm_Controller_Navigation extends Zend_Controller_Plugin_Abstract {
 
         $t = Zend_Registry::get('Zend_Translate');
         try {
+
+            $communityPlugins = $this->_getPlugins(null, array('Aitsu', 'Moraso'));
+
+            $communityPluginsNav = array(
+                'label' => 'Community - Plugins',
+                'id' => 'community-plugins',
+                'controller' => 'plugins',
+                'action' => 'index',
+                'route' => 'default',
+                'pages' => $communityPlugins,
+                'ac' => array(
+                    'area' => 'plugins'
+                ),
+                'icon' => 'tm-plugin'
+            );
+            
+            if (empty($communityPlugins)) {
+                $communityPluginsNav['ac'] = array(
+                    'area' => 'keinZutritt'
+                );
+            }
+            
+            trigger_error(print_r($communityPluginsNav, true));
+
             $nav = array(
                 array(
                     'label' => $t->translate('Dashboard'),
@@ -134,28 +158,16 @@ class Moraso_Adm_Controller_Navigation extends Zend_Controller_Plugin_Abstract {
                 ),
                 array(
                     'label' => 'System - Plugins',
-                    'id' => uniqid(),
+                    'id' => 'system-plugins',
                     'controller' => 'plugins',
                     'action' => 'index',
                     'route' => 'default',
-                    'pages' => $this->_getCorePlugins(),
+                    'pages' => $this->_getPlugins(array('Aitsu', 'Moraso')),
                     'ac' => array(
                         'area' => 'plugins'
                     ),
                     'icon' => 'tm-plugin'
-                ),
-                array(
-                    'label' => 'Community - Plugins',
-                    'id' => 'plugins',
-                    'controller' => 'plugins',
-                    'action' => 'index',
-                    'route' => 'default',
-                    'pages' => $this->_getCommunityPlugins(),
-                    'ac' => array(
-                        'area' => 'plugins'
-                    ),
-                    'icon' => 'tm-plugin'
-                ),
+                ), $communityPluginsNav,
                 array(
                     'label' => $t->translate('Logout'),
                     'id' => 'logout',
@@ -172,54 +184,51 @@ class Moraso_Adm_Controller_Navigation extends Zend_Controller_Plugin_Abstract {
         }
     }
 
-    protected function _getCorePlugins() {
-        
+    protected function _getPlugins($with = array(), $without = array()) {
+
         $user = Aitsu_Adm_User::getInstance();
 
         $namespaces = Moraso_Plugins::getNamespaces();
 
         $plugins = array();
         foreach ($namespaces as $namespace) {
-            $pluginDir = APPLICATION_LIBPATH . '/' . $namespace . '/Plugin';
 
-            $files = Aitsu_Util_Dir::scan($pluginDir, 'Class.php');
-            $baseLength = strlen($pluginDir);
+            if ((empty($without) && in_array($namespace, $with)) || (empty($with) && !in_array($namespace, $without))) {
 
-            foreach ($files as $plugin) {
-                $pluginXml = realpath(dirname($plugin) . '/plugin.xml');
-                $pluginInfo = simplexml_load_file($pluginXml);
-                $pluginPathInfo = explode('/', substr($plugin, $baseLength + 1));
-                $pluginType = $pluginPathInfo[1];
-                $pluginName = $pluginPathInfo[0];
+                $pluginDir = APPLICATION_LIBPATH . '/' . $namespace . '/Plugin';
 
-                if ($pluginType === 'Generic') {
-                    $aclAreaCheck = 'plugin.' . strtolower($pluginName) . '.generic';
+                $files = Aitsu_Util_Dir::scan($pluginDir, 'Class.php');
+                $baseLength = strlen($pluginDir);
 
-                    if ($user != null && $user->isAllowed(array('area' => $aclAreaCheck))) {
-                        $plugins[] = array(
-                            'label' => (string) $pluginInfo->name,
-                            'id' => uniqid(),
-                            'controller' => 'plugin',
-                            'params' => array(
-                                'namespace' => $namespace,
-                                'plugin' => $pluginName,
-                                'paction' => 'index'
-                            ),
-                            'route' => 'gplugin',
-                            'pages' => array(),
-                            'icon' => (string) $pluginInfo->icon
-                        );
+                foreach ($files as $plugin) {
+                    $pluginXml = realpath(dirname($plugin) . '/plugin.xml');
+                    $pluginInfo = simplexml_load_file($pluginXml);
+                    $pluginPathInfo = explode('/', substr($plugin, $baseLength + 1));
+                    $pluginType = $pluginPathInfo[1];
+                    $pluginName = $pluginPathInfo[0];
+
+                    if ($pluginType === 'Generic') {
+                        $aclAreaCheck = 'plugin.' . strtolower($pluginName) . '.generic';
+
+                        if ($user != null && $user->isAllowed(array('area' => $aclAreaCheck))) {
+                            $plugins[] = array(
+                                'label' => (string) $pluginInfo->name,
+                                'id' => uniqid(),
+                                'controller' => 'plugin',
+                                'params' => array(
+                                    'namespace' => $namespace,
+                                    'plugin' => $pluginName,
+                                    'paction' => 'index'
+                                ),
+                                'route' => 'gplugin',
+                                'pages' => array(),
+                                'icon' => (string) $pluginInfo->icon
+                            );
+                        }
                     }
                 }
             }
         }
-
-        return $plugins;
-    }
-
-    protected function _getCommunityPlugins() {
-
-        $plugins = array();
 
         return $plugins;
     }
