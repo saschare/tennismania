@@ -64,7 +64,7 @@ class Moraso_Module_Article_Include_Class extends Moraso_Module_Abstract {
 
     protected function _cachingPeriod() {
 
-        return 'aternal';
+        return Aitsu_Util_Date::secondsUntilEndOf('day');
     }
 
 }
