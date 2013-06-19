@@ -1,5 +1,8 @@
 <plugin>
+    <id>519f21c4-f818-4ce9-8a65-2fa0c0a8b230</id>
     <name>Welcome</name>
+    <author>Christian Kehres</author>
+    <copyright>2013, webtischlerei</copyright>
     
     <privileges>
         <privilege>

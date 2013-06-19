@@ -1,6 +1,9 @@
 <plugin>
+    <id></id>
     <name>Logs</name>
     <icon>tm-terminal</icon>
+    <author>Andreas Kummer</author>
+    <copyright>2011, w3concepts AG</copyright>
     
     <privileges>
         <privilege>

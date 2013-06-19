@@ -1,6 +1,10 @@
 <plugin>
+    <id></id>
     <name>Placeholder</name>
     <icon>tm-usermanagement</icon>
+    <author>Christian Kehres</author>
+    <copyright>2013, webtischlerei</copyright>
+    
     
     <privileges>
         <privilege>

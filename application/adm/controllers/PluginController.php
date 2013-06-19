@@ -8,6 +8,7 @@ class PluginController extends Zend_Controller_Action {
 
     public function indexAction() {
 
+        $namespace = $this->getRequest()->getParam('namespace');
         $plugin = $this->getRequest()->getParam('plugin');
         $paction = $this->getRequest()->getParam('paction');
         $area = $this->getRequest()->getParam('area');
@@ -18,7 +19,7 @@ class PluginController extends Zend_Controller_Action {
 
         $this->_helper->viewRenderer->setNoRender(true);
 
-        $pluginPath = APPLICATION_LIBPATH . '/Moraso/Plugin/' . ucfirst($plugin) . '/' . ucfirst($area) . '/';
+        $pluginPath = APPLICATION_LIBPATH . '/' . ucfirst($namespace) . '/Plugin/' . ucfirst($plugin) . '/' . ucfirst($area) . '/';
 
         include_once ($pluginPath . 'Class.php');
 
@@ -26,7 +27,7 @@ class PluginController extends Zend_Controller_Action {
             $pluginPath . 'views/'
         ));
 
-        $this->getRequest()->setControllerName('Moraso_Plugin_' . ucfirst($plugin) . '_' . ucfirst($area) . '_')->setActionName($paction)->setDispatched(false);
+        $this->getRequest()->setControllerName($namespace . '_Plugin_' . ucfirst($plugin) . '_' . ucfirst($area) . '_')->setActionName($paction)->setDispatched(false);
     }
 
     public function articleAction() {

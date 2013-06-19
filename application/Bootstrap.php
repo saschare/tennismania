@@ -164,20 +164,22 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
         $router = Zend_Controller_Front::getInstance()->getRouter();
 
-        $router->addRoute('gplugin', new Zend_Controller_Router_Route('gplugin/:plugin/:paction/*', array(
+        $router->addRoute('gplugin', new Zend_Controller_Router_Route('gplugin/:namespace/:plugin/:paction/*', array(
             'controller' => 'plugin',
             'action' => 'index',
             'area' => 'generic',
             'plugin' => 'none',
-            'paction' => 'index'
+            'paction' => 'index',
+            'namespace' => 'none'
         )));
 
-        $router->addRoute('dplugin', new Zend_Controller_Router_Route('dplugin/:plugin/:paction/*', array(
+        $router->addRoute('dplugin', new Zend_Controller_Router_Route('dplugin/:namespace/:plugin/:paction/*', array(
             'controller' => 'plugin',
             'action' => 'index',
             'area' => 'dashboard',
             'plugin' => 'none',
-            'paction' => 'index'
+            'paction' => 'index',
+            'namespace' => 'none'
         )));
 
         $router->addRoute('aplugin', new Zend_Controller_Router_Route('aplugin/:plugin/:paction/*', array(

@@ -4,7 +4,7 @@
  * @author Christian Kehres <c.kehres@webtischlerei.de>
  * @copyright (c) 2012, webtischlerei <http://www.webtischlerei.de>
  */
-class Moraso_Plugin_Rewritehistory_Generic_Controller extends Aitsu_Adm_Plugin_Controller {
+class Moraso_Plugin_Rewritehistory_Generic_Controller extends Moraso_Adm_Plugin_Controller {
 
     public function init() {
         $this->_helper->layout->disableLayout();
@@ -13,7 +13,7 @@ class Moraso_Plugin_Rewritehistory_Generic_Controller extends Aitsu_Adm_Plugin_C
     public function indexAction() {
         header("Content-type: text/javascript");
     }
-
+        
     public function storeAction() {
 
         $data = Moraso_Db::fetchAll('' .

@@ -4,7 +4,7 @@
  * @author Christian Kehres <c.kehres@webtischlerei.de>
  * @copyright (c) 2013, webtischlerei <http://www.webtischlerei.de>
  */
-class Moraso_Plugin_Welcome_Dashboard_Controller extends Aitsu_Adm_Plugin_Controller {
+class Moraso_Plugin_Welcome_Dashboard_Controller extends Moraso_Adm_Plugin_Controller {
 
     const ID = '519f21c4-f818-4ce9-8a65-2fa0c0a8b230';
 

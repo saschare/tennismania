@@ -1,6 +1,10 @@
 <plugin>
+    <id></id>
     <name>Rewrite History</name>
     <icon>tm-todo</icon>
+    <author>Christian Kehres</author>
+    <copyright>2013, webtischlerei</copyright>
+    
     
     <privileges>
         <privilege>

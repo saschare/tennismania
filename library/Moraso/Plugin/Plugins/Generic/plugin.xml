@@ -11,6 +11,10 @@
         </privilege>
         
         <privilege>
+            <identifier>plugin.plugins.generic.install</identifier>
+        </privilege>
+        
+        <privilege>
             <identifier>plugin.plugins.generic.enable</identifier>
         </privilege>
         

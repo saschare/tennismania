@@ -1,7 +1,10 @@
 <plugin>
+    <id></id>
     <name>ToDo List</name>
     <icon>tm-todo</icon>
-    
+    <author>Andreas Kummer</author>
+    <copyright>2011, w3concepts AG</copyright>
+
     <privileges>
         <privilege>
             <identifier>plugin.todo.generic</identifier>

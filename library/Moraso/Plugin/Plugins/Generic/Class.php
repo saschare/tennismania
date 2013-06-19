@@ -16,30 +16,52 @@ class Moraso_Plugin_Plugins_Generic_Controller extends Moraso_Adm_Plugin_Control
 
     public function storeAction() {
 
-        $pluginDir = APPLICATION_LIBPATH . '/Moraso/Plugin';
+        $namespaces = Moraso_Plugins::getNamespaces();
 
-        $pluginCollection = Aitsu_Util_Dir::scan($pluginDir, 'Class.php');
+        foreach ($namespaces as $namespace) {
+            $pluginDir = APPLICATION_LIBPATH . '/' . $namespace . '/Plugin';
 
-        $baseLength = strlen($pluginDir);
+            $pluginCollection = Aitsu_Util_Dir::scan($pluginDir, 'Class.php');
 
-        $plugins = array();
-        foreach ($pluginCollection as $plugin) {
-            $pluginXml = realpath(dirname($plugin) . '/plugin.xml');
-            $pluginInfo = simplexml_load_file($pluginXml);
+            $baseLength = strlen($pluginDir);
 
-            $pluginPathInfo = explode('/', substr($plugin, $baseLength + 1));
+            foreach ($pluginCollection as $plugin) {
+                $pluginXml = realpath(dirname($plugin) . '/plugin.xml');
+                $pluginInfo = simplexml_load_file($pluginXml);
 
-            $plugins[] = array(
-                'id' => (string) $pluginInfo->id,
-                'name' => (string) $pluginInfo->name,
-                'type' => $pluginPathInfo[1],
-                'author' => (string) $pluginInfo->author,
-                'copyright' => (string) $pluginInfo->copyright
-            );
+                $pluginPathInfo = explode('/', substr($plugin, $baseLength + 1));
+
+                $plugins[] = array(
+                    'id' => (string) $pluginInfo->id,
+                    'namespace' => $namespace,
+                    'dir' => $pluginPathInfo[0],
+                    'name' => (string) $pluginInfo->name,
+                    'type' => $pluginPathInfo[1],
+                    'author' => (string) $pluginInfo->author,
+                    'copyright' => (string) $pluginInfo->copyright
+                );
+            }
         }
 
         $this->_helper->json((object) array(
                     'plugins' => $plugins
+        ));
+    }
+
+    public function installAction() {
+
+        $this->_helper->layout->disableLayout();
+
+        $namespace = $this->getRequest()->getParam('namespace');
+        $dir = $this->getRequest()->getParam('dir');
+        $type = $this->getRequest()->getParam('type');
+
+        include_once (APPLICATION_LIBPATH . '/' . $namespace . '/Plugin/' . $dir . '/' . $type . '/Class.php');
+
+        call_user_func_array($namespace . '_Plugin_' . $dir . '_' . $type . '_Controller::install', array($namespace, $dir, $type));
+
+        $this->_helper->json((object) array(
+                    'success' => true
         ));
     }
 

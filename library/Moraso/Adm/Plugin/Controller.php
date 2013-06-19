@@ -22,12 +22,18 @@ abstract class Moraso_Adm_Plugin_Controller extends Zend_Controller_Action {
         
     }
 
+    public static function install($namespace, $plugin, $type) {
+                
+        Moraso_Plugins::installPrivileges($namespace, $plugin, $type);
+        Moraso_Plugins::installDatabase($namespace, $plugin, $type);
+    }
+    
     public static function getPosition($id, $plugin, $type = 'article') {
 
         if ($type === 'category') {
             return self::getPositionCat($id, $plugin);
         }
-        
+
         if (!isset(Aitsu_Article_Config::factory($id)->plugin->$plugin->$type->position)) {
             return 0;
         }

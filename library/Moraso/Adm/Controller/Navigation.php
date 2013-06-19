@@ -138,7 +138,7 @@ class Moraso_Adm_Controller_Navigation extends Zend_Controller_Plugin_Abstract {
                     'controller' => 'plugins',
                     'action' => 'index',
                     'route' => 'default',
-                    'pages' => $this->_getGenericPlugins(),
+                    'pages' => $this->_getCorePlugins(),
                     'ac' => array(
                         'area' => 'plugins'
                     ),
@@ -150,7 +150,7 @@ class Moraso_Adm_Controller_Navigation extends Zend_Controller_Plugin_Abstract {
                     'controller' => 'plugins',
                     'action' => 'index',
                     'route' => 'default',
-                    'pages' => $this->_getGenericPlugins(),
+                    'pages' => $this->_getCommunityPlugins(),
                     'ac' => array(
                         'area' => 'plugins'
                     ),
@@ -172,41 +172,54 @@ class Moraso_Adm_Controller_Navigation extends Zend_Controller_Plugin_Abstract {
         }
     }
 
-    protected function _getGenericPlugins() {
+    protected function _getCorePlugins() {
+        
         $user = Aitsu_Adm_User::getInstance();
 
-        $pluginDir = APPLICATION_LIBPATH . '/Moraso/Plugin';
+        $namespaces = Moraso_Plugins::getNamespaces();
 
-        $files = Aitsu_Util_Dir::scan($pluginDir, 'Class.php');
-        $baseLength = strlen($pluginDir);
         $plugins = array();
+        foreach ($namespaces as $namespace) {
+            $pluginDir = APPLICATION_LIBPATH . '/' . $namespace . '/Plugin';
 
-        foreach ($files as $plugin) {
-            $pluginXml = realpath(dirname($plugin) . '/plugin.xml');
-            $pluginInfo = simplexml_load_file($pluginXml);
-            $pluginPathInfo = explode('/', substr($plugin, $baseLength + 1));
-            $pluginType = $pluginPathInfo[1];
-            $pluginName = $pluginPathInfo[0];
+            $files = Aitsu_Util_Dir::scan($pluginDir, 'Class.php');
+            $baseLength = strlen($pluginDir);
 
-            if ($pluginType === 'Generic') {
-                $aclAreaCheck = 'plugin.' . strtolower($pluginName) . '.generic';
+            foreach ($files as $plugin) {
+                $pluginXml = realpath(dirname($plugin) . '/plugin.xml');
+                $pluginInfo = simplexml_load_file($pluginXml);
+                $pluginPathInfo = explode('/', substr($plugin, $baseLength + 1));
+                $pluginType = $pluginPathInfo[1];
+                $pluginName = $pluginPathInfo[0];
 
-                if ($user != null && $user->isAllowed(array('area' => $aclAreaCheck))) {
-                    $plugins[] = array(
-                        'label' => (string) $pluginInfo->name,
-                        'id' => uniqid(),
-                        'controller' => 'plugin',
-                        'params' => array(
-                            'plugin' => $pluginName,
-                            'paction' => 'index'
-                        ),
-                        'route' => 'gplugin',
-                        'pages' => array(),
-                        'icon' => (string) $pluginInfo->icon
-                    );
+                if ($pluginType === 'Generic') {
+                    $aclAreaCheck = 'plugin.' . strtolower($pluginName) . '.generic';
+
+                    if ($user != null && $user->isAllowed(array('area' => $aclAreaCheck))) {
+                        $plugins[] = array(
+                            'label' => (string) $pluginInfo->name,
+                            'id' => uniqid(),
+                            'controller' => 'plugin',
+                            'params' => array(
+                                'namespace' => $namespace,
+                                'plugin' => $pluginName,
+                                'paction' => 'index'
+                            ),
+                            'route' => 'gplugin',
+                            'pages' => array(),
+                            'icon' => (string) $pluginInfo->icon
+                        );
+                    }
                 }
             }
         }
+
+        return $plugins;
+    }
+
+    protected function _getCommunityPlugins() {
+
+        $plugins = array();
 
         return $plugins;
     }
