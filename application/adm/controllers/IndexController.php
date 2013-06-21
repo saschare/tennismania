@@ -21,7 +21,6 @@ class IndexController extends Zend_Controller_Action {
         $namespaces = Moraso_Plugins::getNamespaces();
 
         foreach ($namespaces as $namespace) {
-
             $pluginDir = APPLICATION_LIBPATH . '/' . $namespace . '/Plugin';
 
             $plugins = Aitsu_Util_Dir::scan($pluginDir, 'Class.php');

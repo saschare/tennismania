@@ -1,0 +1,41 @@
+<!-- Shop Overview -->
+<div class="row">
+    <?php foreach ($this->articles as $article) : ?>
+        <div class="large-6 columns">
+            <a href="{ref:idart-<?php echo $article->idart; ?>}"><h3><?php echo $article->pagetitle; ?></h3></a>
+            <p class="summary"><?php echo $article->summary; ?></p>
+
+            <?php echo Moraso_Html_Helper_Image::getHtml($article->idart, $article->mainimage, 800, 225, 2, array('subline' => $article->pagetitle)); ?>
+
+            <form class="custom">
+                <div class="row collapse">
+                    <div class="small-9 columns">
+                        <select name="qty">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                    <div class="small-3 columns">
+                        <a href="#" data-idart="<?php echo $article->idart; ?>" data-idlang="<?php echo Aitsu_Registry::get()->env->idlang; ?>" class="addArticleToCart button prefix">einpacken</a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    <?php endforeach; ?>
+</div>
+
+<?php if ($this->pages > 1) : ?>
+    <ul class="pagination">
+        <?php for ($p = 1; $p <= $this->pages; $p++) : ?>
+            <li class="<?php echo $p == $this->currentPage ? 'active' : ''; ?>">
+                <a href="{ref:idart-<?php echo $this->idart; ?>}?page=<?php echo $p; ?>">
+                    Page <?php echo $p; ?>
+                </a>
+            </li>
+        <?php endfor; ?>
+    </ul>
+<?php endif; ?>

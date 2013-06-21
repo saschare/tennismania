@@ -78,14 +78,14 @@
         <!-- Content :: Start -->
         <div class="row" role="main">
             <div id="page-wrapper" class="large-12 columns">
-                <script type="application/x-moraso" src="Template:Content">
+                <script type="application/x-moraso" src="Template:Main">
                     defaultTemplate = default
 
                     template.default.name = Standard
-                    template.default.file = templates/content/default.phtml 
+                    template.default.file = templates/main/default.phtml 
 
                     template.start.name = Start
-                    template.start.file = templates/content/start.phtml 
+                    template.start.file = templates/main/start.phtml 
                 </script>
             </div>
         </div>
@@ -106,23 +106,17 @@
         </footer>
         <!-- Footer :: End -->
 
+        <!-- Modals :: Start -->
+        <div id="articleAddedToBasketModal" class="medium reveal-modal"></div>
+        <!-- Modals :: End -->
+
         <!-- JS :: Start -->
-        <script>
-            document.write('<script src=' +
-            ('__proto__' in {} ? 'skin/js/vendor/zepto' : 'skin/js/vendor/jquery') +
-            '.js><\/script>')
-        </script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
         <script src="/skin/js/foundation.min.js"></script>
+        <script src="/skin/js/cart.js"></script>
         <script>
             $(document).foundation();
         </script>
         <!-- JS :: End -->
-
-        <div id="contactModal" class="reveal-modal">
-            <h2>Awesome. I have it.</h2>
-            <p class="lead">Your couch.  It is mine.</p>
-            <p>Im a cool paragraph that lives inside of an even cooler modal. Wins</p>
-            <a class="close-reveal-modal">&#215;</a>
-        </div>
     </body>
 </html>

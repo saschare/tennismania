@@ -182,18 +182,22 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
             'namespace' => 'none'
         )));
 
-        $router->addRoute('aplugin', new Zend_Controller_Router_Route('aplugin/:plugin/:paction/*', array(
+        $router->addRoute('aplugin', new Zend_Controller_Router_Route('aplugin/:namespace/:plugin/:paction/*', array(
             'controller' => 'plugin',
-            'action' => 'article',
+            'action' => 'index',
+            'area' => 'article',
             'plugin' => 'none',
-            'paction' => 'index'
+            'paction' => 'index',
+            'namespace' => 'none'
         )));
 
-        $router->addRoute('cplugin', new Zend_Controller_Router_Route('cplugin/:plugin/:paction/*', array(
+        $router->addRoute('cplugin', new Zend_Controller_Router_Route('cplugin/:namespace/:plugin/:paction/*', array(
             'controller' => 'plugin',
-            'action' => 'category',
+            'action' => 'index',
+            'area' => 'category',
             'plugin' => 'none',
-            'paction' => 'index'
+            'paction' => 'index',
+            'namespace' => 'none'
         )));
 
         $router->addRoute('morasoplugins', new Zend_Controller_Router_Route('morasoplugins/:area/', array(

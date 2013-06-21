@@ -1,0 +1,22 @@
+<div class="panel">
+    <?php print_r($this->itemData); ?>
+</div>
+
+<div class="row">
+    <div class="small-12 large-6 large-offset-6 columns">
+        <div class="row collapse">
+            <form class="custom">
+                <div class="small-3 columns">
+                    <select name="qty">
+                        <?php for ($i = 1; $i <= 10; $i++) : ?>
+                            <option value="<?= $i ?>"><?= $i ?></option>
+                        <?php endfor; ?>
+                    </select>
+                </div>
+                <div class="small-9 columns">
+                    <a href="#" class="button postfix right addArticleToCart" data-idart="<?= Aitsu_Registry::get()->env->idart ?>">Produkt in den Warenkorb legen</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

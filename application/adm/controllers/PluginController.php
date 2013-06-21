@@ -8,16 +8,18 @@ class PluginController extends Zend_Controller_Action {
 
     public function indexAction() {
 
-        $namespace = $this->getRequest()->getParam('namespace');
+        $this->_helper->viewRenderer->setNoRender(true);
+        
         $plugin = $this->getRequest()->getParam('plugin');
-        $paction = $this->getRequest()->getParam('paction');
         $area = $this->getRequest()->getParam('area');
 
-        if (!Aitsu_Adm_User :: getInstance()->isAllowed(array('area' => 'plugin.' . $plugin . '.' . $area))) {
+        
+        
+        if (!Aitsu_Adm_User::getInstance()->isAllowed(array('area' => 'plugin.' . strtolower($plugin) . '.' . strtolower($area)))) {
             return;
         }
 
-        $this->_helper->viewRenderer->setNoRender(true);
+        $namespace = $this->getRequest()->getParam('namespace');
 
         $pluginPath = APPLICATION_LIBPATH . '/' . ucfirst($namespace) . '/Plugin/' . ucfirst($plugin) . '/' . ucfirst($area) . '/';
 
@@ -27,49 +29,7 @@ class PluginController extends Zend_Controller_Action {
             $pluginPath . 'views/'
         ));
 
-        $this->getRequest()->setControllerName($namespace . '_Plugin_' . ucfirst($plugin) . '_' . ucfirst($area) . '_')->setActionName($paction)->setDispatched(false);
-    }
-
-    public function articleAction() {
-
-        $plugin = $this->getRequest()->getParam('plugin');
-
-        if (is_object($plugin)) {
-            $plugin = $plugin->name;
-        }
-
-        $action = $this->getRequest()->getParam('paction');
-        $controller = $plugin . 'Article';
-        $this->_helper->viewRenderer->setNoRender(true);
-
-        include_once (APPLICATION_PATH . '/plugins/article/' . $plugin . '/Class.php');
-
-        $this->view->setScriptPath(array(
-            APPLICATION_PATH . '/plugins/article/' . $plugin . '/views/'
-        ));
-
-        $this->getRequest()->setControllerName($controller)->setActionName($action)->setDispatched(false);
-    }
-
-    public function categoryAction() {
-
-        $plugin = $this->getRequest()->getParam('plugin');
-
-        if (is_object($plugin)) {
-            $plugin = $plugin->name;
-        }
-
-        $action = $this->getRequest()->getParam('paction');
-        $controller = $plugin . 'Category';
-        $this->_helper->viewRenderer->setNoRender(true);
-
-        include_once (APPLICATION_PATH . '/plugins/category/' . $plugin . '/Class.php');
-
-        $this->view->setScriptPath(array(
-            APPLICATION_PATH . '/plugins/category/' . $plugin . '/views/'
-        ));
-
-        $this->getRequest()->setControllerName($controller)->setActionName($action)->setDispatched(false);
+        $this->getRequest()->setControllerName($namespace . '_Plugin_' . ucfirst($plugin) . '_' . ucfirst($area) . '_')->setActionName($this->getRequest()->getParam('paction'))->setDispatched(false);
     }
 
 }

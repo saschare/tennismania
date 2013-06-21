@@ -1,0 +1,12 @@
+<plugin>
+    <id>4cd2cac0-f2a0-4ecc-98b1-0ace7f000101</id>
+    <name>Standard</name>
+    <author>Andreas Kummer</author>
+    <copyright>2010, w3concepts AG</copyright>
+
+    <privileges>
+        <privilege>
+            <identifier>plugin.standard.category</identifier>
+        </privilege>
+    </privileges>
+</plugin>

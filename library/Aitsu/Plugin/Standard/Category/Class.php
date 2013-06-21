@@ -1,12 +1,12 @@
 <?php
 
 /**
- * @author Christian Kehres <c.kehres@webtischlerei.de>
- * @copyright (c) 2012, webtischlerei <http://www.webtischlerei.de>
+ * @author Andreas Kummer, w3concepts AG
+ * @copyright Copyright &copy; 2010, w3concepts AG
  */
-class MorasoCategoryController extends Aitsu_Adm_Plugin_Controller {
+class Aitsu_Plugin_Standard_Category_Controller extends Moraso_Adm_Plugin_Controller {
 
-    const ID = '50a213b9-6568-4869-9fdd-56007f000001';
+    const ID = '4cd2cac0-f2a0-4ecc-98b1-0ace7f000101';
 
     public function init() {
 
@@ -16,10 +16,10 @@ class MorasoCategoryController extends Aitsu_Adm_Plugin_Controller {
 
     public static function register($idcat) {
 
-        $pos = self :: getPosition($idcat, 'moraso', 'category');
+        $pos = self :: getPosition($idcat, 'standard', 'category');
 
         return (object) array(
-                    'name' => 'moraso',
+                    'name' => 'standard',
                     'tabname' => Aitsu_Translate :: translate('Overview'),
                     'enabled' => $pos,
                     'position' => $pos,
@@ -29,87 +29,68 @@ class MorasoCategoryController extends Aitsu_Adm_Plugin_Controller {
 
     public function indexAction() {
 
-        $user = Aitsu_Adm_User :: getInstance();
         $idcat = $this->getRequest()->getParam('idcat');
         $cat = Aitsu_Persistence_Category :: factory($idcat)->load();
         $idlang = Aitsu_Registry :: get()->session->currentLanguage;
 
-        $this->view->usePublishing = Moraso_Config::get('sys.usePublishing');
-        $this->view->allowArticleDuplicate = Moraso_Config::get('sys.article.allow.duplicate');
+        $this->view->usePublishing = isset(Aitsu_Registry :: get()->config->sys->usePublishing) && Aitsu_Registry :: get()->config->sys->usePublishing == true;
         $this->view->idcat = $idcat;
         $this->view->categoryname = $cat->name;
         $this->view->isInFavories = Aitsu_Persistence_CatFavorite :: factory($idcat)->load()->isInFavorites();
         $this->view->isClipboardEmpty = !isset(Aitsu_Registry :: get()->session->clipboard->articles) || count(Aitsu_Registry :: get()->session->clipboard->articles) == 0;
 
-        $this->view->allowEdit = $user->isAllowed(array(
+        $this->view->allowEdit = Aitsu_Adm_User :: getInstance()->isAllowed(array(
             'language' => $idlang,
             'area' => 'article',
             'action' => 'update',
             'resource' => array(
                 'type' => 'cat',
                 'id' => $idcat
-                ))
-        );
+            )
+        ));
 
-        $this->view->allowNew = $user->isAllowed(array(
+        $this->view->allowNew = Aitsu_Adm_User :: getInstance()->isAllowed(array(
             'language' => $idlang,
             'area' => 'article',
             'action' => 'insert',
             'resource' => array(
                 'type' => 'cat',
                 'id' => $idcat
-                ))
-        );
+            )
+        ));
 
-        $this->view->allowPublishing = $user->isAllowed(array(
-            'language' => $idlang,
-            'area' => 'article',
-            'action' => 'publish',
-            'resource' => array(
-                'type' => 'cat',
-                'id' => $idcat
-                ))
-        );
+        $this->view->hidePublishing = (Aitsu_Config :: get('sys.usePublishing') ? false : true);
     }
 
     public function articlesAction() {
 
+        $user = Aitsu_Adm_User :: getInstance();
         $idcat = $this->getRequest()->getParam('idcat');
         $idlang = Aitsu_Registry :: get()->session->currentLanguage;
 
         if (isset($_POST['xaction']) && $_POST['xaction'] == 'update') {
             $data = json_decode($_POST['data']);
             $idcat = Aitsu_Db :: fetchOne('' .
-                            'select ' .
-                            '   idcat ' .
-                            'from ' .
-                            '   _cat_art ' .
-                            'where ' .
-                            '   idart = :idart', array(
+                            'select idcat from _cat_art where idart = :idart', array(
                         ':idart' => $data->id
-                    ));
+            ));
             $arts = Aitsu_Db :: fetchAll('' .
                             'select ' .
                             '	artlang.idart, ' .
                             '	artlang.idartlang ' .
-                            'from ' .
-                            '   _art_lang as artlang ' .
-                            'left join ' .
-                            '   _cat_art as catart on artlang.idart = catart.idart ' .
+                            'from _art_lang artlang ' .
+                            'left join _cat_art catart on artlang.idart = catart.idart ' .
                             'where ' .
                             '	catart.idcat = :idcat ' .
-                            'and ' .
-                            '   artlang.idlang = :idlang ' .
+                            '	and artlang.idlang = :idlang ' .
                             'order by ' .
                             '	artlang.artsort asc', array(
                         ':idcat' => $idcat,
                         ':idlang' => $idlang
-                    ));
+            ));
             $pos = 0;
             for ($i = 0; $i < count($arts); $i++) {
                 $idart = $arts[$i]['idart'];
-                $idartlang = $arts[$i]['idartlang'];
-
                 if ($pos == $data->artsort) {
                     $pos++;
                 }
@@ -118,24 +99,22 @@ class MorasoCategoryController extends Aitsu_Adm_Plugin_Controller {
                 } else {
                     $artsort = $pos++;
                 }
-
-                Aitsu_Db::put('_art_lang', 'idartlang', array(
-                    'idartlang' => $idartlang,
-                    'artsort' => $artsort
-                ));
-
                 Aitsu_Db :: query('' .
-                        'update ' .
-                        '   _pub_art_lang ' .
-                        'set ' .
-                        '   artsort =:artsort ' .
+                        'update _art_lang ' .
+                        'set artsort = :artsort ' .
                         'where ' .
-                        '   idartlang =:idartlang ' .
-                        'and ' .
-                        '   status =:status', array(
+                        '	idartlang = :idartlang', array(
                     ':artsort' => $artsort,
-                    ':idartlang' => $idartlang,
-                    ':status' => 1
+                    ':idartlang' => $arts[$i]['idartlang']
+                ));
+                Aitsu_Db :: query('' .
+                        'update _pub_art_lang ' .
+                        'set artsort = :artsort ' .
+                        'where ' .
+                        '	idartlang = :idartlang ' .
+                        '	and status = 1', array(
+                    ':artsort' => $artsort,
+                    ':idartlang' => $arts[$i]['idartlang']
                 ));
             }
         }

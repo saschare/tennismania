@@ -1,0 +1,9 @@
+<form method="post" action="<?= $this->nextStep ?>">
+    <?php foreach ($this->hiddenFields as $key => $value) : ?>
+        <input type="hidden" name="<?= $key ?>" value="<?= $value ?>" />
+    <?php endforeach; ?>
+
+    <p>Hier kann man nochmal alles zur Übersicht darstellen was wichtig ist.</p> 
+
+    <input type="submit" value="Bestellung kostenpflichtig durchführen" />
+</form>

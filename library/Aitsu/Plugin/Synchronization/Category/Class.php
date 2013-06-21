@@ -7,7 +7,7 @@
  * @author Christian Kehres <c.kehres@webtischlerei.de>
  * @copyright (c) 2012, webtischlerei <http://www.webtischlerei.de>
  */
-class SynchronizationCategoryController extends Aitsu_Adm_Plugin_Controller {
+class Aitsu_Plugin_Synchronization_Category_Controller extends Moraso_Adm_Plugin_Controller {
 
     const ID = '50a125aa-0868-4399-9c8b-53777f000001';
 

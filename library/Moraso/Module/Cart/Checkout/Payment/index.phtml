@@ -1,0 +1,11 @@
+<form method="post" action="<?= $this->nextStep ?>">
+    <p>Hier nun die Zahlungsart auswählen.</p>
+
+    <select name="payment">
+        <option value="cash">Vorkasse</option>
+        <option value="paypal">PayPal</option>
+        <option value="creditcard">Kreditkarte</option>
+    </select>
+
+    <input type="submit" value="weiter &raquo;" />
+</form>

@@ -1,0 +1,12 @@
+<plugin>
+    <id>50a125aa-0868-4399-9c8b-53777f000001</id>
+    <name>Synchronization</name>
+    <author>Andreas Kummer</author>
+    <copyright>2010, w3concepts AG</copyright>
+
+    <privileges>
+        <privilege>
+            <identifier>plugin.synchronization.category</identifier>
+        </privilege>
+    </privileges>
+</plugin>

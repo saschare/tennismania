@@ -1,0 +1,11 @@
+<?php if ($this->cnt > 0) : ?>
+    <p>Es befinden sich <?= $this->cnt; ?> Artikel in Ihrem Warenkorb.</p>
+<?php else: ?>
+    <p>noch keine Artikel im Warenkorb</p>
+<?php endif; ?>
+
+<ul class="no-bullet">
+    <?php foreach ($this->articles as $article) : ?>
+        <li><?= $article['cnt'] ?>x <?= $article['pagetitle']; ?> </li>
+    <?php endforeach; ?>
+</ul>

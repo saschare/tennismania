@@ -1,0 +1,12 @@
+<plugin>
+    <id>50a213b9-6568-4869-9fdd-56007f000001</id>
+    <name>Moraso</name>
+    <author>Christian Kehres</author>
+    <copyright>2012, webtischlerei</copyright>
+
+    <privileges>
+        <privilege>
+            <identifier>plugin.moraso.category</identifier>
+        </privilege>
+    </privileges>
+</plugin>

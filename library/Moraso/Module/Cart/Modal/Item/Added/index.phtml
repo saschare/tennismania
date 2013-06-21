@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="large-12 columns">
+        <p class="panel">Der Artikel <strong><?php echo $this->pagetitle; ?></strong> wurde erfolgreich <strong><?php echo $this->qty; ?> mal</strong> in den Warenkorb gelegt.</p>
+    </div>
+
+    <div class="large-12 columns">
+        <div class="row">
+            <div class="large-3 columns">
+                <img src="<?php echo $this->mainimage; ?>" alt="<?php echo $this->pagetitle; ?>" title="<?php echo $this->pagetitle; ?>" />
+            </div>
+
+            <div class="large-9 columns">
+                <h1><?php echo $this->pagetitle; ?></h1>
+                <h2 class="subheader"><?php echo $this->teasertitle; ?></h2>
+
+                <div class="row">
+                    <div class="large-6 columns">
+                        <span>Artikelnummer: <?php echo $this->sku; ?></span>
+                    </div>
+                    <div class="large-6 columns">
+                        <span>Preis: <?php echo $this->price; ?></span>
+                    </div>
+                </div>
+
+                <p><?php echo $this->summary; ?></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="large-12 columns">
+        <p class="panel">Das Produkt befindet sich nun <strong><?php echo $this->cartItemQty; ?> mal</strong> in Ihrem Warenkorb.</p>
+    </div>
+
+    <div class="large-12 columns">
+        <a href="#" class="left small button">Weiter shoppen</a>
+        <a href="#" class="right small button">Warenkorb anzeigen</a>
+    </div>
+</div>
