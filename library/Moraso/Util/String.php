@@ -36,7 +36,7 @@ class Moraso_Util_String {
 
         $slug_trim = trim($string);
 
-        $slug_tolower = strtolower($slug_trim);
+        $slug_tolower = mb_strtolower($slug_trim, 'UTF-8');
 
         $specialCharactersSearch = array('ä', 'ö', 'ü', 'à', 'ç', 'è', 'é', 'ê', 'ß');
         $specialCharactersReplace = array('ae', 'ou', 'ue', 'a', 'c', 'e', 'e', 'e', 'ss');
