@@ -1,0 +1,12 @@
+<plugin>
+    <id>4cc155c9-18c0-42eb-97b9-0ab77f000101</id>
+    <name>Redirector</name>
+    <author>Andreas Kummer</author>
+    <copyright>2010, w3concepts AG</copyright>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.redirector.article</identifier>
+        </privilege>
+    </privileges>
+</plugin>

@@ -1,0 +1,12 @@
+<plugin>
+    <id>4ca98c9e-85ec-4228-8171-12657f000101</id>
+    <name>Meta</name>
+    <author>Andreas Kummer</author>
+    <copyright>2010, w3concepts AG</copyright>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.meta.article</identifier>
+        </privilege>
+    </privileges>
+</plugin>

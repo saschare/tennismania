@@ -1,22 +1,35 @@
 var center = Ext.getCmp('viewport-center');
 center.removeAll();
 
-var pluginsGrid = new Ext.grid.GridPanel({
-    title: '<?php echo Aitsu_Translate::translate('Plugins'); ?>',
-    id: 'pluginsGrid',
-    store: new Ext.data.JsonStore({
-        url: '<?php echo $this->url(array('paction' => 'store')); ?>',
-        root: 'plugins',
-        fields: [
+var reader = new Ext.data.JsonReader({
+    idProperty: 'id',
+    root: 'plugins',
+    fields: [
             'namespace',
             'dir',
             'name',
             'type',
             'author',
-            'copyright'
-        ],
-        autoLoad: true
-    }),
+            'copyright',
+            'path'
+        ]
+});
+
+var store = new Ext.data.GroupingStore({
+    reader: reader,
+    url: '<?php echo $this->url(array('paction' => 'store')); ?>',
+    groupField: 'type',
+    sortInfo: {
+        field: 'name',
+        direction: 'asc'
+    },
+    autoLoad: true
+});
+
+var pluginsGrid = new Ext.grid.GridPanel({
+    title: '<?php echo Aitsu_Translate::translate('Plugins'); ?>',
+    id: 'pluginsGrid',
+    store: store,
     columns: [{
             dataIndex: 'namespace',
             header: 'Namespace',
@@ -47,7 +60,15 @@ var pluginsGrid = new Ext.grid.GridPanel({
             width: 150,
             fixed: true,
             menuDisabled: true
+    }, {
+            dataIndex: 'path',
+            header: 'Pfad',
+            menuDisabled: true
     }],
+    view: new Ext.grid.GroupingView({
+        forceFit: true,
+        groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Plugins" : "Plugin"]})'
+    }),
     viewConfig: {
 	forceFit: true,
 	autoFill: true

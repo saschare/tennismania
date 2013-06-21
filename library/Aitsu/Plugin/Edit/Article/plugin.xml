@@ -1,0 +1,12 @@
+<plugin>
+    <id>4ca6ea6a-3cbc-4f64-a323-0e9f7f000101</id>
+    <name>Edit</name>
+    <author>Andreas Kummer</author>
+    <copyright>2010, w3concepts AG</copyright>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.edit.article</identifier>
+        </privilege>
+    </privileges>
+</plugin>

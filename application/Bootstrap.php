@@ -164,6 +164,18 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
         $router = Zend_Controller_Front::getInstance()->getRouter();
 
+        $router->addRoute('plugin', new Zend_Controller_Router_Route('plugin/:namespace/:plugin/:area/:paction/*', array(
+            'controller' => 'plugin',
+            'action' => 'index',
+            'namespace' => 'none',
+            'plugin' => 'none',
+            'area' => 'none',
+            'paction' => 'index'
+        )));
+        
+        
+        
+
         $router->addRoute('gplugin', new Zend_Controller_Router_Route('gplugin/:namespace/:plugin/:paction/*', array(
             'controller' => 'plugin',
             'action' => 'index',
@@ -212,31 +224,32 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
             'api' => 'none',
             'method' => 'index'
         )));
-        
-        
-        
-        
 
-        $router->addRoute('plugins', new Zend_Controller_Router_Route('plugins/:area/', array(
-            'controller' => 'plugins',
-            'action' => 'index',
-            'area' => 'none'
-        )));
 
-        $router->addRoute('plugin', new Zend_Controller_Router_Route('plugin/:area/:plugin/:paction/*', array(
-            'controller' => 'plugin',
-            'action' => 'index',
-            'area' => 'none',
-            'plugin' => 'none',
-            'paction' => 'index'
-        )));
 
-        $router->addRoute('dashboard', new Zend_Controller_Router_Route('dashboard/:plugin/:paction/*', array(
-            'controller' => 'plugin',
-            'action' => 'dashboard',
-            'plugin' => 'none',
-            'paction' => 'index'
-        )));
+
+        /*
+          $router->addRoute('plugins', new Zend_Controller_Router_Route('plugins/:area/', array(
+          'controller' => 'plugins',
+          'action' => 'index',
+          'area' => 'none'
+          )));
+
+          $router->addRoute('plugin', new Zend_Controller_Router_Route('plugin/:area/:plugin/:paction/*', array(
+          'controller' => 'plugin',
+          'action' => 'index',
+          'area' => 'none',
+          'plugin' => 'none',
+          'paction' => 'index'
+          )));
+
+          $router->addRoute('dashboard', new Zend_Controller_Router_Route('dashboard/:plugin/:paction/*', array(
+          'controller' => 'plugin',
+          'action' => 'dashboard',
+          'plugin' => 'none',
+          'paction' => 'index'
+          )));
+         */
     }
 
     protected function _initAppStatus() {

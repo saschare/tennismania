@@ -37,7 +37,8 @@ class Moraso_Plugin_Plugins_Generic_Controller extends Moraso_Adm_Plugin_Control
                     'name' => (string) $pluginInfo->name,
                     'type' => $pluginPathInfo[1],
                     'author' => (string) $pluginInfo->author,
-                    'copyright' => (string) $pluginInfo->copyright
+                    'copyright' => (string) $pluginInfo->copyright,
+                    'path' => dirname($plugin)
                 );
             }
         }

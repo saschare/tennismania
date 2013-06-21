@@ -203,9 +203,10 @@ class DataController extends Zend_Controller_Action {
                                 ), $idart);
 
                         if ($registry->enabled) {
-                            $pluginCollection[] = array(
-                                'namespace' => $namespace,
-                                'plugin' => $pluginPathInfo[0]
+                            $pluginCollection[] = (object) array(
+                                        'namespace' => $namespace,
+                                        'name' => $pluginPathInfo[0],
+                                        'position' => $registry->position
                             );
                         }
                     }
@@ -222,10 +223,10 @@ class DataController extends Zend_Controller_Action {
 
         foreach ($pluginCollection as $plugin) {
             $this->_helper->actionStack('index', 'plugin', 'default', array(
-                'namespace' => $plugin['namespace'],
-                'plugin' => $plugin['plugin'],
+                'namespace' => $plugin->namespace,
+                'plugin' => $plugin->name,
                 'paction' => 'index',
-                'area' => 'Article',
+                'area' => 'article',
                 'idart' => $idart
             ));
         }
@@ -288,7 +289,7 @@ class DataController extends Zend_Controller_Action {
                         if ($registry->enabled) {
                             $this->view->plugins[] = (object) array(
                                         'namespace' => $namespace,
-                                        'plugin' => $pluginPathInfo[0],
+                                        'name' => $pluginPathInfo[0],
                                         'position' => $registry->position
                             );
                         }

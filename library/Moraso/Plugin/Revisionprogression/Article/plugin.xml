@@ -1,0 +1,12 @@
+<plugin>
+    <id>4df8d3e8-f820-4dde-8a41-129a7f000101</id>
+    <name>Revision Progression</name>
+    <author>Christian Kehres</author>
+    <copyright>2011, webtischlerei</copyright>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.revisionprogression.article</identifier>
+        </privilege>
+    </privileges>
+</plugin>

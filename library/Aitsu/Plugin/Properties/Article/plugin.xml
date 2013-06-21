@@ -1,0 +1,12 @@
+<plugin>
+    <id>4ca9a84f-d2c0-4011-8903-177a7f000101</id>
+    <name>Properties</name>
+    <author>Andreas Kummer</author>
+    <copyright>2010, w3concepts AG</copyright>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.properties.article</identifier>
+        </privilege>
+    </privileges>
+</plugin>

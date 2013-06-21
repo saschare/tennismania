@@ -1,0 +1,12 @@
+<plugin>
+    <id>4cd3092a-7de8-47cc-b390-10ec7f000101</id>
+    <name>Editalt</name>
+    <author>Andreas Kummer</author>
+    <copyright>2010, w3concepts AG</copyright>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.editalt.article</identifier>
+        </privilege>
+    </privileges>
+</plugin>

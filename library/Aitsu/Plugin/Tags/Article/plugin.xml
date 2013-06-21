@@ -1,0 +1,12 @@
+<plugin>
+    <id>4cb71a90-bae4-4626-aee9-21487f000101</id>
+    <name>Tags</name>
+    <author>Andreas Kummer</author>
+    <copyright>2010, w3concepts AG</copyright>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.tags.article</identifier>
+        </privilege>
+    </privileges>
+</plugin>

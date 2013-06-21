@@ -1,0 +1,12 @@
+<plugin>
+    <id>4e7b5a8c-7ac8-4f3e-8a7f-12057f000101</id>
+    <name>Google Locator</name>
+    <author>Andreas Kummer</author>
+    <copyright>2010, w3concepts AG</copyright>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.googlelocator.article</identifier>
+        </privilege>
+    </privileges>
+</plugin>

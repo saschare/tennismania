@@ -1,0 +1,12 @@
+<plugin>
+    <id>5156f61e-d780-4b15-aa48-2a37c0a8b230</id>
+    <name>Lucene</name>
+    <author>Christian Kehres</author>
+    <copyright>2013, webtischlerei</copyright>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.lucene.article</identifier>
+        </privilege>
+    </privileges>
+</plugin>

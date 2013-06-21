@@ -216,9 +216,10 @@ class Moraso_Adm_Controller_Navigation extends Zend_Controller_Plugin_Abstract {
                                 'params' => array(
                                     'namespace' => $namespace,
                                     'plugin' => $pluginName,
-                                    'paction' => 'index'
+                                    'paction' => 'index',
+                                    'area' => 'generic'
                                 ),
-                                'route' => 'gplugin',
+                                'route' => 'plugin',
                                 'pages' => array(),
                                 'icon' => (string) $pluginInfo->icon
                             );

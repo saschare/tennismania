@@ -1,0 +1,12 @@
+<plugin>
+    <id>4cbd68e4-6b4c-487c-9fd7-13237f000101</id>
+    <name>Crosslinking</name>
+    <author>Andreas Kummer</author>
+    <copyright>2010, w3concepts AG</copyright>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.crosslinking.article</identifier>
+        </privilege>
+    </privileges>
+</plugin>

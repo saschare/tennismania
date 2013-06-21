@@ -1,0 +1,12 @@
+<plugin>
+    <id>4cab3816-66e8-483a-b133-14a27f000101</id>
+    <name>Media</name>
+    <author>Andreas Kummer</author>
+    <copyright>2010, w3concepts AG</copyright>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.media.article</identifier>
+        </privilege>
+    </privileges>
+</plugin>
