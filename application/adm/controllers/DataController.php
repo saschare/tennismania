@@ -218,10 +218,12 @@ class DataController extends Zend_Controller_Action {
             $this,
             '_comparePosition'
         ));
+        
+        $plugins = array_reverse($pluginCollection);
 
         $this->view->hidePublishing = (Aitsu_Config::get('sys.usePublishing') ? false : true);
 
-        foreach ($pluginCollection as $plugin) {
+        foreach ($plugins as $plugin) {
             $this->_helper->actionStack('index', 'plugin', 'default', array(
                 'namespace' => $plugin->namespace,
                 'plugin' => $plugin->name,
@@ -430,11 +432,11 @@ class DataController extends Zend_Controller_Action {
     protected function _comparePosition($a, $b) {
 
         if (isset($a->position) && isset($b->position)) {
-            return $a->position > $b->position ? +1 : 1;
+            return $a->position < $b->position ? -1 : 1;
         }
 
         if (isset($a->position)) {
-            return +1;
+            return -1;
         }
 
         if (isset($b->position)) {

@@ -4,16 +4,22 @@
  * @author Christian Kehres <c.kehres@webtischlerei.de>
  * @copyright (c) 2013, webtischlerei <http://www.webtischlerei.de>
  */
-class Skin_Module_Cart_Checkout_Overview_Class extends Moraso_Module_Abstract {
+class Moraso_Module_Cart_Modal_Checkout_Overview_Class extends Aitsu_Module_Abstract {
 
     protected $_allowEdit = false;
+    protected $_renderOnlyAllowed = true;
+
+    protected function _init() {
+
+        Aitsu_Registry::setExpireTime(0);
+    }
 
     protected function _main() {
 
         $cart_id = 17;
-
-        /* get Payment Data */
-        switch ($_POST['payment']) {
+        $payment_type = 'paypal';
+        
+        switch ($payment_type) {
             case 'paypal':
                 $paymentStrategy = new Smoco_Cart_Payment_Strategy_Paypal();
                 break;
@@ -27,7 +33,7 @@ class Skin_Module_Cart_Checkout_Overview_Class extends Moraso_Module_Abstract {
                 $paymentStrategy = new Smoco_Cart_Payment_Strategy_Cash();
         }
 
-        $payment = new Smoco_Cart_Payment($paymentStrategy);
+        $payment = new Moraso_Cart_Payment($paymentStrategy);
 
         $nextStep = $payment->getCheckoutUrl();
         $hiddenFields = $payment->getHiddenFormFields($cart_id);
@@ -36,7 +42,8 @@ class Skin_Module_Cart_Checkout_Overview_Class extends Moraso_Module_Abstract {
         $view = $this->_getView();
         $view->nextStep = $nextStep;
         $view->hiddenFields = $hiddenFields;
-        return $view->render('index.phtml');
+
+        echo $view->render('index.phtml');
     }
 
     protected function _cachingPeriod() {

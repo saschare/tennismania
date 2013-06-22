@@ -11,7 +11,7 @@ center.add({
 	bodyStyle:'padding:4px'
 });
 
-<?php $plugins = array(); for ($i = 0; $i < count($this->plugins); $i++) {$plugins[] = "'" . $this->url(array('plugin' => $this->plugins[$i]['name'], 'namespace' => $this->plugins[$i]['namespace']), 'dplugin') . "'"; } ?>
+<?php $plugins = array(); for ($i = 0; $i < count($this->plugins); $i++) {$plugins[] = "'" . $this->url(array('namespace' => $this->plugins[$i]['namespace'], 'plugin' => $this->plugins[$i]['name'], 'area' => 'dashboard'), 'plugin') . "'"; } ?>
 
 Ext.aitsu.load([<?php echo implode(',', $plugins); ?>], function() {
 	Ext.getCmp('viewport').doLayout();

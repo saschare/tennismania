@@ -34,10 +34,7 @@ class Moraso_Plugin_Config_Article_Controller extends Moraso_Adm_Plugin_Controll
 
         $form = Aitsu_Forms::factory(strtolower($classExplode[2]), APPLICATION_LIBPATH . '/' . $classExplode[0] . '/' . $classExplode[1] . '/' . $classExplode[2] . '/' . $classExplode[3] . '/forms/config.ini');
         $form->title = Aitsu_Translate :: translate('Configuration');
-        $form->url = $this->view->url(array(
-            'plugin' => 'config',
-            'paction' => 'index'
-                ), 'aplugin');
+        $form->url = $this->view->url(array('namespace' => 'moraso', 'plugin' => 'config', 'area' => 'article', 'paction' => 'index'), 'plugin');
 
         $options = array(
             (object) array(

@@ -52,15 +52,18 @@ class Moraso_Plugin_Plugins_Generic_Controller extends Moraso_Adm_Plugin_Control
 
         $this->_helper->layout->disableLayout();
 
-        $namespace = $this->getRequest()->getParam('namespace');
+        $namespace = $_POST['namespace'];
         $dir = $this->getRequest()->getParam('dir');
         $type = $this->getRequest()->getParam('type');
-
+        
         include_once (APPLICATION_LIBPATH . '/' . $namespace . '/Plugin/' . $dir . '/' . $type . '/Class.php');
 
         call_user_func_array($namespace . '_Plugin_' . $dir . '_' . $type . '_Controller::install', array($namespace, $dir, $type));
 
         $this->_helper->json((object) array(
+                    'namespace' => $namespace,
+                    'plugin' => $dir,
+                    'area' => $type,
                     'success' => true
         ));
     }

@@ -80,7 +80,7 @@ class Moraso_Plugin_Rewritehistory_Article_Controller extends Moraso_Adm_Plugin_
 
         $form = Aitsu_Forms::factory('entry', APPLICATION_PATH . '/plugins/article/rewritehistory/forms/edit.ini');
         $form->title = Aitsu_Translate :: translate('Edit rewrite Rule');
-        $form->url = $this->view->url(array('plugin' => 'rewritehistory', 'paction' => 'edit'), 'aplugin');
+        $form->url = $this->view->url(array('paction' => 'edit'));
 
         $data = Aitsu_Db::fetchRow("
             SELECT

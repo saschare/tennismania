@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="large-12 columns">
+        <h1>Kasse // Zahlungsmittel</h1>
+
+        <div class="progress large-12 success"><span class="meter" style="width: 60%"></span></div>
+
+        <form id="checkoutFormPayment" action="<?php echo $this->nextStep ?>">
+            <p>Womit möchten Sie gerne zahlen?</p>
+
+            <select name="payment">
+                <option value="cash">Vorkasse</option>
+                <option value="paypal">PayPal</option>
+                <option value="creditcard">Kreditkarte</option>
+            </select>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="large-12 columns">
+        <a href="#" class="left small openCheckoutBilling button">&laquo; zurück zur Rechnungsadresse</a>
+        <a href="#" class="right small openCheckoutOverview button">Daten überprüfen &raquo;</a>
+    </div>
+</div>
+
+<a class="close-reveal-modal">&#215;</a>

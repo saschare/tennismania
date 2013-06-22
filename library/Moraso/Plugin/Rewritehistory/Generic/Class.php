@@ -15,7 +15,7 @@ class Moraso_Plugin_Rewritehistory_Generic_Controller extends Moraso_Adm_Plugin_
     public function indexAction() {
         header("Content-type: text/javascript");
     }
-        
+
     public function storeAction() {
 
         $data = Moraso_Db::fetchAll('' .
@@ -50,7 +50,7 @@ class Moraso_Plugin_Rewritehistory_Generic_Controller extends Moraso_Adm_Plugin_
 
         $form = Aitsu_Forms::factory(strtolower($classExplode[2]), APPLICATION_LIBPATH . '/' . $classExplode[0] . '/' . $classExplode[1] . '/' . $classExplode[2] . '/' . $classExplode[3] . '/forms/edit.ini');
         $form->title = Aitsu_Translate::translate('Edit rewrite Rule');
-        $form->url = $this->view->url(array('paction' => 'edit'), 'gplugin');
+        $form->url = $this->view->url(array('paction' => 'edit'));
 
         $data = Moraso_Db::fetchRow('' .
                         'select ' .
@@ -64,7 +64,9 @@ class Moraso_Plugin_Rewritehistory_Generic_Controller extends Moraso_Adm_Plugin_
                     ':id' => $id
         ));
 
-        $form->setValues($data);
+        if ($data) {
+            $form->setValues($data);
+        }
 
         if ($this->getRequest()->getParam('loader')) {
             $this->view->form = $form;

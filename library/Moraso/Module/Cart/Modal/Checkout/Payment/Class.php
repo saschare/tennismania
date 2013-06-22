@@ -4,17 +4,21 @@
  * @author Christian Kehres <c.kehres@webtischlerei.de>
  * @copyright (c) 2013, webtischlerei <http://www.webtischlerei.de>
  */
-class Skin_Module_Cart_Checkout_Payment_Class extends Moraso_Module_Abstract {
+class Moraso_Module_Cart_Modal_Checkout_Payment_Class extends Aitsu_Module_Abstract {
 
     protected $_allowEdit = false;
+    protected $_renderOnlyAllowed = true;
+
+    protected function _init() {
+
+        Aitsu_Registry::setExpireTime(0);
+    }
 
     protected function _main() {
 
-        $nextStep = Moraso_Config::get('smoco.shop.checkout.overview.idart');
-
         /* create View */
         $view = $this->_getView();
-        $view->nextStep = Moraso_Rewrite_Standard::getInstance()->rewriteOutput('{ref:idart-' . $nextStep . '}');
+        
         return $view->render('index.phtml');
     }
 

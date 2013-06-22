@@ -44,7 +44,7 @@ class Moraso_Plugin_Configuration_Generic_Controller extends Moraso_Adm_Plugin_C
 
         $form = Aitsu_Forms::factory(strtolower($classExplode[2]), APPLICATION_LIBPATH . '/' . $classExplode[0] . '/' . $classExplode[1] . '/' . $classExplode[2] . '/' . $classExplode[3] . '/forms/config.ini');
         $form->title = Aitsu_Translate::translate('Edit Configuration');
-        $form->url = $this->view->url(array('paction' => 'edit'), 'gplugin');
+        $form->url = $this->view->url(array('paction' => 'edit'));
 
         /* mapping */
         $configs = array();
@@ -86,8 +86,10 @@ class Moraso_Plugin_Configuration_Generic_Controller extends Moraso_Adm_Plugin_C
                     ':id' => $id
         ));
 
-        $form->setValues($data);
-
+        if ($data) {
+            $form->setValues($data);
+        }
+        
         if ($this->getRequest()->getParam('loader')) {
             $this->view->form = $form;
             header("Content-type: text/javascript");

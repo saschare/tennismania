@@ -64,8 +64,20 @@ body {
                             line-height: -px-to-rem(100);
                             font-weight: 400;
                             transition: color 0.5s ease;
+                            position: relative;
                             
                             &:hover {
+                                color: $main-color;
+                            }
+                            
+                            span {
+                                display: none;
+                                position: absolute;
+                                right: 0;
+                                bottom: 25px;
+                                padding: 0 0.9375em;
+                                font-size: -px-to-rem(12);
+                                line-height: -px-to-rem(12);
                                 color: $main-color;
                             }
                         }
@@ -126,5 +138,36 @@ body {
                 line-height: -px-to-rem(18);
             }
         }
+    }
+}
+
+/* Modals */
+.reveal-modal {
+    table {
+        td {
+            vertical-align: top;
+            
+            h2 {
+                font-size: -px-to-rem(20);
+                line-height: -px-to-rem(20);
+                
+                margin-bottom: 5px;
+            }
+        }
+    }
+}
+
+/* global Styles */
+button, .button {
+    background-color: $dark-hover;
+    border-color: $dark;
+    box-shadow: none;
+    font-weight: 400;
+    transition: all 300ms ease-out;
+    margin-bottom: 0;
+    
+    &:hover, &:focus {
+        background-color: $dark;
+        color: $main-color;
     }
 }

@@ -1,0 +1,12 @@
+<plugin>
+    <id>4d26f1cd-7df0-4ddf-a5c6-12617f000101</id>
+    <name>ToDo</name>
+    <author>Andreas Kummer</author>
+    <copyright>2010, w3concepts AG</copyright>
+
+    <privileges>
+        <privilege>
+            <identifier>plugin.todo.article</identifier>
+        </privilege>
+    </privileges>
+</plugin>

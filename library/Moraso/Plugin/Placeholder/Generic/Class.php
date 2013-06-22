@@ -48,7 +48,7 @@ class Moraso_Plugin_Placeholder_Generic_Controller extends Moraso_Adm_Plugin_Con
 
         $form = Aitsu_Forms::factory(strtolower($classExplode[2]), APPLICATION_LIBPATH . '/' . $classExplode[0] . '/' . $classExplode[1] . '/' . $classExplode[2] . '/' . $classExplode[3] . '/forms/edit.ini');
         $form->title = Aitsu_Translate :: translate('Edit placeholder');
-        $form->url = $this->view->url(array('paction' => 'edit'), 'gplugin');
+        $form->url = $this->view->url(array('paction' => 'edit'));
 
         $data['id'] = $id;
         $data['identifier'] = Aitsu_Placeholder::get($id);

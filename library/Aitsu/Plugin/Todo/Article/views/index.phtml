@@ -1,0 +1,282 @@
+var users = new Ext.data.JsonStore({
+    url: '<?php echo $this->url(array('controller' => 'store', 'action' => 'users'), 'default'); ?>',
+    fields: ['userid', 'user'],
+    root: 'data'
+});
+
+var todoEditForm = new Ext.FormPanel({
+	url: '<?php echo $this->url(array('namespace' => 'aitsu', 'area' => 'article', 'plugin' => 'Todo',  'paction' => 'save'), 'plugin'); ?>',
+	labelAlign: 'top',
+	frame:true,
+	bodyStyle:'padding:5px 5px 0',
+	items: [
+		{
+			xtype:'textfield',
+			fieldLabel: '<?php echo Aitsu_Translate :: translate('Title'); ?>',
+			name: 'title',
+			anchor: '100%',
+			allowBlank: false
+		}, {
+			xtype:'textarea',
+			fieldLabel: '<?php echo Aitsu_Translate :: translate('Description'); ?>',
+			name: 'description',
+			anchor: '100%',
+			height: 200,
+			allowBlank: false
+		}, {
+			xtype:'datefield',
+			fieldLabel: '<?php echo Aitsu_Translate :: translate('Due'); ?>',
+			name: 'duedate',
+			width: 150,
+			format: 'Y-m-d',
+			allowBlank: false
+		}, {
+			xtype: 'combo',
+			loadingText: "Loading...",
+			emptyText: 'Select a user...',
+			fieldLabel: '<?php echo Aitsu_Translate :: translate('Assignment'); ?>',
+			hiddenName: 'userid',
+			anchor: '100%',
+			width: 150,
+			store: users,
+			mode: 'local',
+			displayField: 'user',
+			valueField: 'userid',
+			allowBlank: false,
+			editable: 'false',
+			listeners: {
+				render: {
+					fn: function() {
+						this.getStore().load();
+					}
+				}
+			}
+		}, {
+			xtype: 'hidden',
+			name: 'idartlang',
+			value: <?php echo $this->idartlang; ?>
+		}, {
+			xtype: 'hidden',
+			name: 'todoid'
+		}
+	]
+});
+
+var todoEditWindow = new Ext.Window({
+	title: '<?php echo Aitsu_Translate :: translate('Todo'); ?>',
+	layout:'fit',
+	width:500,
+	height:460,
+	plain: true,
+	modal: true,
+	items: todoEditForm,
+	buttons: [{
+		text: '<?php echo Aitsu_Translate :: translate('Cancel'); ?>',
+		iconCls: 'cancel',
+		handler: function() {
+			todoEditWindow.hide();
+		}
+	},{
+		text: '<?php echo Aitsu_Translate :: translate('Save'); ?>',
+		iconCls: 'save',
+		handler: function(){
+			todoEditForm.getForm().submit({
+				success: function(form, action) {
+					todos.getStore().load({
+						params: {
+							idartlang: <?php echo $this->idartlang; ?>
+						}
+					});
+					todoEditWindow.hide();
+				} 
+			});
+		}
+	}]
+});
+
+var todoExpander = new Ext.ux.grid.RowExpander({
+        tpl : new Ext.Template(
+            '<pre style="padding:10px;">{description}</pre>'
+        )
+    });	
+
+var todos = new Ext.grid.GridPanel({
+	id: 'todos',
+	store: new Ext.data.JsonStore({
+        autoDestroy: true,
+        url: '<?php echo $this->url(array('namespace' => 'aitsu', 'area' => 'article', 'plugin' => 'Todo',  'paction' => 'store'), 'plugin'); ?>',
+        remoteSort: false,
+        storeId: 'logStore',
+        root: 'data',
+        fields: [{
+            name: 'todoid'
+        }, {
+            name: 'status'
+        }, {
+            name: 'title'
+        }, {
+            name: 'user'
+        }, {
+            name: 'description'
+        }, {
+            name: 'duedate',
+            type: 'date',
+            dateFormat: 'Y-m-d H:i:s'
+        }],
+        sortInfo: {
+           field: 'status',
+           direction: 'ASC'
+        }
+    }),
+    columns: [
+    	todoExpander,
+    	{dataIndex: 'todoid', header: '<?php echo Aitsu_Translate :: translate('ID'); ?>', menuDisabled: true, sortable: true, width: 5},
+    	{dataIndex: 'title', header: '<?php echo Aitsu_Translate :: translate('To Do'); ?>', menuDisabled: true, sortable: true, width: 25},
+        {dataIndex: 'user', header: '<?php echo Aitsu_Translate :: translate('Assignment'); ?>', menuDisabled: true, sortable: true, width: 15},
+    	{dataIndex: 'duedate', header: '<?php echo Aitsu_Translate :: translate('Due'); ?>', menuDisabled: true, sortable: true, width: 15, renderer: Ext.util.Format.dateRenderer('d.m.Y')},
+    	{dataIndex: 'status', header: '<?php echo Aitsu_Translate :: translate('Status'); ?>', menuDisabled: true, sortable: true, width: 40, renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+    		if (record.get('status') == '0') {
+    			return '<span style="color:red;"><?php echo Aitsu_Translate :: translate('pending'); ?></span>';
+    		} else {
+    			return '<span style="color:green;"><?php echo Aitsu_Translate :: translate('done'); ?></span>';
+    		}
+    	}}
+	],
+	viewConfig: {
+		forceFit: true,
+		autoFill: true
+	},
+	border: false,
+	listeners: {
+		render: {
+			fn: function(){
+				this.getStore().load({
+					params: {
+						idartlang: <?php echo $this->idartlang; ?>
+					}
+				});
+			}
+		},
+		rowcontextmenu: function(grid, rowIndex, event) {
+			
+			this.getSelectionModel().selectRow(rowIndex);
+			var record = this.getStore().getAt(rowIndex);
+			
+			var menu = new Ext.menu.Menu();
+			
+			if (record.get('status') == '0') {
+				menu.addItem({
+					text: '<?php echo $this->translate('Mark as done'); ?>',
+					iconCls: 'flag-done',
+					handler: function() {
+		            	Ext.Ajax.request({
+		            		url: '<?php echo $this->url(array('namespace' => 'aitsu', 'area' => 'article', 'plugin' => 'Todo',  'paction' => 'status'), 'plugin'); ?>',
+		            		success: function(response, opts) {
+		            			var rsp = Ext.decode(response.responseText);
+		            			if (rsp.success) {
+		            				todos.getStore().load({
+										params: {
+											idartlang: <?php echo $this->idartlang; ?>
+										}
+									});
+		            			}
+		            		},
+		            		params: { todoid: record.get('todoid'), status: 1 }
+		            	});					 					            					
+					}
+				});
+			} else {
+				menu.addItem({
+					text: '<?php echo $this->translate('Mark as pending'); ?>',
+					iconCls: 'flag-pending',
+					handler: function() {
+		            	Ext.Ajax.request({
+		            		url: '<?php echo $this->url(array('namespace' => 'aitsu', 'area' => 'article', 'plugin' => 'Todo',  'paction' => 'status'), 'plugin'); ?>',
+		            		success: function(response, opts) {
+		            			var rsp = Ext.decode(response.responseText);
+		            			if (rsp.success) {
+		            				todos.getStore().load({
+										params: {
+											idartlang: <?php echo $this->idartlang; ?>
+										}
+									});
+		            			}
+		            		},
+		            		params: { todoid: record.get('todoid'), status: 0 }
+		            	});					 					            					
+					}
+				});				
+			}
+			
+			menu.addItem('-');
+			
+			menu.addItem({
+				text: '<?php echo $this->translate('Edit'); ?>',
+				iconCls: 'edit',
+				handler: function() {
+	            	todoEditForm.getForm().findField('todoid').setValue(record.get('todoid'));
+	            	todoEditForm.getForm().findField('duedate').setValue(record.get('duedate'));
+	            	todoEditForm.getForm().findField('title').setValue(record.get('title'));
+	            	todoEditForm.getForm().findField('description').setValue(record.get('description'));
+	            	todoEditWindow.show();					
+				}
+			});
+			
+			menu.addItem('-');
+			
+			menu.addItem({
+				text: '<?php echo $this->translate('Delete'); ?>',
+				iconCls: 'delete',
+				handler: function() {
+					 Ext.MessageBox.show({
+					 	title: '<?php echo $this->translate('Delete todo'); ?>',
+					 	msg: '<?php echo $this->translate('Are you sure to delete the selected todo?'); ?>',
+					 	buttons: Ext.MessageBox.OKCANCEL,
+					 	fn: function(result) {
+					 		if (result == 'ok') {
+				            	Ext.Ajax.request({
+				            		url: '<?php echo $this->url(array('namespace' => 'aitsu', 'area' => 'article', 'plugin' => 'Todo',  'paction' => 'delete'), 'plugin'); ?>',
+				            		success: function(response, opts) {
+				            			var rsp = Ext.decode(response.responseText);
+				            			if (rsp.success) {
+				            				todos.getStore().load({
+												params: {
+													idartlang: <?php echo $this->idartlang; ?>
+												}
+											});
+				            			}
+				            		},
+				            		params: { todoid: record.get('todoid') }
+				            	});					 			
+					 		}
+					 	}
+					 });
+				}
+			});
+			
+			menu.showAt(event.getXY());
+		}
+	},
+	plugins: todoExpander,
+	tbar: {
+		items: [
+			{
+	            tooltip: '<?php echo Aitsu_Translate :: translate('Add new todo'); ?>',
+	            iconCls: 'tb-add',
+	            handler: function(b, e) {
+	            	todoEditForm.getForm().findField('todoid').setValue(null);
+	            	todoEditForm.getForm().findField('duedate').setValue(null);
+	            	todoEditForm.getForm().findField('title').setValue(null);
+	            	todoEditForm.getForm().findField('description').setValue(null);
+	            	todoEditWindow.show();
+	            }
+	        }
+	    ]
+	}
+});
+
+Ext.getCmp('page-edit-tab').add({
+	id: 'article-plugin-todo',
+	title: '<?php echo Aitsu_Translate :: translate('ToDo List'); ?>',
+	items: todos
+});

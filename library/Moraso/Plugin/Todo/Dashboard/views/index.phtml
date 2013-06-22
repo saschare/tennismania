@@ -95,7 +95,7 @@ var todos = new Ext.grid.GridPanel({
 	            tooltip: '<?php echo Aitsu_Translate :: translate('Open todo list'); ?>',
 	            iconCls: 'tm-todo',
 	            handler: function(b, e) {
-	            	Ext.aitsu.load(['gplugin/Aitsu/Todo'], null, {ajax: 1});
+	            	Ext.aitsu.load(['plugin/Aitsu/Todo/Generic'], null, {ajax: 1});
 	            }
 	        }
 	    ]
