@@ -1,0 +1,9 @@
+<skin>
+    <name>Standard Skin (Shop-Erweiterung)</name>
+    <author>Christian Kehres</author>
+    <copyright>2013, webtischlerei</copyright>
+    
+    <parent>
+        <skin>default</skin>
+    </parent>
+</skin>

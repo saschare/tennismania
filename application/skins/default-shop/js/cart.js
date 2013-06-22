@@ -100,8 +100,7 @@ var reloadMenuCartItem = function() {
     $.post('?renderOnly=Cart.Menu.Info', {
         timestamp: new Date().getTime()
     }, function(data) {
-        if (data.success) { 
-            
+        if (data.success) {         
             var animationSpeed = 400;
             
             if ($('#menuCartOverviewItem .qty').is(':visible')) {
