@@ -744,36 +744,6 @@
         <field name="params" type="text" default="null"/>
         <field name="lastexecution" type="timestamp" default="null" nullable="true"/>
     </table>
-    <table name="syndication_resource" engine="InnoDB" since="2.2.1.0">
-        <field name="sourceid" type="int(10) unsigned" default="null" primary="true">
-            <constraint table="syndication_source" column="sourceid" onupdate="restrict"
-                ondelete="cascade"/>
-        </field>
-        <field name="sourceidartlang" type="int(10) unsigned" default="null" primary="true"/>
-        <field name="name" type="varchar(255)" default="null" nullable="true"/>
-        <field name="content" type="longtext" default="null"/>
-        <field name="loaded" type="timestamp" default="CURRENT_TIMESTAMP"/>
-    </table>
-    <table name="syndication_resource_art" engine="InnoDB" since="2.2.1.0">
-        <field name="idartlang" type="int(10) unsigned" default="null" primary="true">
-            <constraint table="art_lang" column="idartlang" onupdate="restrict" ondelete="cascade"/>
-        </field>
-        <field name="sourceid" type="int(10) unsigned" default="null" primary="true">
-            <constraint table="syndication_source" column="sourceid" onupdate="restrict"
-                ondelete="cascade"/>
-        </field>
-        <field name="sourceidartlang" type="int(10) unsigned" default="null" primary="true"/>
-    </table>
-    <table name="syndication_source" engine="InnoDB" since="2.2.1.0">
-        <field name="sourceid" type="int(10) unsigned" default="null" autoincrement="true"
-            primary="true"/>
-        <field name="idclient" type="int(10) unsigned" default="null">
-            <constraint table="clients" column="idclient" onupdate="restrict" ondelete="cascade"/>
-        </field>
-        <field name="url" type="varchar(255)" default="null"/>
-        <field name="userid" type="varchar(255)" default="null"/>
-        <field name="secret" type="varchar(255)" default="null"/>
-    </table>
     <table name="tag" engine="InnoDB" since="2.2.1.0">
         <field name="tagid" type="int(10) unsigned" default="null" autoincrement="true"
             primary="true"/>
@@ -811,29 +781,6 @@
         <field name="tkey" type="text" default="null"/>
         <field name="tvalue" type="text" default="null" nullable="true"/>
         <field name="obsolete" type="datetime" default="null" nullable="true"/>
-    </table>
-    <table engine="InnoDB" name="channel" since="2.3.0">
-        <field default="null" name="channelid" type="int(10) unsigned" autoincrement="true"
-            nullable="false" primary="true" comment="Primary key."/>
-        <field default="null" name="idclient" type="int(10) unsigned" nullable="false"
-            comment="Reference to clients.">
-            <constraint column="idclient" ondelete="cascade" onupdate="no action" table="clients"/>
-        </field>
-        <field default="null" name="name" type="varchar(255)" nullable="false"
-            comment="Name of the channel."/>
-        <field default="null" name="description" type="text" nullable="true"
-            comment="Description of the channel."/>
-    </table>
-    <table engine="InnoDB" name="channel_art_lang" since="2.3.0">
-        <field default="null" name="idartlang" type="int(10) unsigned" nullable="false"
-            primary="true" comment="Reference to art_lang.">
-            <constraint column="idartlang" ondelete="cascade" onupdate="no action" table="art_lang"
-            />
-        </field>
-        <field default="null" name="channelid" type="int(10) unsigned" nullable="false"
-            primary="true" comment="Refernce to channel.">
-            <constraint column="channelid" ondelete="cascade" onupdate="no action" table="channel"/>
-        </field>
     </table>
     <table engine="InnoDB" name="schemaorgtype" since="2.3.1">
         <field default="null" name="schemaorgtypeid" type="int (10) unsigned" nullable="false"
@@ -951,20 +898,6 @@
         <field default="null" name="rt" type="int(10) unsigned" nullable="true" comment="Reponse time"/>
         <field name="requested" type="timestamp" default="CURRENT_TIMESTAMP"/>
     </table>
-    <function name="getchannel"><![CDATA[
-        create function getchannel() returns varchar(255) no sql
-        begin
-            return @aitsuchannel;
-        end]]></function>
-    <view name="art_lang_channeled"><![CDATA[
-        select distinct
-            artlang.*
-        from _art_lang artlang
-        left join _channel_art_lang channel on artlang.idartlang = channel.idartlang
-        where
-            channel.idartlang is null 
-            or channel.channelid = getchannel()
-            or getchannel() is null]]></view>
     <view name="pubv_article_content"><![CDATA[
         select 
             *
@@ -977,15 +910,6 @@
         from _pub_art_lang 
         where 
             `status` = 1]]></view>
-    <view name="pubv_art_lang_channeled"><![CDATA[
-        select distinct
-            artlang.*
-        from _pubv_art_lang artlang
-        left join _channel_art_lang channel on artlang.idartlang = channel.idartlang
-        where
-            channel.idartlang is null 
-            or channel.channelid = getchannel()
-            or getchannel() is null]]></view>
     <view name="pubv_art_meta"><![CDATA[
         select 
             * 

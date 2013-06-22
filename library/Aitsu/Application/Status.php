@@ -11,7 +11,6 @@ class Aitsu_Application_Status {
     protected $_edit = false;
     protected $_locked = false;
     protected $_structured = false;
-    protected $_channel = null;
     static protected $_instance = null;
 
     protected function __construct() {
@@ -92,18 +91,6 @@ class Aitsu_Application_Status {
         }
 
         return $instance->_edit;
-    }
-
-    public static function getChannel() {
-
-        $instance = self :: _getInstance();
-        return $instance->_channel;
-    }
-
-    public static function setChannel($channel) {
-
-        $instance = self :: _getInstance();
-        $instance->_channel = $channel;
     }
 
     public static function setEnv($env) {

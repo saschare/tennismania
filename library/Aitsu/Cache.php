@@ -18,15 +18,6 @@ class Aitsu_Cache {
 		$sid = is_null($id) ? $sid : $id;
 		$sid = is_null($sid) ? 'app' : $sid;
 
-		/*
-		 * If chanelling is active, the id has to be prefixed
-		 * with the channel's id.
-		 */
-		$channel = Aitsu_Application_Status :: getChannel();
-		if (!is_null($channel)) {
-			$sid = 'ch' . $channel . '_';
-		}
-
 		if (!isset ($instance)) {
 			$type = Aitsu_Config :: get('cache.type');
 			if ($type == 'apc') {
