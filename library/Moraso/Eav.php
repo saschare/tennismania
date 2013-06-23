@@ -73,7 +73,8 @@ class Moraso_Eav {
 
             $data = array(
                 'value_id' => $value_id,
-                'value_' . $type => $value
+                'value_' . $type => $value,
+                'entity_attribute_id' => $entity_attribute_id
             );
 
             Moraso_Db::delete('_eav_value', array('value_id' => $value_id));
