@@ -17,7 +17,7 @@ class Moraso_Plugin_Lucene_Article_Controller extends Moraso_Adm_Plugin_Controll
     public static function register($idart) {
 
         $luceneIndex = Moraso_Config::get('search.lucene.index');
-        
+
         return (object) array(
                     'name' => 'lucene',
                     'tabname' => Aitsu_Registry::get()->Zend_Translate->translate('Lucene'),

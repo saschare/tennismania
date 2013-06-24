@@ -96,18 +96,38 @@ $(document).on('click', '.openCheckoutDone', function(event) {
     });
 });
 
+$(document).on('change', '.modal_form', function() {
+    $.post('#', {
+        action: 'addFormData',
+        data: $(this).serialize(),
+        timestamp: new Date().getTime()
+    });
+});
+
+$(document).on('click', '.doCheckout', function(event) {
+    event.preventDefault();
+    
+    $.post('#', {
+        action: 'doCheckout',
+        timestamp: new Date().getTime()
+    }, function(data) {        
+        $('#doCheckout input[name=order_id]').val(data.order_id);
+        $('#doCheckout').submit();
+    });
+});
+
 var reloadMenuCartItem = function() {
     $.post('?renderOnly=Cart.Menu.Info', {
         timestamp: new Date().getTime()
     }, function(data) {
-        if (data.success) {         
+        if (data.success) {
             var animationSpeed = 400;
-            
+
             if ($('#menuCartOverviewItem .qty').is(':visible')) {
                 $('#menuCartOverviewItem .qty').fadeOut(animationSpeed, function() {
                     $(this).html(data.qty).fadeIn(animationSpeed);
                 });
-                
+
                 $('#menuCheckoutItem .amount').fadeOut(animationSpeed, function() {
                     $(this).html(data.amount).fadeIn(animationSpeed);
                 });

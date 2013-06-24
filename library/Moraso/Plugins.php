@@ -53,4 +53,54 @@ class Moraso_Plugins {
         return array_unique($namespaces);
     }
 
+    public static function getAllPlugins($area = 'article', $idart = 0) {
+
+        $user = Aitsu_Adm_User::getInstance();
+        
+        $pluginCollection = array();
+
+        $namespaces = self::getNamespaces();
+
+        foreach ($namespaces as $namespace) {
+            $pluginDir = APPLICATION_LIBPATH . '/' . $namespace . '/Plugin';
+
+            $plugins = Aitsu_Util_Dir::scan($pluginDir, 'Class.php');
+            $baseLength = strlen($pluginDir);
+
+            foreach ($plugins as $plugin) {
+                $pluginPathInfo = explode('/', substr($plugin, $baseLength + 1));
+                
+                $pluginName = $pluginPathInfo[0];
+
+                if (strtolower($pluginPathInfo[1]) === $area) {
+                    if ($user->isAllowed(array('area' => 'plugin.' . strtolower($pluginName) . '.' . $area))) {
+                        include_once ($plugin);
+
+                        if ($area === 'article') {
+                            $registry = call_user_func(array(
+                                $namespace . '_Plugin_' . ucfirst($pluginName) . '_' . ucfirst($area) . '_Controller',
+                                'register'
+                                    ), $idart);
+                        } elseif ($area === 'dashboard') {
+                            $registry = call_user_func(array(
+                                $namespace . '_Plugin_' . ucfirst($pluginName) . '_' . ucfirst($area) . '_Controller',
+                                'register'
+                            ));
+                        }
+                        
+                        if ($registry->enabled) {
+                            $pluginCollection[] = (object) array(
+                                        'namespace' => $namespace,
+                                        'name' => $pluginName,
+                                        'position' => !empty($registry->position) ? $registry->position : 0
+                            );
+                        }
+                    }
+                }
+            }
+        }
+
+        return $pluginCollection;
+    }
+
 }

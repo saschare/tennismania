@@ -3,15 +3,56 @@
         <h1>Kasse // Übersicht</h1>
 
         <div class="progress large-12 success"><span class="meter" style="width: 80%"></span></div>
+    </div>
+</div>
 
+<div class="row">
+    <div class="large-12 columns">
         <p>Hier bitte nochmals alle Daten prüfen und ggf. anpassen.</p>
+
+        <div class="row">
+            <div class="large-4 columns">
+                <label>Versandadresse</label>
+                <?php echo $this->properties['delivery']['title']; ?><br />
+                <?php echo $this->properties['delivery']['name']['first']; ?> <?php echo $this->properties['delivery']['name']['middle']; ?> <?php echo $this->properties['delivery']['name']['last']; ?><br />
+                <?php echo $this->properties['delivery']['street']; ?> <?php echo $this->properties['delivery']['housenumber']; ?><br />
+                <?php echo $this->properties['delivery']['postal_code']; ?> <?php echo $this->properties['delivery']['city']; ?>
+            </div>
+
+            <div class="large-4 columns">
+                <label>Rechnungsadresse</label>
+
+                <?php if ($this->properties['billing']['same_than_delivery'] === 'on') : ?>
+                    <p>Rechnungsadresse entspricht Versandadresse</p>
+                <?php else: ?>
+                    <?php echo $this->properties['billing']['title']; ?><br />
+                    <?php echo $this->properties['billing']['name']['first']; ?> <?php echo $this->properties['billing']['name']['middle']; ?> <?php echo $this->properties['billing']['name']['last']; ?><br />
+                    <?php echo $this->properties['billing']['street']; ?> <?php echo $this->properties['billing']['housenumber']; ?><br />
+                    <?php echo $this->properties['billing']['postal_code']; ?> <?php echo $this->properties['billing']['city']; ?>
+                <?php endif; ?>
+            </div>
+
+            <div class="large-4 columns">
+                <label>Zahlungsweise</label>
+                <?php echo $this->properties['payment']['method']; ?>
+            </div>
+        </div>
+
+        <h2>Artikel</h2>
+        <?php print_r($this->articles); ?>
+
+        <form id="doCheckout" method="post" action="<?php echo $this->checkoutUrl; ?>">
+            <?php foreach ($this->hiddenFields as $key => $value) : ?>
+                <input type="hidden" name="<?php echo $key; ?>" value="<?php echo $value; ?>" />
+            <?php endforeach; ?>
+        </form>
     </div>
 </div>
 
 <div class="row">
     <div class="large-12 columns">
         <a href="#" class="left small openCheckoutPayment button">&laquo; zurück zur Wahl des Zahlungsmittels</a>
-        <a href="#" class="right small openCheckoutDone button">kostenpflichtig bestellen &raquo;</a>
+        <a href="#" class="right small doCheckout button">kostenpflichtig bestellen &raquo;</a>
     </div>
 </div>
 

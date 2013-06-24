@@ -16,33 +16,36 @@ class Moraso_Module_Cart_Modal_Checkout_Overview_Class extends Aitsu_Module_Abst
 
     protected function _main() {
 
-        $cart_id = 17;
-        $payment_type = 'paypal';
-        
-        switch ($payment_type) {
+        /* get Data */
+        $cart = Moraso_Cart::getInstance();
+        $properties = $cart->getProperties();
+        $articles = $cart->getArticles();
+
+        switch ($properties['payment']['method']) {
             case 'paypal':
-                $paymentStrategy = new Smoco_Cart_Payment_Strategy_Paypal();
+                $paymentStrategy = new Moraso_Cart_Payment_Strategy_Paypal();
                 break;
             case 'creditcard':
-                $paymentStrategy = new Smoco_Cart_Payment_Strategy_Wirecard();
+                $paymentStrategy = new Moraso_Cart_Payment_Strategy_Wirecard();
                 break;
             case 'postfinance':
-                $paymentStrategy = new Smoco_Cart_Payment_Strategy_Datatrans();
+                $paymentStrategy = new Moraso_Cart_Payment_Strategy_Datatrans();
                 break;
             default:
-                $paymentStrategy = new Smoco_Cart_Payment_Strategy_Cash();
+                $paymentStrategy = new Moraso_Cart_Payment_Strategy_Cash();
         }
 
         $payment = new Moraso_Cart_Payment($paymentStrategy);
 
-        $nextStep = $payment->getCheckoutUrl();
-        $hiddenFields = $payment->getHiddenFormFields($cart_id);
+        $checkoutUrl = $payment->getCheckoutUrl();
+        $hiddenFields = $payment->getHiddenFormFields();
 
         /* create View */
         $view = $this->_getView();
-        $view->nextStep = $nextStep;
+        $view->checkoutUrl = $checkoutUrl;
         $view->hiddenFields = $hiddenFields;
-
+        $view->properties = $properties;
+        $view->articles = $articles;
         echo $view->render('index.phtml');
     }
 

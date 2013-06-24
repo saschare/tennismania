@@ -13,7 +13,6 @@ if (typeof(Ext.getCmp('todo-list')) == 'undefined') {
 		Ext.aitsu.load(['<?php echo $this->url(array('controller' => 'data', 'action' => 'edit'), 'default'); ?>'], function() {
 			Ext.getCmp('viewport').doLayout();
 			Ext.getCmp('page-edit-tab').activate(0);
-			Ext.getCmp('rop').getStore().load();
 		}, {id: id});
 	}	
 			

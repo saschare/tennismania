@@ -26,7 +26,7 @@ class Moraso_Plugin_Config_Article_Controller extends Moraso_Adm_Plugin_Controll
     }
 
     public function indexAction() {
-
+                
         $id = $this->getRequest()->getParam('idart');
         $data = Aitsu_Persistence_Article :: factory($id)->load();
 
@@ -52,7 +52,7 @@ class Moraso_Plugin_Config_Article_Controller extends Moraso_Adm_Plugin_Controll
 
         $form->setOptions('configsetid', $options);
         $form->setValues($data->toArray());
-
+        
         if ($this->getRequest()->getParam('loader')) {
             $this->view->form = $form;
             $this->view->idart = $id;

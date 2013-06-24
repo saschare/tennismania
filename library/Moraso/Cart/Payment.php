@@ -13,14 +13,24 @@ class Moraso_Cart_Payment {
         $this->_strategy = $strategy;
     }
 
-    public function getHiddenFormFields($cart_id) {
+    public function getHiddenFormFields() {
 
-        return $this->_strategy->getHiddenFormFields($cart_id);
+        return $this->_strategy->getHiddenFormFields();
     }
 
     public function getCheckoutUrl() {
 
-        return $this->_strategy->getCheckoutUrl();
+        return Moraso_Config::get('sys.webpath') . $this->_strategy->getCheckoutUrl();
+    }
+
+    public function doConfirmPayment() {
+
+        return $this->_strategy->doConfirmPayment();
+    }
+    
+    public function actionAfterConfirm() {
+        
+        $this->_strategy->actionAfterConfirm();
     }
 
 }

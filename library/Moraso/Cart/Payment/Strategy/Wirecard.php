@@ -11,25 +11,25 @@ class Moraso_Cart_Payment_Strategy_Wirecard implements Moraso_Cart_Payment_Strat
         return 'https://secure.wirecard-cee.com/qpay/init.php';
     }
 
-    public function getHiddenFormFields($cart_id) {
+    public function getHiddenFormFields() {
 
-        $cartData = Smoco_Cart::getData($cart_id);
+        $cartData = Moraso_Cart::getData($cart_id);
 
-        $currency = Moraso_Config::get('smoco.shop.currency');
-        $language = Moraso_Config::get('smoco.shop.language');
-        $imageURL = Moraso_Config::get('smoco.shop.imageURL');
+        $currency = Moraso_Config::get('moraso.shop.currency');
+        $language = Moraso_Config::get('moraso.shop.language');
+        $imageURL = Moraso_Config::get('moraso.shop.imageURL');
 
-        $cancelURL = Moraso_Config::get('smoco.shop.checkout.cancelURL');
-        $failureURL = Moraso_Config::get('smoco.shop.checkout.failureURL');
-        $pendingURL = Moraso_Config::get('smoco.shop.checkout.pendingURL');
-        $successURL = Moraso_Config::get('smoco.shop.checkout.successURL');
-        $confirmURL = Moraso_Config::get('smoco.shop.checkout.confirmURL');
-        $serviceURL = Moraso_Config::get('smoco.shop.checkout.serviceURL');
+        $cancelURL = Moraso_Config::get('moraso.shop.checkout.cancelURL');
+        $failureURL = Moraso_Config::get('moraso.shop.checkout.failureURL');
+        $pendingURL = Moraso_Config::get('moraso.shop.checkout.pendingURL');
+        $successURL = Moraso_Config::get('moraso.shop.checkout.successURL');
+        $confirmURL = Moraso_Config::get('moraso.shop.checkout.confirmURL');
+        $serviceURL = Moraso_Config::get('moraso.shop.checkout.serviceURL');
 
-        $orderDescription = Moraso_Config::get('smoco.shop.checkout.orderDescription');
-        $displayText = Moraso_Config::get('smoco.shop.checkout.displayText');
+        $orderDescription = Moraso_Config::get('moraso.shop.checkout.orderDescription');
+        $displayText = Moraso_Config::get('moraso.shop.checkout.displayText');
 
-        $customerId = Moraso_Config::get('smoco.shop.payment.wirecard.customerId');
+        $customerId = Moraso_Config::get('moraso.shop.payment.wirecard.customerId');
 
         $hiddenFormFields = array(
             'customerId' => $customerId,
@@ -39,7 +39,7 @@ class Moraso_Cart_Payment_Strategy_Wirecard implements Moraso_Cart_Payment_Strat
             'orderDescription' => $orderDescription,
             'successURL' => Moraso_Config::get('sys.webpath') . $successURL,
             'confirmURL' => Moraso_Config::get('sys.webpath') . $confirmURL,
-            'cart_id' => $cart_id
+            'order_id' => $cart_id
         );
 
         $requestFingerprint = $this->_generateRequestFingerprint($hiddenFormFields);
@@ -63,7 +63,7 @@ class Moraso_Cart_Payment_Strategy_Wirecard implements Moraso_Cart_Payment_Strat
         $requestFingerprintSeed = array();
 
         $requestFingerprintOrder[] = 'secret';
-        $requestFingerprintSeed[] = Moraso_Config::get('smoco.shop.payment.wirecard.secret');
+        $requestFingerprintSeed[] = Moraso_Config::get('moraso.shop.payment.wirecard.secret');
 
         foreach ($data as $key => $value) {
             $requestFingerprintOrder[] = $key;
@@ -77,6 +77,11 @@ class Moraso_Cart_Payment_Strategy_Wirecard implements Moraso_Cart_Payment_Strat
             'requestFingerprintOrder' => implode(',', $requestFingerprintOrder),
             'requestFingerprint' => md5(implode('', $requestFingerprintSeed))
         );
+    }
+
+    public function doConfirmPayment() {
+
+        return false;
     }
 
 }

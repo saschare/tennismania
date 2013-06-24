@@ -39,27 +39,6 @@ class DataController extends Zend_Controller_Action {
     }
 
     /**
-     * @since 2.1.0.0 - 31.12.2010
-     */
-    public function ropstoreAction() {
-
-        $data = array();
-
-        foreach (Aitsu_Persistence_Lastopened::factory(1)->load()->get(100) as $rop) {
-            $data[] = (object) array(
-                        'id' => $rop['idart'],
-                        'idcat' => $rop['idcat'],
-                        'name' => $rop['title'],
-                        'category' => $rop['name']
-            );
-        }
-
-        $this->_helper->json((object) array(
-                    'data' => $data
-        ));
-    }
-
-    /**
      * Action to deliver extjs tree panels with the
      * necessary async tree information.
      */
@@ -174,60 +153,26 @@ class DataController extends Zend_Controller_Action {
         header("Content-type: text/javascript");
         $this->_helper->layout->disableLayout();
 
+        $this->view->hidePublishing = (Aitsu_Config::get('sys.usePublishing') ? false : true);
+
         $idart = $this->getRequest()->getParam('id');
         $this->view->idart = $idart;
-        Aitsu_Persistence_Lastopened::factory($idart)->save();
 
         $this->view->art = Aitsu_Persistence_Article::factory($idart)->load();
 
-        $pluginCollection = array();
-
-        $namespaces = Moraso_Plugins::getNamespaces();
-
-        foreach ($namespaces as $namespace) {
-            $pluginDir = APPLICATION_LIBPATH . '/' . $namespace . '/Plugin';
-
-            $plugins = Aitsu_Util_Dir::scan($pluginDir, 'Class.php');
-            $baseLength = strlen($pluginDir);
-
-            foreach ($plugins as $plugin) {
-                $pluginPathInfo = explode('/', substr($plugin, $baseLength + 1));
-
-                if ($pluginPathInfo[1] == 'Article') {
-                    if (Aitsu_Adm_User::getInstance()->isAllowed(array('area' => 'plugin.' . strtolower($pluginPathInfo[0]) . '.article'))) {
-                        include_once ($plugin);
-
-                        $registry = call_user_func(array(
-                            $namespace . '_Plugin_' . $pluginPathInfo[0] . '_Article_Controller',
-                            'register'
-                                ), $idart);
-
-                        if ($registry->enabled) {
-                            $pluginCollection[] = (object) array(
-                                        'namespace' => $namespace,
-                                        'name' => $pluginPathInfo[0],
-                                        'position' => $registry->position
-                            );
-                        }
-                    }
-                }
-            }
-        }
+        $pluginCollection = Moraso_Plugins::getAllPlugins('article', $idart);
 
         uasort($pluginCollection, array(
             $this,
             '_comparePosition'
         ));
-        
-        $plugins = array_reverse($pluginCollection);
 
-        $this->view->hidePublishing = (Aitsu_Config::get('sys.usePublishing') ? false : true);
+        $plugins = array_reverse($pluginCollection);
 
         foreach ($plugins as $plugin) {
             $this->_helper->actionStack('index', 'plugin', 'default', array(
                 'namespace' => $plugin->namespace,
                 'plugin' => $plugin->name,
-                'paction' => 'index',
                 'area' => 'article',
                 'idart' => $idart
             ));

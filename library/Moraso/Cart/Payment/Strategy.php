@@ -8,5 +8,9 @@ interface Moraso_Cart_Payment_Strategy {
 
     public function getCheckoutUrl();
 
-    public function getHiddenFormFields($cart_id);
+    public function getHiddenFormFields();
+
+    public function doConfirmPayment();
+    
+    public function actionAfterConfirm();
 }

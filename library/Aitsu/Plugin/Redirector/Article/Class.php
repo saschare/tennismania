@@ -47,7 +47,7 @@ class Aitsu_Plugin_Redirector_Article_Controller extends Moraso_Adm_Plugin_Contr
     }
 
     public function indexAction() {
-
+        
         $id = $this->getRequest()->getParam('idart');
 
         $classExplode = explode('_', __CLASS__);

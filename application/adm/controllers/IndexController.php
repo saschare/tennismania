@@ -18,33 +18,13 @@ class IndexController extends Zend_Controller_Action {
 
         $this->view->plugins = array();
 
-        $namespaces = Moraso_Plugins::getNamespaces();
-
-        foreach ($namespaces as $namespace) {
-            $pluginDir = APPLICATION_LIBPATH . '/' . $namespace . '/Plugin';
-
-            $plugins = Aitsu_Util_Dir::scan($pluginDir, 'Class.php');
-            $baseLength = strlen($pluginDir);
-
-            foreach ($plugins as $plugin) {
-                $pluginPathInfo = explode('/', substr($plugin, $baseLength + 1));
-
-                if ($pluginPathInfo[1] == 'Dashboard') {
-                    include_once ($plugin);
-
-                    $registry = call_user_func(array(
-                        $namespace . '_Plugin_' . $pluginPathInfo[0] . '_Dashboard_Controller',
-                        'register'
-                    ));
-
-                    if ($registry->enabled) {
-                        $this->view->plugins[] = array(
-                            'namespace' => $namespace,
-                            'name' => $pluginPathInfo[0]
-                        );
-                    }
-                }
-            }
+        $plugins = Moraso_Plugins::getAllPlugins('dashboard');
+        
+        foreach ($plugins as $plugin) {            
+            $this->view->plugins[] = array(
+                'namespace' => $plugin->namespace,
+                'name' => $plugin->name
+            );
         }
     }
 

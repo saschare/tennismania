@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="schema.xsd">     
+    <table name="cart_order" engine="InnoDB">
+        <field name="order_id" type="int(10) unsigned" default="null" autoincrement="true" primary="true" /> 
+        <field name="payment_method" type="varchar(255)" default="cash"  nullable="false" /> 
+        <field name="payed" type="int(1) unsigned" default="null" nullable="true" /> 
+        <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP" nullable="false" />
+    </table>
+    
+    <table name="cart_order_has_article" engine="InnoDB">
+        <field name="id" type="int(10) unsigned" autoincrement="true" primary="true" default="null" /> 
+        <field name="order_id" type="int(10) unsigned" primary="true" default="null">
+            <constraint table="cart_order" column="order_id" onupdate="restrict" ondelete="cascade"/>
+        </field>
+        <field name="article_id" type="int(10) unsigned" default="null">
+            <constraint table="art" column="idart" onupdate="restrict" ondelete="cascade"/>
+        </field>  
+        <field name="qty" type="int(10) unsigned" default="1"  nullable="false" /> 
+        <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP" nullable="false" />
+        
+        <index name="id" columns="id" type="index" />
+    </table>
+</database>

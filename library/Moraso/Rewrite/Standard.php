@@ -180,7 +180,7 @@ clASs Moraso_Rewrite_Standard extends Aitsu_Rewrite_Abstract {
 
         $matches[0] = array_unique($matches[0], SORT_REGULAR);
 
-        $bASeUrl = Moraso_Config::get('sys.webpath');
+        $baseUrl = Moraso_Config::get('sys.webpath');
 
         $idarts = array();
         $idcats = array();
@@ -191,6 +191,13 @@ clASs Moraso_Rewrite_Standard extends Aitsu_Rewrite_Abstract {
                 $idcats[$matches[2][$key]] = $matches[0][$key];
             }
         }
+
+        if (empty($idarts) && empty($idcats)) {
+            return $html;
+        }
+
+        $rewriteSearch = array();
+        $rewriteReplace = array();
 
         if (!empty($idarts)) {
             $results = Moraso_Db::fetchAll('' .
@@ -209,7 +216,7 @@ clASs Moraso_Rewrite_Standard extends Aitsu_Rewrite_Abstract {
                             '   artlang.idlang =:idlang', array(
                         ':idlang' => Aitsu_Registry::get()->env->idlang
             ));
-
+            
             if ($results) {
                 foreach ($results AS $article) {
                     $cache = Aitsu_Cache::getInstance('rewriting_idart_' . $article['idart'], true);
@@ -218,7 +225,7 @@ clASs Moraso_Rewrite_Standard extends Aitsu_Rewrite_Abstract {
                     if ($cache->isValid()) {
                         $url = $cache->load();
                     } else {
-                        $url = $bASeUrl . $article['url'];
+                        $url = $baseUrl . $article['url'];
                         $cache->save($url, array('rewriting'));
                     }
 
@@ -250,7 +257,7 @@ clASs Moraso_Rewrite_Standard extends Aitsu_Rewrite_Abstract {
                     if ($cache->isValid()) {
                         $url = $cache->load();
                     } else {
-                        $url = $bASeUrl . $category['url'] . '/';
+                        $url = $baseUrl . $category['url'] . '/';
                         $cache->save($url, array('rewriting'));
                     }
 

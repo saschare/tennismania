@@ -172,7 +172,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
             'area' => 'none',
             'paction' => 'index'
         )));
-
+        
         $router->addRoute('rest', new Zend_Controller_Router_Route('rest/:api/:method/*', array(
             'controller' => 'rest',
             'action' => 'index',

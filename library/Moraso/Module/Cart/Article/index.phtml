@@ -9,12 +9,12 @@
                 <div class="small-3 columns">
                     <select name="qty">
                         <?php for ($i = 1; $i <= 10; $i++) : ?>
-                            <option value="<?= $i ?>"><?= $i ?></option>
+                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
                         <?php endfor; ?>
                     </select>
                 </div>
                 <div class="small-9 columns">
-                    <a href="#" class="button postfix right addArticleToCart" data-idart="<?= Aitsu_Registry::get()->env->idart ?>">Produkt in den Warenkorb legen</a>
+                    <a href="#" class="button postfix right addArticleToCart" data-idart="<?php echo Aitsu_Registry::get()->env->idart; ?>">Produkt in den Warenkorb legen</a>
                 </div>
             </form>
         </div>

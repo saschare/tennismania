@@ -25,34 +25,38 @@ class Moraso_Cart {
         if (!isset($this->_cart->articles)) {
             $this->_cart->articles = array();
         }
+
+        if (!isset($this->_cart->properties)) {
+            $this->_cart->properties = array();
+        }
     }
 
     final private function __clone() {
         
     }
 
-    public function addArticle($idart, $qty = 1) {
+    public function addArticle($id, $qty = 1) {
 
         $oldQty = 0;
 
-        if (isset($this->_cart->articles[$idart]) && !empty($this->_cart->articles[$idart])) {
-            $oldQty = (int) $this->_cart->articles[$idart];
+        if (isset($this->_cart->articles[$id]) && !empty($this->_cart->articles[$id])) {
+            $oldQty = (int) $this->_cart->articles[$id];
         }
 
         $newQty = (int) ($oldQty + $qty);
-        
-        $this->_cart->articles[$idart] = $newQty;
 
-        if ($this->_cart->articles[$idart] === $newQty) {
+        $this->_cart->articles[$id] = $newQty;
+
+        if ($this->_cart->articles[$id] === $newQty) {
             return true;
         }
 
         return false;
     }
 
-    public function removeArticle($idart) {
+    public function removeArticle($id) {
 
-        unset($this->_cart->articles[$idart]);
+        unset($this->_cart->articles[$id]);
     }
 
     public function getArticles() {
@@ -60,9 +64,73 @@ class Moraso_Cart {
         return (object) $this->_cart->articles;
     }
 
-    public function getArticleQty($idart) {
+    public function getArticleQty($id) {
 
-        return (int) $this->_cart->articles[$idart];
+        return (int) $this->_cart->articles[$id];
+    }
+
+    public function setProperty($key, $value) {
+
+        $this->_cart->properties[$key] = $value;
+    }
+
+    public function getProperty($key) {
+
+        return $this->_cart->properties[$key];
+    }
+
+    public function getProperties() {
+
+        return $this->_cart->properties;
+    }
+
+    public function getAmount($id = null) {
+
+        if (is_null($id)) {
+            $articles = $this->getArticles();
+
+            foreach ($articles as $id => $qty) {
+                $price = 17.95;
+
+                $amount = $amount + bcmul($price, $qty, 2);
+            }
+        } else {
+            $price = 129.95;
+            $qty = 3;
+            $amount = bcmul($price, $qty, 2);
+        }
+
+
+        return $amount;
+    }
+
+    public function doCheckout() {
+
+        $order_id = Moraso_Db::put('_cart_order', 'order_id', array(
+                    'timestamp' => 'CURRENT_TIMESTAMP'
+        ));
+
+        $articles = $this->getArticles();
+
+        foreach ($articles as $id => $qty) {
+            $id = Moraso_Db::put('_cart_order_has_article', 'id', array(
+                        'order_id' => $order_id,
+                        'article_id' => $id,
+                        'qty' => $qty
+            ));
+        }
+
+        return json_encode(array(
+            'order_id' => $order_id
+        ));
+    }
+
+    public static function setPaymentStatus($order_id, $payed) {
+
+        Moraso_Db::put('_cart_order', 'order_id', array(
+            'order_id' => $order_id,
+            'payed' => $payed
+        ));
     }
 
 }

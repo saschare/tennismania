@@ -4,14 +4,20 @@
 
         <div class="progress large-12 success"><span class="meter" style="width: 60%"></span></div>
 
-        <form id="checkoutFormPayment" action="<?php echo $this->nextStep ?>">
+        <form class="modal_form custom">
+            <input type="hidden" name="form_data_type" value="payment" />
             <p>Womit möchten Sie gerne zahlen?</p>
 
-            <select name="payment">
-                <option value="cash">Vorkasse</option>
-                <option value="paypal">PayPal</option>
-                <option value="creditcard">Kreditkarte</option>
-            </select>
+            <div class="row">
+                <div class="large-4 columns">
+                    <select name="method">
+                        <option SELECTED DISABLED>Bitte wählen</option>
+                        <option value="cash"<?php echo $this->data['method'] === 'cash' ? ' SELECTED' : ''; ?>>Vorkasse</option>
+                        <option value="paypal"<?php echo $this->data['method'] === 'paypal' ? ' SELECTED' : ''; ?>>PayPal</option>
+                        <option value="creditcard"<?php echo $this->data['method'] === 'creditcard' ? ' SELECTED' : ''; ?>>Kreditkarte</option>
+                    </select>
+                </div>
+            </div>
         </form>
     </div>
 </div>

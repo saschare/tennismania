@@ -26,7 +26,7 @@ class Aitsu_Plugin_Todo_Article_Controller extends Moraso_Adm_Plugin_Controller 
     }
 
     public function indexAction() {
-
+                
         $idart = $this->getRequest()->getParam('idart');
         $idartlang = Aitsu_Persistence_Article :: factory($idart)->load()->idartlang;
 

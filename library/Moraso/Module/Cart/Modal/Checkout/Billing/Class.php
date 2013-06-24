@@ -16,9 +16,13 @@ class Moraso_Module_Cart_Modal_Checkout_Billing_Class extends Aitsu_Module_Abstr
 
     protected function _main() {
 
+        /* get Data */
+        $cart = Moraso_Cart::getInstance();
+        $data = $cart->getProperty('billing');
+        
         /* create View */
         $view = $this->_getView();
-        
+        $view->data = $data;
         return $view->render('index.phtml');
     }
 

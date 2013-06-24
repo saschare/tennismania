@@ -11,33 +11,33 @@ class Moraso_Cart_Payment_Strategy_Paypal implements Moraso_Cart_Payment_Strateg
         return 'https://www.paypal.com/cgi-bin/websc';
     }
 
-    public function getHiddenFormFields($cart_id) {
+    public function getHiddenFormFields() {
+        
+        $cart = Moraso_Cart::getInstance();
 
-        $cartData = Smoco_Cart::getData($cart_id);
+        $currency = Moraso_Config::get('moraso.shop.currency');
+        $language = Moraso_Config::get('moraso.shop.language');
 
-        $currency = Moraso_Config::get('smoco.shop.currency');
-        $language = Moraso_Config::get('smoco.shop.language');
+        $confirmURL = Moraso_Config::get('moraso.shop.checkout.confirmURL');
 
-        $confirmURL = Moraso_Config::get('smoco.shop.checkout.confirmURL');
+        $orderDescription = Moraso_Config::get('moraso.shop.checkout.orderDescription');
+        $displayText = Moraso_Config::get('moraso.shop.checkout.displayText');
 
-        $orderDescription = Moraso_Config::get('smoco.shop.checkout.orderDescription');
-        $displayText = Moraso_Config::get('smoco.shop.checkout.displayText');
-
-        $business = Moraso_Config::get('smoco.shop.payment.paypal.business');
+        $business = Moraso_Config::get('moraso.shop.payment.paypal.business');
 
         $hiddenFormFields = array(
             'cmd' => '_xclick',
             'business' => $business,
             'item_name' => $orderDescription,
             'item_number' => $displayText,
-            'amount' => str_replace(',', '.', $cartData['amount']),
+            'amount' => str_replace(',', '.', $cart->getAmount()),
             'no_shipping' => '0',
             'no_note' => '1',
             'currency_code' => $currency,
             'lc' => $language,
             'bn' => 'PP-BuyNowBF',
             'return' => $confirmURL,
-            'cart_id' => $cart_id
+            'order_id' => ''
         );
 
         return $hiddenFormFields;

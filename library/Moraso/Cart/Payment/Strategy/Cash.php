@@ -8,19 +8,30 @@ class Moraso_Cart_Payment_Strategy_Cash implements Moraso_Cart_Payment_Strategy 
 
     public function getCheckoutUrl() {
 
-        return Moraso_Config::get('smoco.shop.checkout.done');
+        return 'de/?confirmPayment';
     }
 
-    public function getHiddenFormFields($cart_id) {
+    public function getHiddenFormFields() {
 
-        $cartData = Smoco_Cart::getData($cart_id);
-
-        $hiddenFormFields = array(
-            'amount' => $cartData['amount'],
-            'cart_id' => $cart_id
+        return array(
+            'order_id' => ''
         );
+    }
 
-        return $hiddenFormFields;
+    public function doConfirmPayment() {
+
+        return true;
+    }
+
+    public function actionAfterConfirm() {
+
+        $successUrl = Moraso_Config::get('moraso.shop.checkout.successURL');
+
+        $location = Moraso_Rewrite_Standard::getInstance()->rewriteOutput('{ref:idart-' . $successUrl . '}');
+        
+        trigger_error('neue Location:{ref:idart-' . $successUrl . '}');
+
+        header('Location: ' . $location);
     }
 
 }

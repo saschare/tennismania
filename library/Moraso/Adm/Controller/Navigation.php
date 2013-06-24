@@ -175,9 +175,10 @@ class Moraso_Adm_Controller_Navigation extends Zend_Controller_Plugin_Abstract {
 
         $user = Aitsu_Adm_User::getInstance();
 
+        $plugins = array();
+        
         $namespaces = Moraso_Plugins::getNamespaces();
 
-        $plugins = array();
         foreach ($namespaces as $namespace) {
 
             if ((empty($without) && in_array($namespace, $with)) || (empty($with) && !in_array($namespace, $without))) {
