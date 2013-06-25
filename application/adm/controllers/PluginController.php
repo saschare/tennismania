@@ -8,13 +8,18 @@ class PluginController extends Zend_Controller_Action {
 
     public function indexAction() {
 
-        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
 
-        $namespace = ucfirst($this->getRequest()->getParam('namespace'));
-        $plugin = ucfirst($this->getRequest()->getParam('plugin'));
-        $area = ucfirst($this->getRequest()->getParam('area'));
+        $namespace = ucfirst($request->getParam('namespace'));
+        $plugin = ucfirst($request->getParam('plugin'));
+        $area = ucfirst($request->getParam('area'));
+        $paction = $request->getParam('paction');
+
+        $controller = $namespace . '_Plugin_' . $plugin . '_' . $area . '_';
 
         $pluginPath = APPLICATION_LIBPATH . '/' . $namespace . '/Plugin/' . $plugin . '/' . ucfirst($area) . '/';
+
+        $this->_helper->viewRenderer->setNoRender();
 
         include_once ($pluginPath . 'Class.php');
 
@@ -22,7 +27,9 @@ class PluginController extends Zend_Controller_Action {
             $pluginPath . 'views/'
         ));
 
-        $this->getRequest()->setControllerName($namespace . '_Plugin_' . $plugin . '_' . $area . '_')->setActionName($this->getRequest()->getParam('paction'))->setDispatched(false);
+        $request->setControllerName(ucfirst($controller));
+        $request->setActionName($paction);
+        $request->setDispatched(false);
     }
 
 }

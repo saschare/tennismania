@@ -167,9 +167,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $router->addRoute('plugin', new Zend_Controller_Router_Route('plugin/:namespace/:plugin/:area/:paction/*', array(
             'controller' => 'plugin',
             'action' => 'index',
-            'namespace' => 'none',
-            'plugin' => 'none',
-            'area' => 'none',
             'paction' => 'index'
         )));
         

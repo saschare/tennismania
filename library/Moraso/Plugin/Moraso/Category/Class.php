@@ -14,7 +14,7 @@ class Moraso_Plugin_Moraso_Category_Controller extends Moraso_Adm_Plugin_Control
         header("Content-type: text/javascript");
     }
 
-    public static function register($idcat) {
+    public static function register() {
 
         return (object) array(
                     'name' => 'moraso',

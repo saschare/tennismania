@@ -17,7 +17,7 @@ center.add(tabs);
 Ext.getCmp('viewport').doLayout();
 
 <?php $plugins = array(); foreach ($this->plugins as $plugin) : ?>
-	<?php $plugins[] = "'" . $this->url(array('plugin' => $plugin->name, 'namespace' => $plugin->namespace, 'area' => 'category', 'paction' => 'index'), 'plugin') . "?idcat={$this->idcat}'"; ?>
+	<?php $plugins[] = "'" . $this->url(array('namespace' => $plugin->namespace, 'plugin' => $plugin->name, 'area' => 'category', 'paction' => 'index'), 'plugin') . "?idcat={$this->idcat}'"; ?>
 <?php endforeach; ?>
 
 Ext.aitsu.load([<?php echo implode(',', $plugins); ?>], function() {
