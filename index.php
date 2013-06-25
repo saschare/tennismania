@@ -7,7 +7,7 @@
 
         const MIN_VERS_PHP = '5.3.2';
 
-if (version_compare(PHP_VERSION, MIN_VERS_PHP, '<'))) {
+if (version_compare(PHP_VERSION, MIN_VERS_PHP, '<')) {
     header('Content-type: text/html; charset=utf-8', true, 503);
 
     echo '<h2>Fehler</h2>';
