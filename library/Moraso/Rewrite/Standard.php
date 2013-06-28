@@ -4,12 +4,12 @@
  * @author Christian Kehres <c.kehres@webtischlerei.de>
  * @copyright (c) 2013, webtischlerei <http://www.webtischlerei.de>
  */
-clASs Moraso_Rewrite_Standard extends Aitsu_Rewrite_Abstract {
-
+class Moraso_Rewrite_Standard extends Aitsu_Rewrite_Abstract
+{
     private static $_instance = null;
 
-    public static function getInstance() {
-
+    public static function getInstance()
+    {
         if (self::$_instance === null) {
             self::$_instance = new self();
         }
@@ -17,21 +17,23 @@ clASs Moraso_Rewrite_Standard extends Aitsu_Rewrite_Abstract {
         return self::$_instance;
     }
 
-    final private function __construct() {
+    final private function __construct()
+    {
         
     }
 
-    final private function __clone() {
+    final private function __clone()
+    {
         
     }
 
-    public function register() {
-
+    public function register()
+    {
         return empty(Aitsu_Registry::get()->env->idlang);
     }
 
-    public function registerParams() {
-
+    public function registerParams()
+    {
         if (substr($_GET['url'], -5) == '.html') {
             $pathInfo = pathinfo($_GET['url']);
             $url = $pathInfo['dirname'];
@@ -169,8 +171,8 @@ clASs Moraso_Rewrite_Standard extends Aitsu_Rewrite_Abstract {
         }
     }
 
-    public function rewriteOutput($html) {
-
+    public function rewriteOutput($html)
+    {
         $this->_populateMissingUrls(Aitsu_Registry::get()->env->idlang);
 
         $matches = array();
@@ -216,7 +218,7 @@ clASs Moraso_Rewrite_Standard extends Aitsu_Rewrite_Abstract {
                             '   artlang.idlang =:idlang', array(
                         ':idlang' => Aitsu_Registry::get()->env->idlang
             ));
-            
+
             if ($results) {
                 foreach ($results AS $article) {
                     $cache = Aitsu_Cache::getInstance('rewriting_idart_' . $article['idart'], true);
@@ -270,8 +272,8 @@ clASs Moraso_Rewrite_Standard extends Aitsu_Rewrite_Abstract {
         return preg_replace('/\\{ref:(idcat|idart)\\-(\\d+)\\}/s', '/', str_replace($rewriteSearch, $rewriteReplace, $html));
     }
 
-    protected function _populateMissingUrls($idlang) {
-
+    protected function _populateMissingUrls($idlang)
+    {
         $categoriesWithoutUrl = Moraso_Db::fetchOne('' .
                         'SELECT ' .
                         '   COUNT(idcat) ' .
@@ -294,7 +296,6 @@ clASs Moraso_Rewrite_Standard extends Aitsu_Rewrite_Abstract {
             Moraso_Db::query('' .
                     'UPDATE ' .
                     '   _cat_lang AS catlang, ' .
-                    '   _lang AS lang, ' .
                     '	( ' .
                     '       SELECT ' .
                     '           child.idcat AS idcat, ' .
@@ -311,13 +312,11 @@ clASs Moraso_Rewrite_Standard extends Aitsu_Rewrite_Abstract {
                     '           child.idcat ' .
                     '	) AS url ' .
                     'SET ' .
-                    '   catlang.url = CONCAT(lang.name, \'/\', url.url) ' .
+                    '   catlang.url = url.url ' .
                     'WHERE ' .
                     '	catlang.idcat = url.idcat ' .
                     'AND ' .
-                    '   catlang.idlang =:idlang ' .
-                    'AND ' .
-                    '	lang.idlang =:idlang', array(
+                    '   catlang.idlang =:idlang', array(
                 ':idlang' => $idlang
             ));
 
@@ -327,9 +326,22 @@ clASs Moraso_Rewrite_Standard extends Aitsu_Rewrite_Abstract {
                     'SET ' .
                     '   catlang.url = \'\' ' .
                     'WHERE ' .
-                    '   catlang.url IS NULL', array(
-                ':idlang' => $idlang
-            ));
+                    '   catlang.url IS NULL');
+
+            if (Moraso_Config::get('rewrite.uselang')) {
+                Moraso_Db::query('' .
+                        'UPDATE ' .
+                        '   _cat_lang AS catlang, ' .
+                        '   _lang AS lang ' .
+                        'SET ' .
+                        '   catlang.url = concat(lang.name, \'/\', catlang.url) ' .
+                        'WHERE ' .
+                        '   lang.idlang = catlang.idlang ' .
+                        'AND ' .
+                        '   catlang.idlang =:idlang', array(
+                    ':idlang' => $idlang
+                ));
+            }
 
             Moraso_Db::commit();
         } catch (Exception $e) {
@@ -339,5 +351,4 @@ clASs Moraso_Rewrite_Standard extends Aitsu_Rewrite_Abstract {
             trigger_error($e->getTraceAsString());
         }
     }
-
 }
