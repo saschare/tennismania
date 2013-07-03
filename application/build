@@ -51,7 +51,7 @@ passthru('git merge dev');
 passthru('git push origin master');
 
 if (isset($options['b']) && !empty($options['b'])) {
-    passthru('git tag -a v' . $newVersion . ' -m "Version ' . $newVersion . ' released."');
+    passthru('git tag -a ' . $new['major'] . '.' . $new['minor'] . '.' . $new['revision'] . ' -m "Version ' . $new['major'] . '.' . $new['minor'] . '.' . $new['revision'] . ' released."');
     passthru('git push --tags');
 }
 passthru('git checkout dev');
