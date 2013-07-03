@@ -36,7 +36,7 @@ class Moraso_Plugin_Lucene_Article_Controller extends Moraso_Adm_Plugin_Controll
 
         $form = Aitsu_Forms::factory(strtolower($classExplode[2]), APPLICATION_LIBPATH . '/' . $classExplode[0] . '/' . $classExplode[1] . '/' . $classExplode[2] . '/' . $classExplode[3] . '/forms/lucene.ini');
         $form->title = Aitsu_Translate::translate('Lucene');
-        $form->url = $this->view->url(array('namespace' => 'aitsu', 'plugin' => 'lucene', 'area' => 'article', 'paction' => 'delete'), 'plugin');
+        $form->url = $this->view->url(array('namespace' => 'moraso', 'plugin' => 'lucene', 'area' => 'article', 'paction' => 'delete'), 'plugin');
 
         $data = Moraso_Db::fetchRow('' .
                         'select ' .

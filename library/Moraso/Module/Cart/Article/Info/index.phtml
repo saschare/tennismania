@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="large-12 columns">
+        <table>
+            <thead>
+                <tr>
+                    <th><?= Aitsu_Translate::_('SKU'); ?></th>
+                    <th class="text-right"><?= Aitsu_Translate::_('Price'); ?></th>
+                    <th class="text-right"><?= Aitsu_Translate::_('tax Class'); ?></th>
+                    <th class="text-right"><?= Aitsu_Translate::_('Tax'); ?></th>
+                    <th class="text-right"><?= Aitsu_Translate::_('Price'); ?> <?= Aitsu_Translate::_('(net)'); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><?= $this->cart->sku ?></td>
+                    <td class="text-right"><?= $this->cart->price ?></td>
+                    <td class="text-right"><?= $this->cart->tax_class ?> %</td>
+                    <td class="text-right"><?= $this->cart->tax ?></td>
+                    <td class="text-right"><?= $this->cart->price_net ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -3,8 +3,14 @@
     <table name="cart_order" engine="InnoDB">
         <field name="order_id" type="int(10) unsigned" default="null" autoincrement="true" primary="true" /> 
         <field name="payment_method" type="varchar(255)" default="cash"  nullable="false" /> 
-        <field name="payed" type="int(1) unsigned" default="null" nullable="true" /> 
+        <field name="payed" type="int(1) unsigned" default="null" nullable="true" />
+        <field name="ordered" type="int(1) unsigned" default="null" nullable="true" />
+        <field name="additional_info" type="text" default="null" nullable="true" /> 
         <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP" nullable="false" />
+        
+        <index name="payed" columns="payed" type="index" />
+        <index name="ordered" columns="ordered" type="index" />
+        <index name="timestamp" columns="timestamp" type="index" />
     </table>
     
     <table name="cart_order_has_article" engine="InnoDB">

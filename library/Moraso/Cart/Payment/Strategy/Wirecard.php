@@ -4,16 +4,16 @@
  * @author Christian Kehres <c.kehres@webtischlerei.de>
  * @copyright (c) 2013, webtischlerei <http://www.webtischlerei.de>
  */
-class Moraso_Cart_Payment_Strategy_Wirecard implements Moraso_Cart_Payment_Strategy {
-
-    public function getCheckoutUrl() {
-
+class Moraso_Cart_Payment_Strategy_Wirecard implements Moraso_Cart_Payment_Strategy
+{
+    public function getCheckoutUrl()
+    {
         return 'https://secure.wirecard-cee.com/qpay/init.php';
     }
 
-    public function getHiddenFormFields() {
-
-        $cartData = Moraso_Cart::getData($cart_id);
+    public function getHiddenFormFields()
+    {
+        $cart = Moraso_Cart::getInstance();
 
         $currency = Moraso_Config::get('moraso.shop.currency');
         $language = Moraso_Config::get('moraso.shop.language');
@@ -23,23 +23,22 @@ class Moraso_Cart_Payment_Strategy_Wirecard implements Moraso_Cart_Payment_Strat
         $failureURL = Moraso_Config::get('moraso.shop.checkout.failureURL');
         $pendingURL = Moraso_Config::get('moraso.shop.checkout.pendingURL');
         $successURL = Moraso_Config::get('moraso.shop.checkout.successURL');
-        $confirmURL = Moraso_Config::get('moraso.shop.checkout.confirmURL');
+        $confirmURL = Moraso_Config::get('sys.webpath') . 'de/?confirmPayment';
         $serviceURL = Moraso_Config::get('moraso.shop.checkout.serviceURL');
-
-        $orderDescription = Moraso_Config::get('moraso.shop.checkout.orderDescription');
-        $displayText = Moraso_Config::get('moraso.shop.checkout.displayText');
+        $orderDescription = sprintf(Moraso_Config::get('moraso.shop.checkout.orderDescription'), (int) $cart->getOrderId());
+        $displayText = sprintf(Moraso_Config::get('moraso.shop.checkout.displayText'), (int) $cart->getOrderId());
 
         $customerId = Moraso_Config::get('moraso.shop.payment.wirecard.customerId');
 
         $hiddenFormFields = array(
             'customerId' => $customerId,
-            'amount' => $cartData['amount'],
+            'amount' => str_replace(',', '.', $cart->getAmount()),
             'currency' => $currency,
             'language' => $language,
             'orderDescription' => $orderDescription,
             'successURL' => Moraso_Config::get('sys.webpath') . $successURL,
             'confirmURL' => Moraso_Config::get('sys.webpath') . $confirmURL,
-            'order_id' => $cart_id
+            'order_id' => $cart->getOrderId()
         );
 
         $requestFingerprint = $this->_generateRequestFingerprint($hiddenFormFields);
@@ -57,8 +56,8 @@ class Moraso_Cart_Payment_Strategy_Wirecard implements Moraso_Cart_Payment_Strat
         return $hiddenFormFields;
     }
 
-    private function _generateRequestFingerprint(array $data) {
-
+    private function _generateRequestFingerprint(array $data)
+    {
         $requestFingerprintOrder = array();
         $requestFingerprintSeed = array();
 
@@ -79,9 +78,40 @@ class Moraso_Cart_Payment_Strategy_Wirecard implements Moraso_Cart_Payment_Strat
         );
     }
 
-    public function doConfirmPayment() {
+    public function doConfirmPayment($data)
+    {
+        trigger_error('### ^^^ ZAHLUNG PER WIRECARD ^^^ ###');
+        trigger_error(print_r($data, true));
+        trigger_error('### vvv ZAHLUNG PER WIRECARD vvv ###');
 
-        return false;
+        $return = array(
+            'status' => $data['paymentState']
+        );
+
+        if ($data['paymentState'] === 'SUCCESS' || $data['paymentState'] === 'PENDING') {
+            $return['financialInstitution'] = $data['financialInstitution'];
+            $return['language'] = $data['language'];
+            $return['orderNumber'] = $data['orderNumber'];
+            $return['paymentType'] = $data['paymentType'];
+            $return['responseFingerprint'] = $data['responseFingerprint'];
+            $return['responseFingerprintOrder'] = $data['responseFingerprintOrder'];
+
+            if ($data['paymentState'] === 'SUCCESS') {
+                $return['amount'] = $data['amount'];
+                $return['currency'] = $data['currency'];
+                $return['gatewayContractNumber'] = $data['gatewayContractNumber'];
+                $return['gatewayReferenceNumber'] = $data['gatewayReferenceNumber'];
+            }
+        } elseif ($data['paymentState'] === 'FAILURE') {
+            $return['message'] = $data['message'];
+        }
+
+        return (object) $return;
+    }
+
+    public function actionAfterConfirm($order_id)
+    {
+        // nichts machen, es handelt sich um eine server-to-server communication, wirecard leitet selber zur passenden Seite weiter
     }
 
 }

@@ -4,18 +4,18 @@
  * @author Christian Kehres <c.kehres@wellbo.de>
  * @copyright (c) 2013, wellbo <http://www.wellbo.de>
  */
-class Moraso_Module_Cart_Modal_Overview_Class extends Aitsu_Module_Abstract {
-
+class Moraso_Module_Cart_Modal_Overview_Class extends Aitsu_Module_Abstract
+{
     protected $_allowEdit = false;
     protected $_renderOnlyAllowed = true;
 
-    protected function _init() {
-
+    protected function _init()
+    {
         Aitsu_Registry::setExpireTime(0);
     }
 
-    protected function _main() {
-
+    protected function _main()
+    {
         $nf = new NumberFormatter('de_DE', NumberFormatter::CURRENCY);
 
         /* get Data */
@@ -27,17 +27,24 @@ class Moraso_Module_Cart_Modal_Overview_Class extends Aitsu_Module_Abstract {
         foreach ($cartArticles as $idart => $qty) {
             $articleInfo = Aitsu_Persistence_Article::factory($idart)->load();
 
-            $price = 17.95;
-            $sku = '28sad74saf';
+            $idartlang = Moraso_Util::getIdArtLang($idart);
+            
+            $articleProperties = Aitsu_Persistence_ArticleProperty::factory($idartlang)->load();
+
+            $articlePropertyCart = (object) $articleProperties->cart;
+            
+            $price = $nf->formatCurrency($articlePropertyCart->price->value, 'EUR');
+            $price_total = $nf->formatCurrency(bcmul($articlePropertyCart->price->value, $qty, 2), 'EUR');
+            $sku = $articlePropertyCart->sku->value;
 
             $articles[$idart] = (object) array(
                         'qty' => $qty,
                         'pagetitle' => $articleInfo->pagetitle,
                         'summary' => $articleInfo->summary,
-                        'price' => $nf->formatCurrency($price, 'EUR'),
+                        'price' => $price,
                         'sku' => $sku,
                         'mainimage' => Moraso_Html_Helper_Image::getPath($idart, $articleInfo->mainimage, 100, 100, 2),
-                        'price_total' => $nf->formatCurrency(bcmul($price, $qty, 2), 'EUR')
+                        'price_total' => $price_total
             );
         }
 
@@ -47,8 +54,8 @@ class Moraso_Module_Cart_Modal_Overview_Class extends Aitsu_Module_Abstract {
         echo $view->render('index.phtml');
     }
 
-    protected function _cachingPeriod() {
-
+    protected function _cachingPeriod()
+    {
         return 0;
     }
 

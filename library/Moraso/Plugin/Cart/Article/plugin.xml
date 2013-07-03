@@ -1,0 +1,12 @@
+<plugin>
+    <id>51d413d2-d9b0-4818-851e-065cc0a8b230</id>
+    <name>Cart</name>
+    <author>Christian Kehres</author>
+    <copyright>2013, webtischlerei</copyright>
+    
+    <privileges>
+        <privilege>
+            <identifier>plugin.cart.article</identifier>
+        </privilege>
+    </privileges>
+</plugin>

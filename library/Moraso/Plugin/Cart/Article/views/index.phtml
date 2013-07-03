@@ -1,0 +1,18 @@
+var pageCartdataHandler = function(formId) {
+	Ext.getCmp(formId).getForm().submit({
+		success: function(form, action) {
+			Ext.aitsu.msg('<?php echo Aitsu_Translate :: translate('Saved'); ?>', '<?php echo Aitsu_Translate :: translate('Meta data have been saved.'); ?>');
+			Ext.aitsu.setUnpublished();
+		}, 
+		failure: function() {
+			Ext.aitsu.errmsg('<?php echo Aitsu_Translate :: translate('Form failure'); ?>', '<?php echo Aitsu_Translate :: translate('Form data have not been saved due to errors.'); ?>');
+		}
+	});
+}
+
+Ext.getCmp('page-plugin-accordion').add({
+	id: 'article-plugin-cart',
+	title: '<?php echo Aitsu_Translate::translate('Cart'); ?>',
+	autoScroll: true,
+	items: <?php echo $this->form->render('ExtJs'); ?>
+});

@@ -4,13 +4,12 @@
  * @author Christian Kehres <c.kehres@webtischlerei.de>
  * @copyright (c) 2013, webtischlerei <http://www.webtischlerei.de>
  */
-class Moraso_Cart_Listeners_Dispatch_Cart implements Aitsu_Event_Listener_Interface {
-
-    public static function notify(Aitsu_Event_Abstract $event) {
-
+class Moraso_Cart_Listeners_Dispatch_Cart implements Aitsu_Event_Listener_Interface
+{
+    public static function notify(Aitsu_Event_Abstract $event)
+    {
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             if (isset($_POST['action'])) {
-
                 $cart = Moraso_Cart::getInstance();
 
                 if ($_POST['action'] === 'addArticleToCart') {
@@ -31,7 +30,7 @@ class Moraso_Cart_Listeners_Dispatch_Cart implements Aitsu_Event_Listener_Interf
                     exit();
                 } elseif ($_POST['action'] === 'doCheckout') {
                     header('Content-Type: application/json');
-                    echo $cart->doCheckout();
+                    echo json_encode(array('success' => $cart->doCheckout()));
                     exit();
                 }
             }
@@ -41,27 +40,11 @@ class Moraso_Cart_Listeners_Dispatch_Cart implements Aitsu_Event_Listener_Interf
             if (isset($_POST['order_id'])) {
                 $order_id = $_POST['order_id'];
 
-                $payment_method = Moraso_Db::fetchOne('SELECT payment_method FROM _cart_order WHERE order_id =:order_id', array(
-                            ':order_id' => $order_id
-                ));
+                $paymentStrategy = Moraso_Cart::getPaymentStrategy($order_id);
 
-                switch ($payment_method) {
-                    case 'paypal':
-                        $paymentStrategy = new Moraso_Cart_Payment_Strategy_Paypal();
-                        break;
-                    case 'creditcard':
-                        $paymentStrategy = new Moraso_Cart_Payment_Strategy_Wirecard();
-                        break;
-                    case 'postfinance':
-                        $paymentStrategy = new Moraso_Cart_Payment_Strategy_Datatrans();
-                        break;
-                    default:
-                        $paymentStrategy = new Moraso_Cart_Payment_Strategy_Cash();
-                }
-                
                 Moraso_Cart::setPaymentStatus($order_id, $paymentStrategy->doConfirmPayment($_POST));
-                
-                $paymentStrategy->actionAfterConfirm();
+
+                $paymentStrategy->actionAfterConfirm($order_id);
             }
         }
     }

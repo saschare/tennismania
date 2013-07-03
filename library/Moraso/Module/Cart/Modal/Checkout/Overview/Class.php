@@ -20,26 +20,16 @@ class Moraso_Module_Cart_Modal_Checkout_Overview_Class extends Aitsu_Module_Abst
         $cart = Moraso_Cart::getInstance();
         $properties = $cart->getProperties();
         $articles = $cart->getArticles();
+        
+        $cart->createOrder();
 
-        switch ($properties['payment']['method']) {
-            case 'paypal':
-                $paymentStrategy = new Moraso_Cart_Payment_Strategy_Paypal();
-                break;
-            case 'creditcard':
-                $paymentStrategy = new Moraso_Cart_Payment_Strategy_Wirecard();
-                break;
-            case 'postfinance':
-                $paymentStrategy = new Moraso_Cart_Payment_Strategy_Datatrans();
-                break;
-            default:
-                $paymentStrategy = new Moraso_Cart_Payment_Strategy_Cash();
-        }
-
+        $paymentStrategy = Moraso_Cart::getPaymentStrategy(null, $properties['payment']['method']);
+        
         $payment = new Moraso_Cart_Payment($paymentStrategy);
 
         $checkoutUrl = $payment->getCheckoutUrl();
-        $hiddenFields = $payment->getHiddenFormFields();
-
+        $hiddenFields = $payment->getHiddenFormFields();    
+        
         /* create View */
         $view = $this->_getView();
         $view->checkoutUrl = $checkoutUrl;

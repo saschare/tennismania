@@ -10,7 +10,7 @@ interface Moraso_Cart_Payment_Strategy {
 
     public function getHiddenFormFields();
 
-    public function doConfirmPayment();
+    public function doConfirmPayment($data);
     
-    public function actionAfterConfirm();
+    public function actionAfterConfirm($order_id);
 }

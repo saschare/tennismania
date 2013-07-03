@@ -106,13 +106,16 @@ $(document).on('change', '.modal_form', function() {
 
 $(document).on('click', '.doCheckout', function(event) {
     event.preventDefault();
-    
+
     $.post('#', {
         action: 'doCheckout',
         timestamp: new Date().getTime()
-    }, function(data) {        
-        $('#doCheckout input[name=order_id]').val(data.order_id);
-        $('#doCheckout').submit();
+    }, function(data) {
+        if (data.success) {
+            $('#doCheckout').submit();
+        } else {
+            alert('Da lief was schief :(');
+        }
     });
 });
 

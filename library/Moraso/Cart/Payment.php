@@ -20,17 +20,17 @@ class Moraso_Cart_Payment {
 
     public function getCheckoutUrl() {
 
-        return Moraso_Config::get('sys.webpath') . $this->_strategy->getCheckoutUrl();
+        return $this->_strategy->getCheckoutUrl();
     }
 
-    public function doConfirmPayment() {
+    public function doConfirmPayment($data = array()) {
 
-        return $this->_strategy->doConfirmPayment();
+        return $this->_strategy->doConfirmPayment($data);
     }
     
-    public function actionAfterConfirm() {
+    public function actionAfterConfirm($order_id) {
         
-        $this->_strategy->actionAfterConfirm();
+        $this->_strategy->actionAfterConfirm($order_id);
     }
 
 }

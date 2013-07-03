@@ -13,12 +13,10 @@ class Aitsu_Persistence_ArticleProperty extends Aitsu_Persistence_Abstract {
 	protected $_id = null;
 	protected $_idartlang = null;
 	protected $_data = null;
-	protected $_idlang = null;
 
 	protected function __construct($id) {
 
 		$this->_id = $id;
-		$this->_idlang = Aitsu_Registry :: get()->session->currentLanguage;
 	}
 
 	public static function factory($id = null) {
