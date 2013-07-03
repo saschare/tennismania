@@ -1,0 +1,32 @@
+<?php
+
+$filename = realpath(dirname(__FILE__) . '/../library/Moraso/Status.php');
+$applicationStatus = file_get_contents($filename);
+
+$matches = array();
+preg_match_all("/(\\d+).*?(\\d+).*?(\\d+).*?(\\d+)/is", $applicationStatus, $matches);
+
+$major = $matches[1][0];
+$minor = $matches[2][0];
+$revision = $matches[3][0];
+$build = $matches[4][0];
+
+passthru('' . $major . ', Minor ' . $minor . ', Revision ' . $revision . ', Build ' . $build . '"');
+/*
+
+
+  file_put_contents($filename, str_replace($match[0], '\'$version/' . $version . '/revision/' . $revision . '$\'', $applicationStatus));
+
+  $readme = preg_replace('@^moraso version\\:\\s*\\*[^\\*]*\\*@m', "moraso version: *$version-$revision*", file_get_contents(realpath(dirname(__FILE__) . '/../README.textile')));
+  file_put_contents($filename, $readme);
+
+  passthru('git commit -am "Version ' . $version . ', Revision ' . $revision . '"');
+  passthru('git push origin dev');
+  passthru('git checkout master');
+  passthru('git merge dev');
+  passthru('git push origin master');
+  passthru('git tag -a v' . $version . '-' . $revision . ' -m "Version ' . $version . ', Revision ' . $revision . ' released."');
+  passthru('git push --tags');
+  passthru('git checkout dev');
+ */
+?>

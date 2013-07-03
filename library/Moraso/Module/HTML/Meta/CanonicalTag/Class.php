@@ -21,9 +21,9 @@ class Moraso_Module_HTML_Meta_CanonicalTag_Class extends Moraso_Module_Abstract 
         if ($art->idcat == Aitsu_Config::get('sys.startcat')) {
             if (Aitsu_Config::get('rewrite.uselang')) {
                 $language = Aitsu_Persistence_Language::factory(Aitsu_Registry::get()->env->idlang)->name;
-                $href = '/' . $language . '/';
+                $href = $base . '/' . $language . '/';
             } else {
-                $href = '/';
+                $href = $base . '/';
             }
         } elseif ($art->startidartlang == $art->idartlang) {
             $href = '{ref:idcat-' . $art->idcat . '}';
@@ -31,7 +31,7 @@ class Moraso_Module_HTML_Meta_CanonicalTag_Class extends Moraso_Module_Abstract 
             $href = '{ref:idart-' . $art->idart . '}';
         }
 
-        return '<link rel="canonical" href="' . $base . '' . $href . '" />';
+        return '<link rel="canonical" href="' . $href . '" />';
     }
 
     protected function _cachingPeriod() {
