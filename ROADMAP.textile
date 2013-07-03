@@ -1,7 +1,3 @@
-h1. moraso CMS (aitsu CMF Fork by webtischlerei) - Roadmap
+h1. moraso CMS (basierend auf dem aitsu CMSF) // Roadmap
 
-h2. v1.10.0
-# Modul-Liste // welche Module habe ich hier eigentlich alle so im Einsatz, welche Templates liegen vor, gibt es vll. eine neuere Version? etc
-
-h2. v1.11.0
-# Complete-Sync // Es wird die Möglichkeit geben eine neue und leere Sprache mit einer vorhandenen Sprache komplett zu synchronisieren
+h2. v1.16
