@@ -20,7 +20,7 @@ $new = array(
     'build' => $old['build'] + 1
 );
 
-$options = getopt('b:');
+$options = getopt('b::');
 
 if ($options['b'] === 'major') {
     $new['major'] = $old['major'] + 1;
@@ -37,19 +37,17 @@ $oldVersion = $old['major'] . '.' . $old['minor'] . '.' . $old['revision'] . '-'
 $newVersion = $new['major'] . '.' . $new['minor'] . '.' . $new['revision'] . '-' . $new['build'];
 
 $applicationStatusFile = realpath(dirname(__FILE__) . '/../library/Moraso/Status.php');
-file_put_contents($applicationStatusFile, str_replace($matches[0], '$/major/' . $new['major'] . '/minor/' . $new['minor'] . '/revision/' . $new['revision'] . '/build/' . $new['build'] . '$', file_get_contents($applicationStatusFile)));
+file_put_contents($applicationStatusFile, str_replace($matches[0], '\'$/major/' . $new['major'] . '/minor/' . $new['minor'] . '/revision/' . $new['revision'] . '/build/' . $new['build'] . '$\'', file_get_contents($applicationStatusFile)));
 
 $readmeFile = realpath(dirname(__FILE__) . '/../README.textile');
 file_put_contents($readmeFile, preg_replace('@^moraso version\\:\\s*\\*[^\\*]*\\*@m', "moraso version: *$newVersion*", file_get_contents($readmeFile)));
 
-/*
-  passthru('git commit -am "Update: ' . $oldVersion . ' to ' . $newVersion . '"');
-  passthru('git push origin dev');
-  passthru('git checkout master');
-  passthru('git merge dev');
-  passthru('git push origin master');
-  passthru('git tag -a v' . $newVersion . ' -m "Version ' . $newVersion . ' released."');
-  passthru('git push --tags');
-  passthru('git checkout dev');
- */
+passthru('git commit -am "Update: ' . $oldVersion . ' to ' . $newVersion . '"');
+passthru('git push origin dev');
+passthru('git checkout master');
+passthru('git merge dev');
+passthru('git push origin master');
+passthru('git tag -a v' . $newVersion . ' -m "Version ' . $newVersion . ' released."');
+passthru('git push --tags');
+passthru('git checkout dev');
 ?>
