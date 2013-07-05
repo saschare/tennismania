@@ -22,7 +22,7 @@ class Moraso_Html_Helper_Navigation {
         }
 
         if (!empty($ulClasses)) {
-            $ul.= ' class="' . implode(' ', $ulClasses) . '"';
+            $ul.= ' class="' . trim(implode(' ', $ulClasses)) . '"';
         }
 
         $ul.= '>';
@@ -59,7 +59,7 @@ class Moraso_Html_Helper_Navigation {
         $li = '<li';
 
         if (!empty($liClasses)) {
-            $li.= ' class="' . implode(' ', $liClasses) . '"';
+            $li.= ' class="' . trim(implode(' ', $liClasses)) . '"';
         }
 
         $li.= '>';

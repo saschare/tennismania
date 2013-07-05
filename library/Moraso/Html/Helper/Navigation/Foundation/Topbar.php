@@ -51,7 +51,7 @@ class Moraso_Html_Helper_Navigation_Foundation_Topbar{
         $li = '<li';
 
         if (!empty($liClasses)) {
-            $li.= ' class="' . implode(' ', $liClasses) . '"';
+            $li.= ' class="' . trim(implode(' ', $liClasses)) . '"';
         }
 
         $li.= '>';
