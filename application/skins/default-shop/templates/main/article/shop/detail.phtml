@@ -1,3 +1,40 @@
 <script type="application/x-moraso" src="Cart.Article.Info"></script>
 
 <script type="application/x-moraso" src="Cart.Article.Add"></script>
+
+<script type="application/x-moraso" src="List.Comments"></script>
+
+<?php
+$properties = Aitsu_Persistence_ArticleProperty::factory(Aitsu_Registry::get()->env->idartlang);
+
+$commentsInfo = (object) $properties->comments;
+
+if (!isset($commentsInfo->node_id->value) || empty($commentsInfo->node_id->value)) {
+    $nodes_comments_main_node_id = Moraso_Config::get('nodes_comments_main_node_id');
+
+    if (empty($nodes_comments_main_node_id)) {
+        $nodes_comments_main_node_id = Moraso_Nodes::insert(null, true, true);
+
+        $data = array(
+            'config' => 'default',
+            'env' => 'default',
+            'identifier' => 'nodes_comments_main_node_id',
+            'value' => $nodes_comments_main_node_id
+        );
+
+        Moraso_Db::put('_moraso_config', 'id', $data);
+    }
+
+    $parent_node_id = Moraso_Nodes::insert($nodes_comments_main_node_id, true, true);
+
+    $properties->setValue('comments', 'node_id', $parent_node_id);
+    $properties->save();
+} else {
+    $parent_node_id = $commentsInfo->node_id->value;
+}
+
+Moraso_Comments::create($parent_node_id, array(
+    'verfasser' => 'Christian Kehres',
+    'nachricht' => 'Das ist eine andere Nachricht'
+));
+?>

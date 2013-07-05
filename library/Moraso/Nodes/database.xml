@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="schema.xsd">     
+    <table name="nodes" engine="InnoDB">
+        <field name="node_id" type="int(10) unsigned" default="null" autoincrement="true" primary="true" /> 
+        
+        <field name="public" type="varchar(255)" nullable="false" default="1" />
+        <field name="active" type="varchar(255)" nullable="false" default="0" />
+        
+        <field name="lft" type="int(10) unsigned" nullable="false" default="null" />
+        <field name="rgt" type="int(10) unsigned" nullable="false" default="null" />
+        
+        
+        <index name="public" columns="public" type="index" />
+        <index name="active" columns="active" type="index" />
+        
+        <index columns="lft,rgt" name="un_lft_rgt" type="unique" />
+    </table>
+</database>

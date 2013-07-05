@@ -1,0 +1,23 @@
+<!-- Standard -->
+<?php if (count($this->comments) > 0): ?>
+    <ul>        
+        <?php foreach ($this->comments as $comment_lvl_2) : ?>      
+            <li>
+                <?= $comment_lvl_2['node_id'] ?>:<?= $comment_lvl_2['comment']['verfasser'] ?>:<br /><?= $comment_lvl_2['comment']['nachricht'] ?>
+                <ul>
+                    <?php foreach ($comment_lvl_2['sub_comments'] as $comment_lvl_3) : ?>                    
+                        <li><?= $comment_lvl_3['node_id'] ?>:<?= $comment_lvl_3['comment']['verfasser'] ?>:<br /><?= $comment_lvl_3['comment']['nachricht'] ?></li>
+
+                        <ul>
+                            <?php foreach ($comment_lvl_3['sub_comments'] as $comment_lvl_4) : ?>
+                                <li><?= $comment_lvl_4['node_id'] ?>:<?= $comment_lvl_4['comment']['verfasser'] ?>:<br /><?= $comment_lvl_4['comment']['nachricht'] ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endforeach; ?>
+                </ul>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+    <p>keine Kommentare verfasst</p>
+<?php endif; ?>
