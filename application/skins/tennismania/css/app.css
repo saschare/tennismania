@@ -1,0 +1,102 @@
+* {
+  font-family: "Raleway", sans-serif !important; }
+
+html {
+  background: url("../images/fotolia_39816267.jpg") no-repeat center center fixed;
+  background-size: cover; }
+
+body {
+  background-color: transparent; }
+
+.row {
+  max-width: 75rem; }
+
+#header {
+  background-color: #2c3e50; }
+  #header .top-bar:not(.expanded) {
+    background-color: transparent; }
+    #header .top-bar:not(.expanded) .name h1 {
+      font-size: 1rem;
+      line-height: 6.25rem; }
+      #header .top-bar:not(.expanded) .name h1 a {
+        font-weight: 400;
+        transition: all 0.5s ease; }
+        #header .top-bar:not(.expanded) .name h1 a:hover {
+          color: #d35400;
+          background-color: #34495e; }
+    #header .top-bar:not(.expanded) .top-bar-section ul {
+      background: transparent; }
+      #header .top-bar:not(.expanded) .top-bar-section ul li {
+        margin-left: 0.9375rem;
+        transition: background-color 0.5s ease; }
+        #header .top-bar:not(.expanded) .top-bar-section ul li:hover {
+          background-color: #34495e; }
+        #header .top-bar:not(.expanded) .top-bar-section ul li > a {
+          font-size: 1rem;
+          line-height: 6.25rem;
+          font-weight: 400;
+          transition: color 0.5s ease;
+          position: relative; }
+          #header .top-bar:not(.expanded) .top-bar-section ul li > a:hover {
+            color: #d35400; }
+          #header .top-bar:not(.expanded) .top-bar-section ul li > a span {
+            display: none;
+            position: absolute;
+            right: 0;
+            bottom: 25px;
+            padding: 0 0.9375em;
+            font-size: 0.75rem;
+            line-height: 0.75rem;
+            color: #d35400; }
+        #header .top-bar:not(.expanded) .top-bar-section ul li a:not(.button) {
+          background: transparent; }
+
+#page-wrapper {
+  margin-top: 5rem;
+  margin-bottom: 0.625rem;
+  background-color: #34495e;
+  box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.1); }
+  #page-wrapper article {
+    background-color: #FFF; }
+    #page-wrapper article p {
+      font-size: 1.125rem;
+      line-height: 1.6875rem; }
+  #page-wrapper aside {
+    padding-top: 0.9375em;
+    padding-bottom: 0.9375em;
+    background-color: #2c3e50; }
+    #page-wrapper aside p {
+      color: #FFF;
+      font-size: 0.875rem;
+      line-height: 1.3125rem; }
+      #page-wrapper aside p:last-of-type {
+        margin-bottom: 0; }
+  #page-wrapper .meta-navigation {
+    position: absolute;
+    bottom: 0.9375em;
+    right: 0.9375em;
+    margin-bottom: 0; }
+    #page-wrapper .meta-navigation li a {
+      color: #FFF;
+      font-size: 0.75rem;
+      line-height: 1.125rem; }
+
+/* Modals */
+.reveal-modal table td {
+  vertical-align: top; }
+  .reveal-modal table td h2 {
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+    margin-bottom: 5px; }
+
+/* global Styles */
+button, .button {
+  background-color: #34495e;
+  border-color: #2c3e50;
+  box-shadow: none;
+  font-weight: 400;
+  transition: all 300ms ease-out;
+  margin-bottom: 0; }
+  button:hover, button:focus, .button:hover, .button:focus {
+    background-color: #2c3e50;
+    color: #d35400; }

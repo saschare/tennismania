@@ -1,0 +1,20 @@
+<!-- Slider -->
+<div class="flexslider">
+	<div class="slides">
+		<?php foreach ($this->selectedImages as $image) : ?>
+		<div class="slide">
+            <?php
+            $image = (object) $image;
+            $this->attributes->alt = $image->subline;
+			echo '<figure>';
+            echo Moraso_Html_Helper_Image::getHtml($image->idart, $image->filename, $this->width, $this->height, $this->render, $this->attributes);
+            ?>
+            <figcaption>
+		    <div>
+		    <h5><?php echo $image->name; ?></h5>
+		    </div>
+		    </figcaption>
+        </div>    
+        <?php endforeach; ?>
+	</div>
+</div>

@@ -1,0 +1,173 @@
+@import "base";
+@import "functions";
+
+$dark: rgba(44, 62, 80, 1.0);
+$dark-hover: rgba(52, 73, 94,1.0);
+$main-color: rgba(211, 84, 0, 1.0);
+
+* {
+    font-family: 'Raleway', sans-serif !important;
+}
+
+html { 
+    background: url('../images/fotolia_39816267.jpg') no-repeat center center fixed; 
+    background-size: cover;
+}
+
+body {
+    background-color: transparent;
+}
+
+.row {
+    max-width: -px-to-rem(1200);
+}
+
+#header {
+    background-color: $dark;
+    
+    .top-bar {
+        &:not(.expanded) {
+            background-color: transparent;
+            
+            .name {
+                h1 {
+                    font-size: -px-to-rem(16);
+                    line-height: -px-to-rem(100);
+                    
+                    
+                    a {
+                        font-weight: 400;
+                        transition: all 0.5s ease;
+                        
+                        &:hover {
+                            color: $main-color;
+                            background-color: $dark-hover;
+                        }
+                    }
+                }
+            }
+            
+            .top-bar-section {
+                ul {
+                    background: transparent;
+                    
+                    li {
+                        margin-left: -px-to-rem(15);
+                        transition: background-color 0.5s ease;
+                        
+                        &:hover {
+                            background-color: $dark-hover;
+                        }
+                        
+                        &> a {
+                            font-size: -px-to-rem(16);
+                            line-height: -px-to-rem(100);
+                            font-weight: 400;
+                            transition: color 0.5s ease;
+                            position: relative;
+                            
+                            &:hover {
+                                color: $main-color;
+                            }
+                            
+                            span {
+                                display: none;
+                                position: absolute;
+                                right: 0;
+                                bottom: 25px;
+                                padding: 0 0.9375em;
+                                font-size: -px-to-rem(12);
+                                line-height: -px-to-rem(12);
+                                color: $main-color;
+                            }
+                        }
+                        
+                        a {
+                            &:not(.button) {
+                                background: transparent;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#page-wrapper {
+    margin-top: -px-to-rem(80);
+    margin-bottom: -px-to-rem(10);
+    background-color: $dark-hover;
+    box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.1);
+    
+    article {
+        background-color: #FFF;
+        
+        p {
+            font-size: -px-to-rem(18);
+            line-height: -px-to-rem(27);
+        }
+    }
+    
+    aside {        
+        padding-top: 0.9375em;
+        padding-bottom: 0.9375em;
+        background-color: $dark;
+        
+        p {
+            color: #FFF;
+            font-size: -px-to-rem(14);
+            line-height: -px-to-rem(21);
+            
+            &:last-of-type {
+                margin-bottom: 0;
+            }
+        }
+    }
+    
+    .meta-navigation {
+        position: absolute;
+        bottom: 0.9375em;
+        right: 0.9375em;
+        margin-bottom: 0;
+        
+        li { 
+            a {
+                color: #FFF;
+                font-size: -px-to-rem(12);
+                line-height: -px-to-rem(18);
+            }
+        }
+    }
+}
+
+/* Modals */
+.reveal-modal {
+    table {
+        td {
+            vertical-align: top;
+            
+            h2 {
+                font-size: -px-to-rem(20);
+                line-height: -px-to-rem(20);
+                
+                margin-bottom: 5px;
+            }
+        }
+    }
+}
+
+/* global Styles */
+button, .button {
+    background-color: $dark-hover;
+    border-color: $dark;
+    box-shadow: none;
+    font-weight: 400;
+    transition: all 300ms ease-out;
+    margin-bottom: 0;
+    
+    &:hover, &:focus {
+        background-color: $dark;
+        color: $main-color;
+    }
+}

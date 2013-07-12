@@ -1,0 +1,209 @@
+<!-- <script>
+
+function example1() {
+	var input = jQuery('form#anfrage input#name');
+	var defvalcfg = {
+		de: 'Begriff 1, Begriff 2',
+		en: 'term 1, term 2'
+	}
+	var defval = defvalcfg[jQuery('html').attr('lang')];
+	input.val(defval);
+	input.bind(
+		'click focus',
+		function() {
+			if (input.val() == defval) {
+				input.val('');
+			}
+		}
+	);
+	input.bind(
+		'blur',
+		function() {
+			if (input.val() == '') {
+				input.val(defval);
+			}
+		}
+	);
+}
+
+function example2() {
+	var input = jQuery('div#example2 form input#q2');
+	var defval = jQuery('div#example2 form label[for=q2]').html();
+	input.val(defval);
+	input.bind(
+		'click focus',
+		function() {
+			if (input.val() == defval) {
+				input.val('');
+			}
+		}
+	);
+	input.bind(
+		'blur',
+		function() {
+			if (input.val() == '') {
+				input.val(defval);
+			}
+		}
+	);
+}
+
+function example3() {
+	var input = jQuery('div#example3 form input#q3');
+	var label = jQuery('div#example3 form label[for=q3]');
+	input.bind(
+		'click focus change',
+		function() {
+			label.css('visibility', 'hidden');
+		}
+	);
+	input.bind(
+		'blur',
+		function() {
+			if (input.val() == '') {
+				label.css('visibility', '');
+			}
+		}
+	);
+}
+
+
+jQuery(document).ready(
+	function(){
+		example1();
+		example2();
+		example3();
+	}
+);
+
+</script> -->
+
+
+<form id="anfrage" class="yform full" action="<?php echo $view->action; ?>" method="post">
+        
+        <?php $passed = Aitsu_Form_Validation :: isValid('Name', $name); ?>
+        <div class="type-text<?php echo $passed ? '' : ' error'; ?>">
+          <label><?php echo Aitsu_Translate :: _('Name');?></label>
+          <input id="name" name="Name" value="<?php echo $_POST['Name'] ;?>" type="text">
+        </div>
+        
+        <?php $passed = Aitsu_Form_Validation :: isValid('Email', $email); ?>
+        <div class="type-text<?php echo $passed ? '' : ' error'; ?>">
+          <label><?php echo Aitsu_Translate :: _('E-Mail');?></label>
+          <input name="Email" value="<?php echo $email ;?>" type="text">
+        </div>
+        
+
+        <?php $passed = Aitsu_Form_Validation :: isValid('Anreise', $anreise); ?>
+        <div class="type-text<?php echo $passed ? '' : ' error'; ?>">
+          <label><?php echo Aitsu_Translate :: _('Anreisedatum');?></label>
+          <input name="Anreise" class="datepicker"  value="<?php echo $anreise ;?>" type="text">
+        </div>  
+
+        
+        <?php $passed = Aitsu_Form_Validation :: isValid('Abreisedatum', $abreisedatum); ?>
+        <div class="type-text<?php echo $passed ? '' : ' error'; ?>">
+          <label><?php echo Aitsu_Translate :: _('Abreisedatum');?></label>
+          <input name="Abreisedatum" class="datepicker" value="<?php echo $abreisedatum ;?>" type="text">
+        </div>
+
+		<br />
+		<!-- Reisezeit noch unbekannt -->
+        <div class="fuzzy full">
+              <input class="left" name="flexibel" id="flexibel" value="1" type="checkbox">
+              <label class="left" for="flexibel">
+                &nbsp;&nbsp;<?php echo Aitsu_Translate :: _('ich bin flexibel (+/- 2 Wochen)');?>
+              </label>
+        </div>
+        <!-- Ende Reisezeit noch unbekannt -->
+		<br />
+		
+		<br style="clear:both;">
+
+		<!-- Anzahl Erwachsene -->
+        <div class="adultNumber left onethird" style="padding-right: 10px;">
+        <label for="Erwaschene"><?php echo Aitsu_Translate :: _('Erw.');?></label>
+        	<div class="clear"></div>
+            <div class="drop-down-icon">
+            <select name="Erwaschsene" id="Erwaschsene">
+                <option value="-" selected="selected">-</option>
+            	<option value="1">1</option>
+                <option value="2" selected="selected">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+			</select>   
+			</div>
+         </div>
+         <!-- Ende Anzahl Erwachsene -->
+         
+         
+         <!-- Anzahl Kinder -->
+        <div class="adultNumber left onethird" style="padding-right: 10px;">
+        <label for="Kinder"><?php echo Aitsu_Translate :: _('Kinder');?></label>
+        	<div class="clear"></div>
+            <div class="drop-down-icon">
+            <select name="Kinder" id="Kinder">
+                <option value="-" selected="selected">-</option>
+            	<option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+			</select>   
+			</div>
+         </div>
+         <!-- Ende Anzahl Kinder -->
+
+		 <!-- Anzahl Baby -->
+        <div class="adultNumber left onethird" style="padding-right: 10px;">
+        <label for="Baby"><?php echo Aitsu_Translate :: _('Baby');?></label>
+        	<div class="clear"></div>
+            <div class="drop-down-icon">
+            <select name="Baby" id="Baby">
+                <option value="-" selected="selected">-</option>
+            	<option value="1">1</option>
+                <option value="2">2</option>
+			</select>   
+			</div>
+         </div>
+         <!-- Ende Anzahl Baby -->
+
+		 <br style="clear:both;">
+
+		<!-- Wünsche etc. -->
+		<div class="fuzzy full">
+              <input class="left" name="Fruehstuecksservice" id="fruehstuecksservice" value="1" type="checkbox">
+              <label class="left" for="fruehstuecksservice">
+                &nbsp;&nbsp;<?php echo Aitsu_Translate :: _('Frühstücksservice');?>
+		</label>
+		</div>
+		<br style="clear:both;">
+		<div class="fuzzy full">
+              <input class="left" name="Kuehlschrankservice" id="kuehlschrankservice" value="1" type="checkbox">
+              <label class="left" for="kuehlschrankservice">
+                &nbsp;&nbsp;<?php echo Aitsu_Translate :: _('Kühlschrankservice');?>
+              </label>
+		</div>
+		<br style="clear:both;">
+		<div class="fuzzy full">
+              <input class="left" name="Getraenkeservice" id="getraenkeservice" value="1" type="checkbox">
+              <label class="left" for="getraenkeservice">
+                &nbsp;&nbsp;<?php echo Aitsu_Translate :: _('Getränkeservice');?>
+              </label>
+		</div>
+		<br style="clear:both;">
+
+
+
+      
+   		<!-- Ende Wünsche etc. -->
+
+        <div class="type-text">
+          <label><?php echo Aitsu_Translate :: _('Anmerkung/Wünsche');?></label>
+          <textarea name="Anmerkung" rows="3" cols="30"><?php echo $message ;?></textarea>
+        </div>
+        <div class="type-button">
+          <button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon"><span class="ui-button-icon-primary ui-icon ui-icon-check">&nbsp;</span><span class="ui-button-text"><?php echo Aitsu_Translate :: _('Chalet anfragen');?></span></button>
+        </div>
+    </form>

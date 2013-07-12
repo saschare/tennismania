@@ -1,0 +1,18 @@
+<!-- kursestart -->
+<?php if (count($this->articles) > 0): ?>
+<table width="100%">
+<?php foreach ($this->articles as $article) : ?>
+<?php $idcat = Aitsu_Util::getIdCatByIdArt($article->idart); ?>
+<tr>
+	<td style="width:25%; border-bottom: 1px dotted #999;"><?php echo $article->teasertitle; ?></td>
+	<td style="width:25%; border-bottom: 1px dotted #999;">            <a href="{ref:idcat-<?php echo $entry['idcat']; ?>}"><?php echo $entry['name']; ?></a>
+</td>	
+	<td style="width:25%; border-bottom: 1px dotted #999;"><?php echo $article->pagetitle; ?></td>
+	<td style="width:25%; border-bottom: 1px dotted #999; text-align: right;"><a href="{ref:idart-<?php echo  $article->idart; ?>}" target="_self">Info</a></td>
+</tr>
+<?php endforeach; ?>
+</table>
+<?php else: ?>
+    <p>keine Artikel vorhanden</p>
+<?php endif; ?>
+

@@ -1,0 +1,20 @@
+<!-- boxenrechts -->
+<?php if (count($this->articles) > 0): ?>
+<div class="row">
+<?php foreach ($this->articles as $article) : ?>
+<?php $idcat = Aitsu_Util::getIdCatByIdArt($article->idart); ?>
+<a href="{ref:idart-<?php echo  $article->idart; ?>}" target="_self" style="text-decoration: none;">
+<div class="" style="min-height: 155px; margin-bottom: 10px;" >
+	<div class="large-12 columns" style="background: #442102; padding: 5px; color: white; "><?php echo $article->articletitle; ?></div>
+
+
+<img src="/image/320/320/2/<?php echo $article->idart; ?>/<?php echo $article->mainimage; ?>" />
+	<span style="bottom: 30px; left: 10px; position: relative; padding: 0px; color: #fff; color: white; text-shadow: 0.05em 0.05em 0.1em #333; font-size: 1.0em;"><?php echo $article->teasertitle; ?></span>
+
+</div>	  
+</a>
+<?php endforeach; ?>
+</div>
+<?php else: ?>
+    <p>keine Artikel vorhanden</p>
+<?php endif; ?>
